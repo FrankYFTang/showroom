@@ -170,6 +170,7 @@ import * as THREE from 'three';
 
 				// objects
 
+/*
 				const boxGeometry = new THREE.BoxGeometry( 20, 20, 20 ).toNonIndexed();
 
 				position = boxGeometry.attributes.position;
@@ -181,6 +182,7 @@ import * as THREE from 'three';
 					colorsBox.push( color.r, color.g, color.b );
 
 				}
+
 
 				boxGeometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colorsBox, 3 ) );
 
@@ -198,6 +200,7 @@ import * as THREE from 'three';
 					objects.push( box );
 
 				}
+*/
 
 				//
 
