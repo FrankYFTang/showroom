@@ -133,8 +133,14 @@ import * as THREE from 'three';
 				let floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
 				floorGeometry.rotateX( - Math.PI / 2 );
 
+floorTexture = new THREE.TextureLoader().load( 'img/wood_01-512x512.png' );
+floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+floorTexture.repeat.set(20, 20);
+floorMaterial = new THREE.MeshBasicMaterial({map: floorTexture}),
+floorMesh = new THREE.Mesh( floorGeometry, floorMaterial );
+scene.add( floorMesh );
 				// vertex displacement
-
+/*
 				let position = floorGeometry.attributes.position;
 
 				for ( let i = 0, l = position.count; i < l; i ++ ) {
@@ -162,15 +168,14 @@ import * as THREE from 'three';
 				}
 
 				floorGeometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colorsFloor, 3 ) );
-
 				const floorMaterial = new THREE.MeshBasicMaterial( { vertexColors: true } );
-
 				const floor = new THREE.Mesh( floorGeometry, floorMaterial );
 				scene.add( floor );
+*/
 
-				// objects
 
 /*
+				// objects
 				const boxGeometry = new THREE.BoxGeometry( 20, 20, 20 ).toNonIndexed();
 
 				position = boxGeometry.attributes.position;
