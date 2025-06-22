@@ -7,6 +7,8 @@ const cameraY = 5.5;
 const cameraZ = -5.0;
 const jumpNumOfWall = 5;
 const wallColor = 'ivory';
+const wallColor = 'whitesmoke';
+const skyColor = 'dimgray';
 
                         import * as THREE from 'three';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
@@ -41,7 +43,7 @@ sound = undefined;
 				camera.position.z = cameraZ * scale;
 
 				scene = new THREE.Scene();
-				scene.background = new THREE.Color( 'black' );
+				scene.background = new THREE.Color( skyColor );
 				// scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
                                 // Lights
@@ -288,11 +290,13 @@ let wallInfo = [
   {width: 8 + 2 * wallDepth, depth:wallDepth, height: wallHeight, x: (20-8)/2-wallDepth, y:0, z: 5}, // c and j
 ];
 
-                                const boxMaterial = new THREE.MeshBasicMaterial({ color: wallColor});
+                                const boxMaterial1 = new THREE.MeshBasicMaterial({ color: wallColor1});
+                                const boxMaterial2 = new THREE.MeshBasicMaterial({ color: wallColor2});
                                 for (let i = 0; i < wallInfo.length; i++)
                                 {
                                   const info = wallInfo[i];
 				  const boxGeometry = new THREE.BoxGeometry(scale * info.width , scale * info.height, scale * info.depth).toNonIndexed();
+                                  const boxMaterial = info.width > info.depth ? boxMaterial1 : boxMaterial2;
 	   			  const wall = new THREE.Mesh( boxGeometry, boxMaterial );
 			  	  wall.position.x = (info.x + info.width / 2) * scale;
 				  wall.position.z = (info.z + info.depth / 2) * scale;;
