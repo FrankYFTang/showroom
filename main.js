@@ -199,7 +199,7 @@ let wallInfo = [
 ];
 
                                 const boxMaterial = new THREE.MeshBasicMaterial({ color: wallColor});
-                                for (i = 0; i < 2; i++)
+                                for (let i = 0; i < 2; i++)
                                 {
                                   const info = wallInfo[i];
 				  const boxGeometry = new THREE.BoxGeometry(scale * info.width , scale * wallHeight, scale * info.depth).toNonIndexed();
