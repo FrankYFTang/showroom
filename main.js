@@ -492,12 +492,12 @@ wallN = wallInfo[5];
                         }
 			function initWallP() {
                           const paintings = [
-'F615'
-'F616'
-'F613'
-'F614'
-'F612'
-'F611'
+'F615.jpg',
+'F616.jpg',
+'F613.jpg',
+'F614.jpg',
+'F612.jpg',
+'F611.jpg'
 };
                           const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
                           for (let i = 0; i < paintings.length/2; i++) {
