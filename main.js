@@ -285,11 +285,19 @@ let wallInfo = [
   {width: 20 + 2*wallDepth, depth: wallDepth, height: wallHeight, x: -wallDepth, y:0, z: 20}, // g and m
   {width: wallDepth,        depth:20 + 2 * wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth+eps}, // e
   {width: wallDepth,        depth:20 + 2 * wallDepth, height: wallHeight, x: 20, y:0, z: -wallDepth+eps},  // n
-  {width: wallDepth,        depth:4, x: 10-wallDepth/2, height: wallHeight, y:0, z: 20-4+eps}, // h and l
-  {width: wallDepth,        depth:8, x: wallDepth+(20-(8+2*wallDepth))/2, height: wallHeight, y:0, z: 5+eps}, // f and i
-  {width: wallDepth,        depth:8, x: (8+2*wallDepth)+(20-(8+2*wallDepth))/2, height: wallHeight, y:0, z: 5+eps}, // k and o
-  {width: 8+2*wallDepth, depth:wallDepth, height: wallHeight, x: (20-(8+2*wallDepth))/2, y:0, z: 5}, // c and j
+  {width: wallDepth,        depth:4, x: 10-wallDepth/2.0, height: wallHeight, y:0, z: 20-4+eps}, // h and l
+  {width: wallDepth,        depth:8, x: (20-(8+2*wallDepth))/2.0, height: wallHeight, y:0, z: 5+eps}, // f and i
+  {width: wallDepth,        depth:8, x: (8+2*wallDepth)+(20-(8+2*wallDepth))/2.0, height: wallHeight, y:0, z: 5+eps}, // k and o
+  {width: 8+2*wallDepth, depth:wallDepth, height: wallHeight, x: (20-(8+2*wallDepth))/2.0, y:0, z: 5}, // c and j
 ];
+const wallA = wallInfo[0];
+const wallB = wallInfo[1];
+const wallC = wallInfo[9];
+const wallE = wallInfo[4];
+const wallF = wallInfo[7];
+const wallG = wallInfo[3];
+const wallH = wallInfo[6];
+const wallK = wallInfo[8];
 
                                 const boxMaterial1 = new THREE.MeshBasicMaterial({ color: wallColor1});
                                 const boxMaterial2 = new THREE.MeshBasicMaterial({ color: wallColor2});
@@ -299,9 +307,9 @@ let wallInfo = [
 				  const boxGeometry = new THREE.BoxGeometry(scale * info.width , scale * info.height, scale * info.depth).toNonIndexed();
                                   const boxMaterial = info.width > info.depth ? boxMaterial1 : boxMaterial2;
 	   			  const wall = new THREE.Mesh( boxGeometry, boxMaterial );
-			  	  wall.position.x = (info.x + info.width / 2) * scale;
-				  wall.position.z = (info.z + info.depth / 2) * scale;;
-				  wall.position.y = (info.y + info.height / 2) * scale;
+			  	  wall.position.x = (info.x + info.width / 2.0) * scale;
+				  wall.position.z = (info.z + info.depth / 2.0) * scale;;
+				  wall.position.y = (info.y + info.height / 2.0) * scale;
                                   camera.lookAt(wall.position);
 			          scene.add( wall );
 				  objects.push( wall );
