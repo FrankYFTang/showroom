@@ -286,9 +286,9 @@ let wallInfo = [
   {width: wallDepth,        depth:20 + 2 * wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth+eps}, // e
   {width: wallDepth,        depth:20 + 2 * wallDepth, height: wallHeight, x: 20, y:0, z: -wallDepth+eps},  // n
   {width: wallDepth,        depth:4, x: 10-wallDepth/2, height: wallHeight, y:0, z: 20-4+eps}, // h and l
-  {width: wallDepth,        depth:8, x: (20-8)/2-wallDepth, height: wallHeight, y:0, z: 5+eps}, // f and i
-  {width: wallDepth,        depth:8, x: 20-((20-8)/2-wallDepth), height: wallHeight, y:0, z: 5+eps}, // k and o
-  {width: 8 + 2 * wallDepth, depth:wallDepth, height: wallHeight, x: (20-8)/2-wallDepth, y:0, z: 5}, // c and j
+  {width: wallDepth,        depth:8, x: (20-(8+2*wallDepth))/2, height: wallHeight, y:0, z: 5+eps}, // f and i
+  {width: wallDepth,        depth:8, x: (8+2*wallDepth)+(20-(8+2*wallDepth))/2, height: wallHeight, y:0, z: 5+eps}, // k and o
+  {width: 8+2*wallDepth, depth:wallDepth, height: wallHeight, x: (20-(8+2*wallDepth))/2, y:0, z: 5}, // c and j
 ];
 
                                 const boxMaterial1 = new THREE.MeshBasicMaterial({ color: wallColor1});
