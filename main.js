@@ -12,7 +12,7 @@ const skyColor = 'dimgray';
 const eps = 0.01;
 const frameShort = 18;
 const frameLong = 22;
-const frameDepth = 2;
+const frameDepth = 1;
 
                         import * as THREE from 'three';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
