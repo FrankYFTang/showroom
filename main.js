@@ -428,9 +428,9 @@ const wallK = wallInfo[8];
 			function initWallM() {
                         }
 			function initWallN() {
-			const objects = [];
-                             const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
-for (let i = 0; i < 10; i++) {
+			  const objects = [];
+                          const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
+                          for (let i = 0; i < 10; i++) {
 			     let geometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
 	   		     let canvas = new THREE.Mesh( geometry, material );
 		             canvas.position.x = wallN.x+eps;
@@ -438,16 +438,13 @@ for (let i = 0; i < 10; i++) {
 		             canvas.position.z = 1 + i*scale;
                              objects.add( canvas );
                              scene.add( canvas );
-}
-			     geometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
 	   		     canvas = new THREE.Mesh( geometry, material );
 		             canvas.position.x = wallN.x+eps;
 			     canvas.position.y = 51;
 		             canvas.position.z = 1 + i*scale;
                              objects.add( canvas );
                              scene.add( canvas );
-}
-
+                          }
                         }
 			function initWallO() {
                         }
