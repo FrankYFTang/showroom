@@ -6,7 +6,7 @@ const wallHeight = 10.0;
 const cameraX = 10.0;
 const cameraY = 5.5;
 const cameraZ = -5.0;
-const jumpNumOfWall = 3;
+const jumpNumOfWall = 8;
 const wallColor = 'ivory';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
@@ -283,7 +283,7 @@ let wallInfo = [
 				if ( controls.isLocked === true ) {
 
 					raycaster.ray.origin.copy( controls.object.position );
-					raycaster.ray.origin.y -= 10;
+					raycaster.ray.origin.y -= cameraY*scale;
 
 					const intersections = raycaster.intersectObjects( objects, false );
 
@@ -314,6 +314,19 @@ let wallInfo = [
 					controls.moveForward( - velocity.z * delta );
 
 					controls.object.position.y += ( velocity.y * delta ); // new behavior
+
+					if ( controls.object.position.x > 20*scale ) {
+                                             controls.object.position.x = 20*scale;
+                                        }
+					if ( controls.object.position.x < 0 ) {
+                                             controls.object.position.x = 0;
+                                        }
+					if ( controls.object.position.z > 20*scale ) {
+                                             controls.object.position.z = 20*scale;
+                                        }
+					if ( controls.object.position.z < -5*scale ) {
+                                             controls.object.position.z = -5*scale;
+                                        }
 
 					if ( controls.object.position.y < cameraY*scale ) {
 
