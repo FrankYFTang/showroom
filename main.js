@@ -38,7 +38,7 @@ const wallColor = 'ivory';
 				camera.position.z = cameraZ * scale;
 
 				scene = new THREE.Scene();
-				scene.background = new THREE.Color( 'skyblue' );
+				scene.background = new THREE.Color( 'black' );
 				// scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
                                 const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
