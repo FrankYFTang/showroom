@@ -383,22 +383,22 @@ const wallK = wallInfo[8];
 			function initWallA() {
 	  		  textureLoader.load( 'img/F102.jpg', function ( texture ) {
                              const material = new THREE.MeshBasicMaterial({ map: texture });
-			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, 6).toNonIndexed();
+			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, wallDepth).toNonIndexed();
 	   		     const canvas = new THREE.Mesh( geometry, material );
 		             canvas.position.x = 3 * scale;
 			     canvas.position.y = (2+5/2) * scale;
-		             canvas.position.z = -wallDepth*scale -1;
+		             canvas.position.z = -wallDepth/2*scale +2.5;
                              scene.add( canvas );
 			  } );
                         }
 			function initWallB() {
 	  		  textureLoader.load( 'img/F101.jpg', function ( texture ) {
                              const material = new THREE.MeshBasicMaterial({ map: texture });
-			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, 6).toNonIndexed();
+			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, wallDepth).toNonIndexed();
 	   		     const canvas = new THREE.Mesh( geometry, material );
 		             canvas.position.x = 17 * scale;
 			     canvas.position.y = (2+5/2) * scale;
-		             canvas.position.z = -wallDepth*scale -1;
+		             canvas.position.z = -wallDepth/2*scale +2.5;
                              scene.add( canvas );
 			  } );
                         }
