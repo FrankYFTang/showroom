@@ -38,12 +38,15 @@ const wallColor = 'ivory';
 				camera.position.z = cameraZ * scale;
 
 				scene = new THREE.Scene();
-				scene.background = new THREE.Color( 0xffffff );
+				scene.background = new THREE.Color( 'skyblue' );
 				// scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
-				const light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2.5 );
-				light.position.set( 0.5 * scale, 1 * scale, 0.75 * scale );
-				scene.add( light );
+                                const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+                                scene.add( directionalLight );
+
+				const hemisphereLight = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2.5 );
+				hemisphereLight.position.set( 0.5 * scale, 1 * scale, 0.75 * scale );
+				scene.add( hemisphereLight );
 
 				controls = new PointerLockControls( camera, document.body );
 
