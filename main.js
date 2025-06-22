@@ -14,7 +14,7 @@ const eps = 0.01;
                         import * as THREE from 'three';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
-			let camera, scene, renderer, controls, sound;
+			let camera, scene, renderer, controls, textureLoader, sound;
 sound = undefined;
 			let dirLight, spotLight;
 
@@ -204,7 +204,7 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 					metalness: 0.2,
 					bumpScale: 1
 				} );
-				const textureLoader = new THREE.TextureLoader();
+				textureLoader = new THREE.TextureLoader();
 				textureLoader.load( 'img/hardwood2_diffuse.jpg', function ( map ) {
 
 					map.wrapS = THREE.RepeatWrapping;
@@ -381,14 +381,15 @@ const wallK = wallInfo[8];
 
 			}
 			function initWallA() {
-
-const geometry = new THREE.PlaneGeometry( 4*scale, 5*scale );
-const material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-geometry.attributes.position.x = 2 * scale;
-geometry.attributes.position.y = (2+5/2) * scale;
-geometry.attributes.position.z = 12 / scale;
-const plane = new THREE.Mesh( geometry, material );
-scene.add( plane );
+	  		  textureLoader.load( 'img/F102.jpg', function ( texture ) {
+                             const material = new THREE.MeshBasicMaterial({ map: texture });
+			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, 3).toNonIndexed();
+	   		     const canvas = new THREE.Mesh( geometry, material );
+		             canvas.position.x = 3 * scale;
+			     canvas.position.y = (2+5/2) * scale;
+		             canvas.position.z = -1;
+                             scene.add( canvas );
+			  } );
                         }
 			function initWallB() {
                         }
