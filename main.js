@@ -382,11 +382,11 @@ const wallK = wallInfo[8];
 			function initWallA() {
 	  		  textureLoader.load( 'img/F102.jpg', function ( texture ) {
                              const material = new THREE.MeshBasicMaterial({ map: texture });
-			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, wallDepth).toNonIndexed();
+			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, scale*wallDepth).toNonIndexed();
 	   		     const canvas = new THREE.Mesh( geometry, material );
 		             canvas.position.x = 2.5 * scale;
 			     canvas.position.y = (2+5/2) * scale;
-		             canvas.position.z = -wallDepth/2*scale -1.5;
+		             canvas.position.z = -wallDepth/2*scale -0.5;
                              camera.lookAt(canvas.position);
                              scene.add( canvas );
 			  } );
@@ -394,11 +394,11 @@ const wallK = wallInfo[8];
 			function initWallB() {
 	  		  textureLoader.load( 'img/F101.jpg', function ( texture ) {
                              const material = new THREE.MeshBasicMaterial({ map: texture });
-			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, wallDepth).toNonIndexed();
+			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, scale*wallDepth).toNonIndexed();
 	   		     const canvas = new THREE.Mesh( geometry, material );
 		             canvas.position.x = 17.5 * scale;
 			     canvas.position.y = (2+5/2) * scale;
-		             canvas.position.z = -wallDepth/2*scale -1.5;
+		             canvas.position.z = -wallDepth/2*scale -0.5;
                              scene.add( canvas );
 			  } );
                         }
