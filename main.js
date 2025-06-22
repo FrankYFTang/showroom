@@ -185,6 +185,30 @@ import * as THREE from 'three';
 */
 
 
+const scale = 1000;
+const wallDepth = 4.0/12.0; // ft
+const wallHeight = 10;
+const cameraY = -3;
+const cameraX = 10;
+                                const boxMaterial = new THREE.MeshBasicMaterial({ color: 0xCCCCCC});
+                                {
+				  const boxGeometry = new THREE.BoxGeometry(7 + wallDepth, wallHeight, wallDepth).toNonIndexed();
+	   			  const wall = new THREE.Mesh( boxGeometry, boxMaterial );
+			  	  wall.position.x = 0 - wallDepth - cameraX;
+				  wall.position.y = 0 - cameraY;
+				  wall.position.z = 0;
+			          scene.add( wall );
+				  objects.push( wall );
+                                }
+                                {
+				  const boxGeometry = new THREE.BoxGeometry(7, wallHeight, wallDepth).toNonIndexed();
+	   			  const wall = new THREE.Mesh( boxGeometry, boxMaterial );
+			  	  wall.position.x = 13 - cameraX;
+				  wall.position.y = 0 - cameraY;
+				  wall.position.z = 0;
+			          scene.add( wall );
+				  objects.push( wall );
+                                }
 /*
 				// objects
 				const boxGeometry = new THREE.BoxGeometry( 20, 20, 20 ).toNonIndexed();
