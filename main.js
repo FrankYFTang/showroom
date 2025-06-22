@@ -387,7 +387,7 @@ const wallK = wallInfo[8];
 	   		     const canvas = new THREE.Mesh( geometry, material );
 		             canvas.position.x = 2.5 * scale;
 			     canvas.position.y = (2+5/2) * scale;
-		             canvas.position.z = -wallDepth/2*scale +2.5;
+		             canvas.position.z = -wallDepth/2*scale -0.5;
                              scene.add( canvas );
 			  } );
                         }
@@ -398,7 +398,7 @@ const wallK = wallInfo[8];
 	   		     const canvas = new THREE.Mesh( geometry, material );
 		             canvas.position.x = 17.5 * scale;
 			     canvas.position.y = (2+5/2) * scale;
-		             canvas.position.z = -wallDepth/2*scale +2.5;
+		             canvas.position.z = -wallDepth/2*scale -0.5;
                              scene.add( canvas );
 			  } );
                         }
