@@ -314,6 +314,23 @@ const wallK = wallInfo[8];
 			          scene.add( wall );
 				  objects.push( wall );
                                 }
+
+				initWallA();
+				initWallB();
+				initWallC();
+				initWallD();
+				initWallE();
+				initWallF();
+				initWallG();
+				initWallH();
+				initWallI();
+				initWallJ();
+				initWallK();
+				initWallL();
+				initWallM();
+				initWallN();
+				initWallO();
+				initWallP();
 /*
 				// objects
 				const boxGeometry = new THREE.BoxGeometry( 20, 20, 20 ).toNonIndexed();
@@ -363,6 +380,46 @@ const wallK = wallInfo[8];
 				window.addEventListener( 'resize', onWindowResize );
 
 			}
+			function initWallA() {
+
+const geometry = new THREE.PlaneGeometry( 4*scale, 5*scale );
+const material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+geometry.attributes.position.x = 2 * scale;
+geometry.attributes.position.y = (2+5/2) * scale;
+geometry.attributes.position.z = 12 / scale;
+const plane = new THREE.Mesh( geometry, material );
+scene.add( plane );
+                        }
+			function initWallB() {
+                        }
+			function initWallC() {
+                        }
+			function initWallD() {
+                        }
+			function initWallE() {
+                        }
+			function initWallF() {
+                        }
+			function initWallG() {
+                        }
+			function initWallH() {
+                        }
+			function initWallI() {
+                        }
+			function initWallJ() {
+                        }
+			function initWallK() {
+                        }
+			function initWallL() {
+                        }
+			function initWallM() {
+                        }
+			function initWallN() {
+                        }
+			function initWallO() {
+                        }
+			function initWallP() {
+                        }
 
 			function onWindowResize() {
 
