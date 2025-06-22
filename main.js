@@ -498,7 +498,7 @@ wallN = wallInfo[5];
 'F614.jpg',
 'F612.jpg',
 'F611.jpg'
-};
+];
                           const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
                           for (let i = 0; i < paintings.length/2; i++) {
 			     let frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
