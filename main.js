@@ -327,8 +327,8 @@ let wallInfo = [
 					if ( controls.object.position.z > 20*scale ) {
                                              controls.object.position.z = 20*scale;
                                         }
-					if ( controls.object.position.z < -5*scale ) {
-                                             controls.object.position.z = -5*scale;
+					if ( controls.object.position.z < -12*scale ) {
+                                             controls.object.position.z = -12*scale;
                                         }
 
 					if ( controls.object.position.y < cameraY*scale ) {
