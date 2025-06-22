@@ -10,7 +10,8 @@ const jumpNumOfWall = 5;
 const wallColor = 'ivory';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
-			let camera, scene, renderer, controls;
+			let camera, scene, renderer, controls, sound;
+sound = undefined;
 
 			const objects = [];
 
@@ -57,12 +58,13 @@ const wallColor = 'ivory';
 
 					controls.lock();
 
+if (sound == undefined) {
 // create an AudioListener and add it to the camera
 const listener = new THREE.AudioListener();
 camera.add( listener );
 
 // create a global audio source
-const sound = new THREE.Audio( listener );
+sound = new THREE.Audio( listener );
 
 // load a sound and set it as the Audio object's buffer
 const audioLoader = new THREE.AudioLoader();
@@ -73,6 +75,7 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 	sound.play();
 });
 				} );
+}
 
 				controls.addEventListener( 'lock', function () {
 
@@ -93,6 +96,12 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 				const onKeyDown = function ( event ) {
 
 					switch ( event.code ) {
+						case 'BracketLeft':
+	                                                sound.setVolume( sound.getVolume() * 0.9 );
+							break;
+						case 'BracketRight':
+	                                                sound.setVolume( sound.getVolume() * 1.1 );
+							break;
 
 						case 'ArrowUp':
 						case 'KeyW':
@@ -204,15 +213,6 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
                 floorMesh.receiveShadow = true;
 	        floorMesh.rotation.x = - Math.PI / 2.0;
                 scene.add( floorMesh );
-	    },
-
-	    // onProgress callback currently not supported
-	    undefined,
-
-	    // onError callback
-	    function ( err ) {
-		console.error( 'An error happened.' );
-	    } );
 				// vertex displacement
 /*
 				let position = floorGeometry.attributes.position;
