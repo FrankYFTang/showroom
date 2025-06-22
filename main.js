@@ -37,21 +37,6 @@ const wallColor = 'ivory';
 				camera.position.x = cameraX * scale;
 				camera.position.z = cameraZ * scale;
 
-// create an AudioListener and add it to the camera
-const listener = new THREE.AudioListener();
-camera.add( listener );
-
-// create a global audio source
-const sound = new THREE.Audio( listener );
-
-// load a sound and set it as the Audio object's buffer
-const audioLoader = new THREE.AudioLoader();
-audioLoader.load( './audio/audio1.mp4', function( buffer ) {
-	sound.setBuffer( buffer );
-	sound.setLoop( true );
-	sound.setVolume( 0.5 );
-	sound.play();
-});
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 'black' );
 				// scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
@@ -72,6 +57,21 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 
 					controls.lock();
 
+// create an AudioListener and add it to the camera
+const listener = new THREE.AudioListener();
+camera.add( listener );
+
+// create a global audio source
+const sound = new THREE.Audio( listener );
+
+// load a sound and set it as the Audio object's buffer
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load( './audio/audio1.mp4', function( buffer ) {
+	sound.setBuffer( buffer );
+	sound.setLoop( true );
+	sound.setVolume( 0.5 );
+	sound.play();
+});
 				} );
 
 				controls.addEventListener( 'lock', function () {
