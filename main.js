@@ -56,7 +56,7 @@ sound = undefined;
                                 // Lights
 				scene.add( new THREE.AmbientLight( 0x404040, 3 ) );
 
-				spotLight = new THREE.SpotLight( 0xffffff, 500 );
+				const spotLight = new THREE.SpotLight( 0xffffff, 500 );
 				spotLight.name = 'Spot Light';
 				spotLight.angle = Math.PI / 5;
 				spotLight.penumbra = 0.3;
@@ -70,7 +70,7 @@ sound = undefined;
 
 				scene.add( new THREE.CameraHelper( spotLight.shadow.camera ) );
 
-				dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
+				const dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
 				dirLight.name = 'Dir. Light';
 				dirLight.position.set( 0, 10, 0 );
 				dirLight.castShadow = true;
