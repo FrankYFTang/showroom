@@ -301,6 +301,7 @@ const wallF = wallInfo[7];
 const wallG = wallInfo[3];
 const wallH = wallInfo[6];
 const wallK = wallInfo[8];
+const wallN = wallInfo[5];
 
                                 const boxMaterial1 = new THREE.MeshBasicMaterial({ color: wallColor1});
                                 const boxMaterial2 = new THREE.MeshBasicMaterial({ color: wallColor2});
