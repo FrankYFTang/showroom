@@ -167,7 +167,7 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 
 				// floor
 
-	floorMat = new THREE.MeshStandardMaterial( {
+	const floorMat = new THREE.MeshStandardMaterial( {
 					roughness: 0.8,
 					color: 0xffffff,
 					metalness: 0.2,
