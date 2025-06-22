@@ -133,7 +133,7 @@ import * as THREE from 'three';
 				let floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
 				floorGeometry.rotateX( - Math.PI / 2 );
 
-            new THREE.TextureLoader().load( 'img/wood_01-512x512.png',
+            new THREE.TextureLoader().load( 'img/wood_01-512x512.jpg',
   	    function ( texture ) {
                 texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
                 texture.repeat.set(20, 20);
