@@ -12,7 +12,7 @@ const skyColor = 'dimgray';
 const eps = 0.01;
 const frameShort = 18;
 const frameLong = 22;
-const frameDepth = 1;
+const frameDepth = 2;
 
                         import * as THREE from 'three';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
@@ -437,14 +437,14 @@ wallN = wallInfo[5];
 	   		     let canvas = new THREE.Mesh( geometry, frameMaterial );
 		             canvas.position.x = wallN.x+frameDepth/2+eps;
 			     canvas.position.y = 77;
-		             canvas.position.z = 1 + 2*i*scale;
+		             canvas.position.z = (1+2*i)*scale;
                              objects.push( canvas );
                              scene.add( canvas );
 
 	   		     canvas = new THREE.Mesh( geometry, frameMaterial );
 		             canvas.position.x = wallN.x+frameDepth/2+eps;
 			     canvas.position.y = 51;
-		             canvas.position.z = 1 + 2*i*scale;
+		             canvas.position.z = (1+2*i)*scale;
                              objects.push( canvas );
                              scene.add( canvas );
                           }
