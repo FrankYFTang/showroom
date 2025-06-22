@@ -158,16 +158,51 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 
 				// floor
 
+	floorMat = new THREE.MeshStandardMaterial( {
+					roughness: 0.8,
+					color: 0xffffff,
+					metalness: 0.2,
+					bumpScale: 1
+				} );
+				const textureLoader = new THREE.TextureLoader();
+				textureLoader.load( 'img/hardwood2_diffuse.jpg', function ( map ) {
+
+					map.wrapS = THREE.RepeatWrapping;
+					map.wrapT = THREE.RepeatWrapping;
+					map.anisotropy = 4;
+					map.repeat.set( 10, 24 );
+					map.colorSpace = THREE.SRGBColorSpace;
+					floorMat.map = map;
+					floorMat.needsUpdate = true;
+
+				} );
+				textureLoader.load( 'img/hardwood2_bump.jpg', function ( map ) {
+
+					map.wrapS = THREE.RepeatWrapping;
+					map.wrapT = THREE.RepeatWrapping;
+					map.anisotropy = 4;
+					map.repeat.set( 10, 24 );
+					floorMat.bumpMap = map;
+					floorMat.needsUpdate = true;
+
+				} );
+				textureLoader.load( 'img/hardwood2_roughness.jpg', function ( map ) {
+
+					map.wrapS = THREE.RepeatWrapping;
+					map.wrapT = THREE.RepeatWrapping;
+					map.anisotropy = 4;
+					map.repeat.set( 10, 24 );
+					floorMat.roughnessMap = map;
+					floorMat.needsUpdate = true;
+
+				} );
+
 				let floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
 				floorGeometry.rotateX( - Math.PI / 2 );
 
-            new THREE.TextureLoader().load( 'img/wood_01-512x512.jpg',
-  	    function ( texture ) {
-                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                texture.repeat.set(20, 20);
-		// in this example we create the material when the texture is loaded
-		const floorMaterial = new THREE.MeshBasicMaterial( { map: texture } );
-                const floorMesh = new THREE.Mesh( floorGeometry, floorMaterial );
+                const floorMesh = new THREE.Mesh( floorGeometry, floorMat );
+                floorMesh.receiveShadow = true;
+	        floorMesh.rotation.x = - Math.PI / 2.0;
                 scene.add( floorMesh );
 	    },
 
