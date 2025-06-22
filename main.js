@@ -59,7 +59,7 @@ sound = undefined;
 				spotLight.shadow.mapSize.height = 1024;
 				scene.add( spotLight );
 
-				scene.add( new THREE.CameraHelper( spotLight.shadow.camera ) );
+				// scene.add( new THREE.CameraHelper( spotLight.shadow.camera ) );
 
 				dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
 				dirLight.name = 'Dir. Light';
@@ -75,7 +75,7 @@ sound = undefined;
 				dirLight.shadow.mapSize.height = 1024;
 				scene.add( dirLight );
 
-				scene.add( new THREE.CameraHelper( dirLight.shadow.camera ) );
+				// scene.add( new THREE.CameraHelper( dirLight.shadow.camera ) );
 
 				controls = new PointerLockControls( camera, document.body );
 
