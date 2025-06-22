@@ -207,7 +207,7 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 				} );
 
 				let floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
-				floorGeometry.rotateX( - Math.PI / 2 );
+				// floorGeometry.rotateX( - Math.PI / 2 );
 
                 const floorMesh = new THREE.Mesh( floorGeometry, floorMat );
                 floorMesh.receiveShadow = true;
