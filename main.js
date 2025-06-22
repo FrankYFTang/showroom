@@ -201,9 +201,9 @@ let wallInfo = [
   {width: wallDepth,        depth:20 + 2 * wallDepth, x: -wallDepth, z: -wallDepth}, // e
   {width: wallDepth,        depth:20 + 2 * wallDepth, x: 20, z: -wallDepth},  // n
   {width: wallDepth,        depth:4, x: 10-wallDepth/2, z: 20-4}, // h and l
-  {width: 8 + 2 * wallDepth, depth:wallDepth, x: (20-8)/2-wallDepth, z: 5}, // c and j
   {width: wallDepth,        depth:8, x: (20-8)/2-wallDepth, z: 5}, // f and i
   {width: wallDepth,        depth:8, x: 20-((20-8)/2-wallDepth), z: 5}, // k and o
+  {width: 8 + 2 * wallDepth, depth:wallDepth, x: (20-8)/2-wallDepth, z: 5}, // c and j
 ];
 
                                 const boxMaterial = new THREE.MeshBasicMaterial({ color: wallColor});
@@ -215,6 +215,7 @@ let wallInfo = [
 			  	  wall.position.x = (info.x + info.width / 2) * scale;
 				  wall.position.z = (info.z + info.depth / 2) * scale;;
 				  wall.position.y = (wallHeight / 2) * scale;
+                                  camera.lookAt(wall.position);
 			          scene.add( wall );
 				  objects.push( wall );
                                 }
