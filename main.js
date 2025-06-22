@@ -9,7 +9,7 @@ const jumpNumOfWall = 5;
 const wallColor1 = 'ivory';
 const wallColor2 = 'whitesmoke';
 const skyColor = 'dimgray';
-const eps = 0.001;
+const eps = 0.02;
 
                         import * as THREE from 'three';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
