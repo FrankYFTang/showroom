@@ -6,6 +6,7 @@ const wallHeight = 10.0;
 const cameraX = 10.0;
 const cameraY = 25.5;
 const cameraZ = -5.0;
+const jumpNumOfWall = 3;
 const wallColor = 'ivory';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
@@ -96,7 +97,7 @@ const wallColor = 'ivory';
 							break;
 
 						case 'Space':
-							if ( canJump === true ) velocity.y += 350;
+							if ( canJump === true ) velocity.y = wallHeight*jumpNumOfWall*scale;
 							canJump = false;
 							break;
 
@@ -312,10 +313,10 @@ let wallInfo = [
 
 					controls.object.position.y += ( velocity.y * delta ); // new behavior
 
-					if ( controls.object.position.y < 10 ) {
+					if ( controls.object.position.y < cameraY*scale ) {
 
 						velocity.y = 0;
-						controls.object.position.y = 10;
+						controls.object.position.y = cameraY*scale;
 
 						canJump = true;
 
