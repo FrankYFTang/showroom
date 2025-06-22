@@ -449,7 +449,7 @@ wallN = wallInfo[5];
                          if (i != 4) {
 		             canvas.position.x = (1+2*i)*scale;
 			     canvas.position.y = 77;
-		             canvas.position.z = 20+frameDepth/2-eps;
+		             canvas.position.z = scale*20+frameDepth/2-eps;
                              scene.add( canvas );
 
 	  		     textureLoader.load( 'img/' + paintings[i*2], function ( texture ) {
@@ -457,14 +457,14 @@ wallN = wallInfo[5];
 	   		        const canvas = new THREE.Mesh( photoGeometry, material );
 		                canvas.position.x = (1+2*i)*scale;
 			        canvas.position.y = 77;
-		                canvas.position.z = 20+frameDepth/2-2*eps;
+		                canvas.position.z = scale*20+frameDepth/2-2*eps;
                                 scene.add( canvas );
 			     } );
 	   		     canvas = new THREE.Mesh( frameGeometry, frameMaterial );
                         }
 		             canvas.position.x = (1+2*i)*scale;
 			     canvas.position.y = 51;
-		             canvas.position.z = 20+frameDepth/2-eps;
+		             canvas.position.z = scale*20+frameDepth/2-eps;
                              scene.add( canvas );
 
 	  		     textureLoader.load( 'img/' + paintings[1+i*2], function ( texture ) {
@@ -472,7 +472,7 @@ wallN = wallInfo[5];
 	   		        const canvas = new THREE.Mesh( photoGeometry, material );
 		                canvas.position.x = (1+2*i)*scale;
 			        canvas.position.y = 51;
-		                canvas.position.z = 20+frameDepth/2-2*eps;
+		                canvas.position.z = scale*20+frameDepth/2-2*eps;
                                 scene.add( canvas );
 			     } );
                           }
