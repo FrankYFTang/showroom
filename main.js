@@ -133,9 +133,9 @@ import * as THREE from 'three';
 				let floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
 				floorGeometry.rotateX( - Math.PI / 2 );
 
-        floorTexture = new THREE.TextureLoader().load( 'img/wood_01-512x512.png',
+            new THREE.TextureLoader().load( 'img/wood_01-512x512.png',
   	    function ( texture ) {
-                texture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
                 texture.repeat.set(20, 20);
 		// in this example we create the material when the texture is loaded
 		const floorMaterial = new THREE.MeshBasicMaterial( { map: texture } );
