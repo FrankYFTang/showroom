@@ -432,13 +432,13 @@ const wallK = wallInfo[8];
                           const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
                           for (let i = 0; i < 10; i++) {
 			     let geometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
-	   		     let canvas = new THREE.Mesh( geometry, material );
+	   		     let canvas = new THREE.Mesh( geometry, frameMaterial );
 		             canvas.position.x = wallN.x+eps;
 			     canvas.position.y = 77;
 		             canvas.position.z = 1 + i*scale;
                              objects.add( canvas );
                              scene.add( canvas );
-	   		     canvas = new THREE.Mesh( geometry, material );
+	   		     canvas = new THREE.Mesh( geometry, frameMaterial );
 		             canvas.position.x = wallN.x+eps;
 			     canvas.position.y = 51;
 		             canvas.position.z = 1 + i*scale;
