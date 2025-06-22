@@ -20,7 +20,7 @@ const frameDepth = 1;
 			let camera, scene, renderer, controls, textureLoader, sound;
 sound = undefined;
 			let dirLight, spotLight;
-let wallA, wallB, wallC, wallE, wallF, wallG. wallH, wallK, wallN;
+let wallA, wallB, wallC, wallE, wallF, wallG, wallH, wallK, wallN;
 
 			const objects = [];
 
