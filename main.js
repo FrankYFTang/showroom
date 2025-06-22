@@ -133,25 +133,23 @@ import * as THREE from 'three';
 				let floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
 				floorGeometry.rotateX( - Math.PI / 2 );
 
-floorTexture = new THREE.TextureLoader().load( 'img/wood_01-512x512.png',
-	function ( texture ) {
+        floorTexture = new THREE.TextureLoader().load( 'img/wood_01-512x512.png',
+  	    function ( texture ) {
                 texture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
                 texture.repeat.set(20, 20);
 		// in this example we create the material when the texture is loaded
-		const material = new THREE.MeshBasicMaterial( {
-			map: texture
+		const floorMaterial = new THREE.MeshBasicMaterial( { map: texture } );
                 floorMesh = new THREE.Mesh( floorGeometry, floorMaterial );
                 scene.add( floorMesh );
-		 } );
-	},
+	    },
 
-	// onProgress callback currently not supported
-	undefined,
+	    // onProgress callback currently not supported
+	    undefined,
 
-	// onError callback
-	function ( err ) {
+	    // onError callback
+	    function ( err ) {
 		console.error( 'An error happened.' );
-	} );
+	    } );
 				// vertex displacement
 /*
 				let position = floorGeometry.attributes.position;
