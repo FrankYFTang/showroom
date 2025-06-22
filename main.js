@@ -194,15 +194,15 @@ const wallColor = 'ivory';
 */
 
 let wallInfo = [
-  {width: 7 + wallDepth, depth: wallDepth, x: 13, z: -wallDepth},  // a and p
-  {width: 7 + wallDepth, depth: wallDepth, x: -wallDepth, z: -wallDepth}, // b and d
+  {width: 7 + wallDepth,    depth: wallDepth, x: 13, z: -wallDepth},  // a and p
+  {width: 7 + wallDepth,    depth: wallDepth, x: -wallDepth, z: -wallDepth}, // b and d
   {width: 20 + 2*wallDepth, depth: wallDepth, x: -wallDepth, z: 20}, // g and m
-  {width: wallDepth, depth:20 + 2 * wallDepth, x: -wallDepth, z: -wallDepth}, // e
-  {width: wallDepth, depth:20 + 2 * wallDepth, x: 20, z: -wallDepth},  // n
-  {width: wallDepth, depth:4, x: 10-wallDepth/2, z: 20-4}, // h and l
+  {width: wallDepth,        depth:20 + 2 * wallDepth, x: -wallDepth, z: -wallDepth}, // e
+  {width: wallDepth,        depth:20 + 2 * wallDepth, x: 20, z: -wallDepth},  // n
+  {width: wallDepth,        depth:4, x: 10-wallDepth/2, z: 20-4}, // h and l
   {width: 8 + 2 * wallDepth, depth:wallDepth, x: (20-8)/2-wallDepth, z: 5}, // c and j
-  {width: wallDepth, depth:8, x: (20-8)/2-wallDepth, z: 5}, // f and i
-  {width: wallDepth, depth:8, x: 20-((20-8)/2-wallDepth), z: 5}, // k and o
+  {width: wallDepth,        depth:8, x: (20-8)/2-wallDepth, z: 5}, // f and i
+  {width: wallDepth,        depth:8, x: 20-((20-8)/2-wallDepth), z: 5}, // k and o
 ];
 
                                 const boxMaterial = new THREE.MeshBasicMaterial({ color: wallColor});
@@ -211,9 +211,9 @@ let wallInfo = [
                                   const info = wallInfo[i];
 				  const boxGeometry = new THREE.BoxGeometry(scale * info.width , scale * wallHeight, scale * info.depth).toNonIndexed();
 	   			  const wall = new THREE.Mesh( boxGeometry, boxMaterial );
-			  	  wall.position.x = info.x * scale;
-				  wall.position.z = info.z * scale;;
-				  wall.position.y = 0;
+			  	  wall.position.x = (info.x + info.width / 2) * scale;
+				  wall.position.z = (info.z + info.depth / 2) * scale;;
+				  wall.position.y = (wallHeight / 2) * scale;
 			          scene.add( wall );
 				  objects.push( wall );
                                 }
