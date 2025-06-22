@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
+                        import image from 'img/wood_01-512x512.png'; // preload image
+
 			let camera, scene, renderer, controls;
 
 			const objects = [];
