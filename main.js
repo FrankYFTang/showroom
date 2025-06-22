@@ -74,8 +74,8 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 	sound.setVolume( 0.5 );
 	sound.play();
 });
-				} );
 }
+				} );
 
 				controls.addEventListener( 'lock', function () {
 
