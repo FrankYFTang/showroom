@@ -435,16 +435,16 @@ wallN = wallInfo[5];
                           for (let i = 0; i < 10; i++) {
 			     let geometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
 	   		     let canvas = new THREE.Mesh( geometry, frameMaterial );
-		             canvas.position.x = wallN.x+eps;
+		             canvas.position.x = wallN.x+frameDepth/2+eps;
 			     canvas.position.y = 77;
-		             canvas.position.z = 1 + i*scale;
+		             canvas.position.z = 1 + 2*i*scale;
                              objects.push( canvas );
                              scene.add( canvas );
 
 	   		     canvas = new THREE.Mesh( geometry, frameMaterial );
-		             canvas.position.x = wallN.x+eps;
+		             canvas.position.x = wallN.x+frameDepth/2+eps;
 			     canvas.position.y = 51;
-		             canvas.position.z = 1 + i*scale;
+		             canvas.position.z = 1 + 2*i*scale;
                              objects.push( canvas );
                              scene.add( canvas );
                           }
