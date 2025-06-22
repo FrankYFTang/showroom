@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 
-const scale = 12;
+const scale = 12.0;
 const wallDepth = 4.0/12.0; // ft
-const wallHeight = 10;
-const cameraX = 10;
-const cameraY = 5.53;
-const cameraZ = -3;
+const wallHeight = 10.0;
+const cameraX = 10.0;
+const cameraY = 5.5;
+const cameraZ = -3.0;
+const wallColor = 'ivory';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
 			let camera, scene, renderer, controls;
@@ -40,7 +41,7 @@ const cameraZ = -3;
 				scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
 				const light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2.5 );
-				light.position.set( 0.5, 1, 0.75 );
+				light.position.set( 0.5 * scale, 1 * scale, 0.75 * scale );
 				scene.add( light );
 
 				controls = new PointerLockControls( camera, document.body );
@@ -192,23 +193,20 @@ const cameraZ = -3;
 				scene.add( floor );
 */
 
+let wallInfo = [
+  {width: 7 + wallDepth, depth: wallDepth, x: -wallDepth, z: -wallDepth},
+  {width: 7 + wallDepth, depth: wallDepth, x: 13, z: -wallDepth},
+];
 
-                                const boxMaterial = new THREE.MeshBasicMaterial({ color: 0xCCCCCC});
+                                const boxMaterial = new THREE.MeshBasicMaterial({ color: wallColor});
+                                for (i = 0; i < 2; i++)
                                 {
-				  const boxGeometry = new THREE.BoxGeometry(scale * (7 + wallDepth), scale * wallHeight, scale * wallDepth).toNonIndexed();
+                                  const info = wallInfo[i];
+				  const boxGeometry = new THREE.BoxGeometry(scale * info.width , scale * wallHeight, scale * info.depth).toNonIndexed();
 	   			  const wall = new THREE.Mesh( boxGeometry, boxMaterial );
-			  	  wall.position.x = (0 - wallDepth) * scale;
+			  	  wall.position.x = info.x * scale;
+				  wall.position.z = info.z * scale;;
 				  wall.position.y = 0;
-				  wall.position.z = 0;
-			          scene.add( wall );
-				  objects.push( wall );
-                                }
-                                {
-				  const boxGeometry = new THREE.BoxGeometry(scale * (7 + wallDepth), scale * wallHeight, scale * wallDepth).toNonIndexed();
-	   			  const wall = new THREE.Mesh( boxGeometry, boxMaterial );
-			  	  wall.position.x = (13) * scale;
-				  wall.position.y = 0;
-				  wall.position.z = 0;
 			          scene.add( wall );
 				  objects.push( wall );
                                 }
