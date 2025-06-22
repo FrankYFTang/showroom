@@ -4,7 +4,7 @@ const wallDepth = 0.5; // ft
 const wallHeight = 10.0;
 const cameraX = 10.0;
 const cameraY = 5.5;
-const cameraZ = -5.0;
+const cameraZ = -10.0;
 const jumpNumOfWall = 5;
 const wallColor1 = 'ivory';
 const wallColor2 = 'whitesmoke';
@@ -310,7 +310,6 @@ const wallK = wallInfo[8];
 			  	  wall.position.x = (info.x + info.width / 2.0) * scale;
 				  wall.position.z = (info.z + info.depth / 2.0) * scale;;
 				  wall.position.y = (info.y + info.height / 2.0) * scale;
-                                  camera.lookAt(wall.position);
 			          scene.add( wall );
 				  objects.push( wall );
                                 }
@@ -388,6 +387,7 @@ const wallK = wallInfo[8];
 		             canvas.position.x = 2.5 * scale;
 			     canvas.position.y = (2+5/2) * scale;
 		             canvas.position.z = -wallDepth/2*scale -0.5;
+                             camera.lookAt(canvas.position);
                              scene.add( canvas );
 			  } );
                         }
