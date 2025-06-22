@@ -428,6 +428,54 @@ wallN = wallInfo[5];
 			function initWallL() {
                         }
 			function initWallM() {
+                          const paintings = [
+'F525.jpg',
+'F526.jpg',
+'F527.jpg',
+'F528.jpg',
+'F521.jpg',
+'F522.jpg',
+'F523.jpg',
+'F524.jpg',
+'everwhere',
+'F529.jpg'
+];
+                          const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
+                          for (let i = 0; i < paintings.length/2; i++) {
+			     let frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
+			     let photoGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
+
+	   		     let canvas = new THREE.Mesh( frameGeometry, frameMaterial );
+                         if (i != 4) {
+		             canvas.position.x = (1+2*i)*scale;
+			     canvas.position.y = 77;
+		             canvas.position.z = 20+frameDepth/2-eps;
+                             scene.add( canvas );
+
+	  		     textureLoader.load( 'img/' + paintings[i*2], function ( texture ) {
+                                const material = new THREE.MeshBasicMaterial({ map: texture });
+	   		        const canvas = new THREE.Mesh( photoGeometry, material );
+		                canvas.position.x = (1+2*i)*scale;
+			        canvas.position.y = 77;
+		                canvas.position.z = 20+frameDepth/2-2*eps;
+                                scene.add( canvas );
+			     } );
+	   		     canvas = new THREE.Mesh( frameGeometry, frameMaterial );
+                        }
+		             canvas.position.x = (1+2*i)*scale;
+			     canvas.position.y = 51;
+		             canvas.position.z = 20+frameDepth/2-eps;
+                             scene.add( canvas );
+
+	  		     textureLoader.load( 'img/' + paintings[1+i*2], function ( texture ) {
+                                const material = new THREE.MeshBasicMaterial({ map: texture });
+	   		        const canvas = new THREE.Mesh( photoGeometry, material );
+		                canvas.position.x = (1+2*i)*scale;
+			        canvas.position.y = 51;
+		                canvas.position.z = 20+frameDepth/2-2*eps;
+                                scene.add( canvas );
+			     } );
+                          }
                         }
 			function initWallN() {
                           const paintings = [
@@ -505,7 +553,7 @@ wallN = wallInfo[5];
 			     let photoGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
 
 	   		     let canvas = new THREE.Mesh( frameGeometry, frameMaterial );
-		             canvas.position.x = (1+2*i)*scale;
+		             canvas.position.x = (1.5+2*i)*scale;
 			     canvas.position.y = 77;
 		             canvas.position.z = frameDepth/2+eps;
                              scene.add( canvas );
@@ -513,14 +561,14 @@ wallN = wallInfo[5];
 	  		     textureLoader.load( 'img/' + paintings[i*2], function ( texture ) {
                                 const material = new THREE.MeshBasicMaterial({ map: texture });
 	   		        const canvas = new THREE.Mesh( photoGeometry, material );
-		                canvas.position.x = (1+2*i)*scale;
+		                canvas.position.x = (1.5+2*i)*scale;
 			        canvas.position.y = 77;
 		                canvas.position.z = frameDepth/2+2*eps;
                                 scene.add( canvas );
 			     } );
 
 	   		     canvas = new THREE.Mesh( frameGeometry, frameMaterial );
-		             canvas.position.x = (1+2*i)*scale;
+		             canvas.position.x = (1.5+2*i)*scale;
 			     canvas.position.y = 51;
 		             canvas.position.z = frameDepth/2+eps;
                              scene.add( canvas );
@@ -528,7 +576,7 @@ wallN = wallInfo[5];
 	  		     textureLoader.load( 'img/' + paintings[1+i*2], function ( texture ) {
                                 const material = new THREE.MeshBasicMaterial({ map: texture });
 	   		        const canvas = new THREE.Mesh( photoGeometry, material );
-		                canvas.position.x = (1+2*i)*scale;
+		                canvas.position.x = (1.5+2*i)*scale;
 			        canvas.position.y = 51;
 		                canvas.position.z = frameDepth/2+2*eps;
                                 scene.add( canvas );
