@@ -438,13 +438,14 @@ wallN = wallInfo[5];
 		             canvas.position.x = wallN.x+eps;
 			     canvas.position.y = 77;
 		             canvas.position.z = 1 + i*scale;
-                             objects.add( canvas );
+                             objects.push( canvas );
                              scene.add( canvas );
+
 	   		     canvas = new THREE.Mesh( geometry, frameMaterial );
 		             canvas.position.x = wallN.x+eps;
 			     canvas.position.y = 51;
 		             canvas.position.z = 1 + i*scale;
-                             objects.add( canvas );
+                             objects.push( canvas );
                              scene.add( canvas );
                           }
                         }
