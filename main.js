@@ -6,7 +6,7 @@ const wallHeight = 10.0;
 const cameraX = 10.0;
 const cameraY = 5.5;
 const cameraZ = -5.0;
-const jumpNumOfWall = 8;
+const jumpNumOfWall = 5;
 const wallColor = 'ivory';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
