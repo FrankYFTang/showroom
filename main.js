@@ -139,7 +139,7 @@ import * as THREE from 'three';
                 texture.repeat.set(20, 20);
 		// in this example we create the material when the texture is loaded
 		const floorMaterial = new THREE.MeshBasicMaterial( { map: texture } );
-                floorMesh = new THREE.Mesh( floorGeometry, floorMaterial );
+                const floorMesh = new THREE.Mesh( floorGeometry, floorMaterial );
                 scene.add( floorMesh );
 	    },
 
