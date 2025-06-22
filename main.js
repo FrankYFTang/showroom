@@ -6,8 +6,8 @@ const cameraX = 10.0;
 const cameraY = 5.5;
 const cameraZ = -5.0;
 const jumpNumOfWall = 5;
-const wallColor = 'ivory';
-const wallColor = 'whitesmoke';
+const wallColor1 = 'ivory';
+const wallColor2 = 'whitesmoke';
 const skyColor = 'dimgray';
 
                         import * as THREE from 'three';
