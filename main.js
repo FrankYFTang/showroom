@@ -1,5 +1,11 @@
 import * as THREE from 'three';
 
+const scale = 12;
+const wallDepth = 4.0/12.0; // ft
+const wallHeight = 10;
+const cameraX = 10;
+const cameraY = 5.53;
+const cameraZ = -3;
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
 			let camera, scene, renderer, controls;
@@ -25,7 +31,9 @@ import * as THREE from 'three';
 			function init() {
 
 				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
-				camera.position.y = 10;
+				camera.position.y = cameraY * scale;
+				camera.position.x = cameraX * scale;
+				camera.position.z = cameraZ * scale;
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0xffffff );
@@ -185,26 +193,21 @@ import * as THREE from 'three';
 */
 
 
-const scale = 1000;
-const wallDepth = 4.0/12.0; // ft
-const wallHeight = 10;
-const cameraY = -3;
-const cameraX = 10;
                                 const boxMaterial = new THREE.MeshBasicMaterial({ color: 0xCCCCCC});
                                 {
-				  const boxGeometry = new THREE.BoxGeometry(7 + wallDepth, wallHeight, wallDepth).toNonIndexed();
+				  const boxGeometry = new THREE.BoxGeometry(scale * (7 + wallDepth), scale * wallHeight, scale * wallDepth).toNonIndexed();
 	   			  const wall = new THREE.Mesh( boxGeometry, boxMaterial );
-			  	  wall.position.x = 0 - wallDepth - cameraX;
-				  wall.position.y = 0 - cameraY;
+			  	  wall.position.x = (0 - wallDepth) * scale;
+				  wall.position.y = 0;
 				  wall.position.z = 0;
 			          scene.add( wall );
 				  objects.push( wall );
                                 }
                                 {
-				  const boxGeometry = new THREE.BoxGeometry(7, wallHeight, wallDepth).toNonIndexed();
+				  const boxGeometry = new THREE.BoxGeometry(scale * (7 + wallDepth), scale * wallHeight, scale * wallDepth).toNonIndexed();
 	   			  const wall = new THREE.Mesh( boxGeometry, boxMaterial );
-			  	  wall.position.x = 13 - cameraX;
-				  wall.position.y = 0 - cameraY;
+			  	  wall.position.x = (13) * scale;
+				  wall.position.y = 0;
 				  wall.position.z = 0;
 			          scene.add( wall );
 				  objects.push( wall );
