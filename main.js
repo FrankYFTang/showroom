@@ -14,7 +14,7 @@ const wallColor = 'ivory';
 
 			let camera, scene, renderer, controls, sound;
 sound = undefined;
-			let dirLightShadowMapViewer, spotLightShadowMapViewer;
+			let dirLight, spotLight, dirLightShadowMapViewer, spotLightShadowMapViewer;
 
 			function initShadowMapViewers() {
 
@@ -56,7 +56,7 @@ sound = undefined;
                                 // Lights
 				scene.add( new THREE.AmbientLight( 0x404040, 3 ) );
 
-				const spotLight = new THREE.SpotLight( 0xffffff, 500 );
+				spotLight = new THREE.SpotLight( 0xffffff, 500 );
 				spotLight.name = 'Spot Light';
 				spotLight.angle = Math.PI / 5;
 				spotLight.penumbra = 0.3;
@@ -70,7 +70,7 @@ sound = undefined;
 
 				scene.add( new THREE.CameraHelper( spotLight.shadow.camera ) );
 
-				const dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
+				dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
 				dirLight.name = 'Dir. Light';
 				dirLight.position.set( 0, 10, 0 );
 				dirLight.castShadow = true;
