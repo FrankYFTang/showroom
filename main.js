@@ -20,6 +20,7 @@ const frameDepth = 1;
 			let camera, scene, renderer, controls, textureLoader, sound;
 sound = undefined;
 			let dirLight, spotLight;
+let wallA, wallB, wallC, wallE, wallF, wallG. wallH, wallK, wallN;
 
 			const objects = [];
 
@@ -293,15 +294,15 @@ let wallInfo = [
   {width: wallDepth,        depth:8, x: 5.5-eps, height: wallHeight, y:0, z: 5+eps}, // k and o
   {width: 8+2*wallDepth, depth:wallDepth, height: wallHeight, x: 5.5, y:0, z: 5}, // c and j
 ];
-const wallA = wallInfo[0];
-const wallB = wallInfo[1];
-const wallC = wallInfo[9];
-const wallE = wallInfo[4];
-const wallF = wallInfo[7];
-const wallG = wallInfo[3];
-const wallH = wallInfo[6];
-const wallK = wallInfo[8];
-const wallN = wallInfo[5];
+wallA = wallInfo[0];
+wallB = wallInfo[1];
+wallC = wallInfo[9];
+wallE = wallInfo[4];
+wallF = wallInfo[7];
+wallG = wallInfo[3];
+wallH = wallInfo[6];
+wallK = wallInfo[8];
+wallN = wallInfo[5];
 
                                 const boxMaterial1 = new THREE.MeshBasicMaterial({ color: wallColor1});
                                 const boxMaterial2 = new THREE.MeshBasicMaterial({ color: wallColor2});
