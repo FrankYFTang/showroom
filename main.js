@@ -39,7 +39,7 @@ const wallColor = 'ivory';
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0xffffff );
-				scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
+				// scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
 				const light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2.5 );
 				light.position.set( 0.5 * scale, 1 * scale, 0.75 * scale );
@@ -195,26 +195,27 @@ const wallColor = 'ivory';
 */
 
 let wallInfo = [
-  {width: 7 + wallDepth,    depth: wallDepth, x: 13, z: -wallDepth},  // a and p
-  {width: 7 + wallDepth,    depth: wallDepth, x: -wallDepth, z: -wallDepth}, // b and d
-  {width: 20 + 2*wallDepth, depth: wallDepth, x: -wallDepth, z: 20}, // g and m
-  {width: wallDepth,        depth:20 + 2 * wallDepth, x: -wallDepth, z: -wallDepth}, // e
-  {width: wallDepth,        depth:20 + 2 * wallDepth, x: 20, z: -wallDepth},  // n
-  {width: wallDepth,        depth:4, x: 10-wallDepth/2, z: 20-4}, // h and l
-  {width: wallDepth,        depth:8, x: (20-8)/2-wallDepth, z: 5}, // f and i
-  {width: wallDepth,        depth:8, x: 20-((20-8)/2-wallDepth), z: 5}, // k and o
-  {width: 8 + 2 * wallDepth, depth:wallDepth, x: (20-8)/2-wallDepth, z: 5}, // c and j
+  {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: 13, y:0, z: -wallDepth},  // a and p
+  {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth}, // b and d
+  {width: 20 + 2*wallDepth,    depth: wallDepth, height: 2, x: -wallDepth, y:8, z: -wallDepth}, // banner
+  {width: 20 + 2*wallDepth, depth: wallDepth, height: wallHeight, x: -wallDepth, y:0, z: 20}, // g and m
+  {width: wallDepth,        depth:20 + 2 * wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth}, // e
+  {width: wallDepth,        depth:20 + 2 * wallDepth, height: wallHeight, x: 20, y:0, z: -wallDepth},  // n
+  {width: wallDepth,        depth:4, x: 10-wallDepth/2, height: wallHeight, y:0, z: 20-4}, // h and l
+  {width: wallDepth,        depth:8, x: (20-8)/2-wallDepth, height: wallHeight, y:0, z: 5}, // f and i
+  {width: wallDepth,        depth:8, x: 20-((20-8)/2-wallDepth), height: wallHeight, y:0, z: 5}, // k and o
+  {width: 8 + 2 * wallDepth, depth:wallDepth, height: wallHeight, x: (20-8)/2-wallDepth, y:0, z: 5}, // c and j
 ];
 
                                 const boxMaterial = new THREE.MeshBasicMaterial({ color: wallColor});
                                 for (let i = 0; i < wallInfo.length; i++)
                                 {
                                   const info = wallInfo[i];
-				  const boxGeometry = new THREE.BoxGeometry(scale * info.width , scale * wallHeight, scale * info.depth).toNonIndexed();
+				  const boxGeometry = new THREE.BoxGeometry(scale * info.width , scale * info.height, scale * info.depth).toNonIndexed();
 	   			  const wall = new THREE.Mesh( boxGeometry, boxMaterial );
 			  	  wall.position.x = (info.x + info.width / 2) * scale;
 				  wall.position.z = (info.z + info.depth / 2) * scale;;
-				  wall.position.y = (wallHeight / 2) * scale;
+				  wall.position.y = (info.y + info.height / 2) * scale;
                                   camera.lookAt(wall.position);
 			          scene.add( wall );
 				  objects.push( wall );
