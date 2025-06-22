@@ -10,6 +10,9 @@ const wallColor1 = 'ivory';
 const wallColor2 = 'whitesmoke';
 const skyColor = 'dimgray';
 const eps = 0.01;
+const frameShort = 18;
+const frameLong = 22;
+const frameDepth = 1;
 
                         import * as THREE from 'three';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
@@ -279,15 +282,15 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 */
 
 let wallInfo = [
-  {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: 13, y:0, z: -wallDepth},  // a and p
-  {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth}, // b and d
+  {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth}, // a and p
+  {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: 13, y:0, z: -wallDepth},  // b and d
   {width: 20 + 2*wallDepth,    depth: wallDepth, height: 2, x: -wallDepth, y:8, z: -wallDepth}, // banner
   {width: 20 + 2*wallDepth, depth: wallDepth, height: wallHeight, x: -wallDepth, y:0, z: 20}, // g and m
-  {width: wallDepth,        depth:20 + 2 * wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth+eps}, // e
-  {width: wallDepth,        depth:20 + 2 * wallDepth, height: wallHeight, x: 20, y:0, z: -wallDepth+eps},  // n
+  {width: wallDepth,        depth:20 + 2 * wallDepth, height: wallHeight, x: 20, y:0, z: -wallDepth+eps},  // e
+  {width: wallDepth,        depth:20 + 2 * wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth+eps}, // n
   {width: wallDepth,        depth:4, x: 10-wallDepth/2.0, height: wallHeight, y:0, z: 20-4+eps}, // h and l
-  {width: wallDepth,        depth:8, x: 5.5-eps, height: wallHeight, y:0, z: 5+eps}, // f and i
-  {width: wallDepth,        depth:8, x: 14+eps, height: wallHeight, y:0, z: 5+eps}, // k and o
+  {width: wallDepth,        depth:8, x: 14+eps, height: wallHeight, y:0, z: 5+eps}, // f and i
+  {width: wallDepth,        depth:8, x: 5.5-eps, height: wallHeight, y:0, z: 5+eps}, // k and o
   {width: 8+2*wallDepth, depth:wallDepth, height: wallHeight, x: 5.5, y:0, z: 5}, // c and j
 ];
 const wallA = wallInfo[0];
@@ -380,7 +383,7 @@ const wallK = wallInfo[8];
 
 			}
 			function initWallA() {
-	  		  textureLoader.load( 'img/F102.jpg', function ( texture ) {
+	  		  textureLoader.load( 'img/F101.jpg', function ( texture ) {
                              const material = new THREE.MeshBasicMaterial({ map: texture });
 			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, scale*wallDepth).toNonIndexed();
 	   		     const canvas = new THREE.Mesh( geometry, material );
@@ -392,7 +395,7 @@ const wallK = wallInfo[8];
 			  } );
                         }
 			function initWallB() {
-	  		  textureLoader.load( 'img/F101.jpg', function ( texture ) {
+	  		  textureLoader.load( 'img/F102.jpg', function ( texture ) {
                              const material = new THREE.MeshBasicMaterial({ map: texture });
 			     const geometry = new THREE.BoxGeometry(scale * 4 , scale * 5, scale*wallDepth).toNonIndexed();
 	   		     const canvas = new THREE.Mesh( geometry, material );
@@ -425,6 +428,26 @@ const wallK = wallInfo[8];
 			function initWallM() {
                         }
 			function initWallN() {
+			const objects = [];
+                             const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
+for (let i = 0; i < 10; i++) {
+			     let geometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+	   		     let canvas = new THREE.Mesh( geometry, material );
+		             canvas.position.x = wallN.x+eps;
+			     canvas.position.y = 77;
+		             canvas.position.z = 1 + i*scale;
+                             objects.add( canvas );
+                             scene.add( canvas );
+}
+			     geometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+	   		     canvas = new THREE.Mesh( geometry, material );
+		             canvas.position.x = wallN.x+eps;
+			     canvas.position.y = 51;
+		             canvas.position.z = 1 + i*scale;
+                             objects.add( canvas );
+                             scene.add( canvas );
+}
+
                         }
 			function initWallO() {
                         }
