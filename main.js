@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 
 const scale = 12.0;
 const wallDepth = 0.5; // ft
@@ -8,10 +7,22 @@ const cameraY = 5.5;
 const cameraZ = -5.0;
 const jumpNumOfWall = 5;
 const wallColor = 'ivory';
+
+                        import * as THREE from 'three';
 			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+                        import { ShadowMapViewer } from 'three/addons/utils/ShadowMapViewer.js';
 
 			let camera, scene, renderer, controls, sound;
 sound = undefined;
+			let dirLightShadowMapViewer, spotLightShadowMapViewer;
+
+			function initShadowMapViewers() {
+
+				dirLightShadowMapViewer = new ShadowMapViewer( dirLight );
+				spotLightShadowMapViewer = new ShadowMapViewer( spotLight );
+				resizeShadowMapViewers();
+
+			}
 
 			const objects = [];
 
@@ -42,12 +53,38 @@ sound = undefined;
 				scene.background = new THREE.Color( 'black' );
 				// scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
-                                const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
-                                scene.add( directionalLight );
+                                // Lights
+				scene.add( new THREE.AmbientLight( 0x404040, 3 ) );
 
-				const hemisphereLight = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2.5 );
-				hemisphereLight.position.set( 0.5 * scale, 1 * scale, 0.75 * scale );
-				scene.add( hemisphereLight );
+				spotLight = new THREE.SpotLight( 0xffffff, 500 );
+				spotLight.name = 'Spot Light';
+				spotLight.angle = Math.PI / 5;
+				spotLight.penumbra = 0.3;
+				spotLight.position.set( 10, 10, 5 );
+				spotLight.castShadow = true;
+				spotLight.shadow.camera.near = 8;
+				spotLight.shadow.camera.far = 30;
+				spotLight.shadow.mapSize.width = 1024;
+				spotLight.shadow.mapSize.height = 1024;
+				scene.add( spotLight );
+
+				scene.add( new THREE.CameraHelper( spotLight.shadow.camera ) );
+
+				dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
+				dirLight.name = 'Dir. Light';
+				dirLight.position.set( 0, 10, 0 );
+				dirLight.castShadow = true;
+				dirLight.shadow.camera.near = 1;
+				dirLight.shadow.camera.far = 10;
+				dirLight.shadow.camera.right = 15;
+				dirLight.shadow.camera.left = - 15;
+				dirLight.shadow.camera.top	= 15;
+				dirLight.shadow.camera.bottom = - 15;
+				dirLight.shadow.mapSize.width = 1024;
+				dirLight.shadow.mapSize.height = 1024;
+				scene.add( dirLight );
+
+				scene.add( new THREE.CameraHelper( dirLight.shadow.camera ) );
 
 				controls = new PointerLockControls( camera, document.body );
 
@@ -312,20 +349,42 @@ let wallInfo = [
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				renderer.setAnimationLoop( animate );
+				renderer.shadowMap.enabled = true;
+				renderer.shadowMap.type = THREE.BasicShadowMap;
+
 				document.body.appendChild( renderer.domElement );
 
 				//
 
 				window.addEventListener( 'resize', onWindowResize );
 
+             initShadowMapViewers();
 			}
 
+                        function resizeShadowMapViewers() {
+
+				const size = window.innerWidth * 0.15;
+
+				dirLightShadowMapViewer.position.x = 10;
+				dirLightShadowMapViewer.position.y = 10;
+				dirLightShadowMapViewer.size.width = size;
+				dirLightShadowMapViewer.size.height = size;
+				dirLightShadowMapViewer.update(); //Required when setting position or size directly
+
+				spotLightShadowMapViewer.size.set( size, size );
+				spotLightShadowMapViewer.position.set( size + 20, 10 );
+				// spotLightShadowMapViewer.update();	//NOT required because .set updates automatically
+
+			}
 			function onWindowResize() {
 
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
 
 				renderer.setSize( window.innerWidth, window.innerHeight );
+                                resizeShadowMapViewers();
+				dirLightShadowMapViewer.updateForWindowResize();
+				spotLightShadowMapViewer.updateForWindowResize();
 
 			}
 
@@ -395,5 +454,7 @@ let wallInfo = [
 				prevTime = time;
 
 				renderer.render( scene, camera );
+                                dirLightShadowMapViewer.render( renderer );
+				spotLightShadowMapViewer.render( renderer );
 
 			}
