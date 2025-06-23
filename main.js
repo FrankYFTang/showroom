@@ -584,6 +584,7 @@ wallN = wallInfo[5];
                                        new THREE.MeshBasicMaterial({ map: texture }),
                                        x, y, z + 3*eps);
 			     } );
+                          }
                         }
 			function initWallK() {
                         }
