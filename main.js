@@ -558,6 +558,32 @@ wallN = wallInfo[5];
 			function initWallI() {
                         }
 			function initWallJ() {
+                          const paintings = [
+                              {name: 'F305.jpg', width: 8, height: 11},
+                              {name: 'F306.jpg', width: 8, height: 11},
+                              {name: 'F307.jpg', width: 8, height: 11},
+                              {name: 'F308.jpg', width: 8, height: 11},
+                              {name: 'F313.jpg', width: 8, height: 11},
+                              {name: 'F314.jpg', width: 8, height: 11},
+                              {name: 'F309.jpg', width: 8, height: 11},
+                              {name: 'F310.jpg', width: 8, height: 11},
+                          ];
+			  const frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
+			  const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
+                          for (let i = 0; i < paintings.length; i++) {
+                             const painting = paintings[i];
+                             const column = (i-(i%2))/2;
+                             const x = (7+column*2) * scale;
+                             const y = (i % 2 == 0) ? upperY : lowerY;
+                             const z = wallC.z*scale + wallDepth + frameDepth/2;
+
+	  		     textureLoader.load( 'img/' + painting.name, function ( texture ) {
+                                addBox(frameGeometry, frameMaterial, x, y, z + eps);
+                                addBox(matGeometry, matMaterial, x, y, z + 2*eps);
+                                addBox(new THREE.BoxGeometry(painting.width, painting.height , frameDepth).toNonIndexed(),
+                                       new THREE.MeshBasicMaterial({ map: texture }),
+                                       x, y, z + 3*eps);
+			     } );
                         }
 			function initWallK() {
                         }
@@ -615,8 +641,8 @@ wallN = wallInfo[5];
                               {name: 'F622.jpg', width: 16, height: 20},
                               undefined,
                               undefined,
-                              {name: 'k511.jpg', width: 16, height: 20},
-                              {name: 'F511.jpg', width: 16, height: 20},
+                              {name: 'K511.jpg', width: 16, height: 20},
+                              {name: 'F512.jpg', width: 16, height: 20},
                           ]
                           const x = wallK.x * scale - frameDepth/2;
 
