@@ -546,7 +546,7 @@ wallN = wallInfo[5];
 	  		     textureLoader.load( 'img/' + painting.name, function ( texture ) {
                                 addBox(frameGeometry, frameMaterial, x+eps, y, z);
                                 addBox(matGeometry, matMaterial, x+2*eps, y, z);
-                                addBox(new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed();
+                                addBox(new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed(),
                                        new THREE.MeshBasicMaterial({ map: texture }), x+3*eps, y, z);
 			     } );
                           }
