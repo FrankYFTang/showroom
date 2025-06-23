@@ -13,6 +13,8 @@ const eps = 0.01;
 const frameShort = 18;
 const frameLong = 22;
 const frameDepth = 1;
+const lowerY = 51;
+const upperY = 77;
 
 import * as THREE from 'three';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
@@ -478,7 +480,7 @@ wallN = wallInfo[5];
                           const paintings = [
                               {name: 'F115.jpg', width: 8, height: 11},
                               {name: 'F121.jpg', width: 8, height: 11},
-                              {name: 'F119.jpg', width: 8, height: 11},
+                              {name: 'F119.jpg', width: 5, height: 7},
                               {name: 'F122.jpg', width: 8, height: 11},
                               {name: 'F111.jpg', width: 8, height: 11},
                               {name: 'F123.jpg', width: 8, height: 11},
@@ -492,23 +494,27 @@ wallN = wallInfo[5];
                               {name: 'F211.jpg', width: 8, height: 11},
                               {name: 'F213.jpg', width: 8, height: 11},
                               {name: 'F203.jpg', width: 8, height: 11},
-                              {name: 'F202.jpg', width: 8, height: 11},
-                              {name: 'F204.jpg', width: 8, height: 11},
-                              {name: 'F213.jpg', width: 8, height: 11},
-                              {name: 'F207.jpg', width: 8, height: 11},
+                              {name: 'F202.jpg', width: 11, height: 8},
+                              {name: 'F204.jpg', width: 11, height: 8},
+                              {name: 'F213.jpg', width: 11, height: 8},
+                              {name: 'F207.jpg', width: 11, height: 8},
                           ];
-			  const matGeometry = new THREE.BoxGeometry(frameDepth, frameLong-2 , frameShort-2).toNonIndexed();
-			  const frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+			  const matGeometryP = new THREE.BoxGeometry(frameDepth, frameLong-2 , frameShort-2).toNonIndexed();
+			  const frameGeometryP = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+			  const matGeometryL = new THREE.BoxGeometry(frameDepth, frameShort-2 , frameLong-2).toNonIndexed();
+			  const frameGeometryL = new THREE.BoxGeometry(frameDepth , frameShort , frameLong).toNonIndexed();
 
                           const x = wallE.x * scale + frameDepth/2;
 
                           for (let i = 0; i < paintings.length; i++) {
-                             const column = 1+i-(i%2);
-                             const z = column * scale;
-
-                             const y = (i % 2 == 0) ? 77 : 51;
-                             let painting =  paintings[i];
+                             const painting =  paintings[i];
                              if ( painting ) {
+                                 const column = 1+i-(i%2);
+                                 const z = column * scale;
+                                 const y = (i % 2 == 0) ? upperY : lowerY;
+                                 const frameGeometry = painting.width < painting.height ? frameGeometryP : frameGeometryL;
+                                 const matGeometry = painting.width < painting.height ? matGeometryP : matGeometryL;
+
 	   		         let canvas = new THREE.Mesh( frameGeometry, frameMaterial );
 		                 canvas.position.x = x-eps;
 			         canvas.position.y = y;
