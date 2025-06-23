@@ -445,6 +445,7 @@ wallN = wallInfo[5];
 		                canvas.position.z = frameDepth/2+2*eps;
                                 scene.add( canvas );
 			      } );
+                          }
                         }
 			function initWallE() {
                         }
