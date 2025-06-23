@@ -679,8 +679,6 @@ wallN = wallInfo[5];
                              }
                           }
                         }
-			function initWallI() {
-                        }
 			function initWallM() {
                           const paintings = [
                               'F525.jpg', 'F526.jpg', 'F527.jpg', 'F528.jpg', 'F521.jpg', 'F522.jpg',
