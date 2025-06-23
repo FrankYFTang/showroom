@@ -626,37 +626,26 @@ wallN = wallInfo[5];
                         }
 			function initWallP() {
                           const paintings = [ 'F615.jpg', 'F616.jpg', 'F613.jpg', 'F614.jpg', 'F612.jpg', 'F611.jpg' ];
-                          for (let i = 0; i < paintings.length/2; i++) {
-			     let frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
-			     let photoGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
+			  const frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
+			  const artworkGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
+                          for (let i = 0; i < paintings.length; i++) {
+                             const column = (i-(i%2))/2;
+                             const x = (1.5+column*2) * scale;
+                             const y = (i % 2 == 0) ? upperY : lowerY;
+                             const z = frameDepth/2;
 
 	   		     let canvas = new THREE.Mesh( frameGeometry, frameMaterial );
-		             canvas.position.x = (1.5+2*i)*scale;
-			     canvas.position.y = 77;
-		             canvas.position.z = frameDepth/2+eps;
+		             canvas.position.x = x;
+			     canvas.position.y = y;
+		             canvas.position.z = z+eps;
                              scene.add( canvas );
 
 	  		     textureLoader.load( 'img/' + paintings[i*2], function ( texture ) {
                                 const material = new THREE.MeshBasicMaterial({ map: texture });
-	   		        const canvas = new THREE.Mesh( photoGeometry, material );
-		                canvas.position.x = (1.5+2*i)*scale;
-			        canvas.position.y = 77;
-		                canvas.position.z = frameDepth/2+2*eps;
-                                scene.add( canvas );
-			     } );
-
-	   		     canvas = new THREE.Mesh( frameGeometry, frameMaterial );
-		             canvas.position.x = (1.5+2*i)*scale;
-			     canvas.position.y = 51;
-		             canvas.position.z = frameDepth/2+eps;
-                             scene.add( canvas );
-
-	  		     textureLoader.load( 'img/' + paintings[1+i*2], function ( texture ) {
-                                const material = new THREE.MeshBasicMaterial({ map: texture });
-	   		        const canvas = new THREE.Mesh( photoGeometry, material );
-		                canvas.position.x = (1.5+2*i)*scale;
-			        canvas.position.y = 51;
-		                canvas.position.z = frameDepth/2+2*eps;
+	   		        const canvas = new THREE.Mesh( artworkGeometry, material );
+		                canvas.position.x = x;
+			        canvas.position.y = y;
+		                canvas.position.z = z+2*eps;
                                 scene.add( canvas );
 			     } );
                           }
