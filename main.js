@@ -479,6 +479,82 @@ wallN = wallInfo[5];
                           }
                         }
 			function initWallE() {
+                          const paintings = [
+                              {name: 'F115.jpg', width: 8, height: 11},
+                              {name: 'F121.jpg', width: 8, height: 11},
+                              {name: 'F119.jpg', width: 8, height: 11},
+                              {name: 'F122.jpg', width: 8, height: 11},
+                              {name: 'F111.jpg', width: 8, height: 11},
+                              {name: 'F123.jpg', width: 8, height: 11},
+                              {name: 'F107.jpg', width: 8, height: 11},
+                              {name: 'F112.jpg', width: 8, height: 11},
+                              undefined,
+                              undefined,
+                              {name: 'F205.jpg', width: 8, height: 11},
+                              {name: 'F206.jpg', width: 8, height: 11},
+                              {name: 'F210.jpg', width: 8, height: 11},
+                              {name: 'F211.jpg', width: 8, height: 11},
+                              {name: 'F213.jpg', width: 8, height: 11},
+                              {name: 'F203.jpg', width: 8, height: 11},
+                              {name: 'F202.jpg', width: 8, height: 11},
+                              {name: 'F204.jpg', width: 8, height: 11},
+                              {name: 'F213.jpg', width: 8, height: 11},
+                              {name: 'F207.jpg', width: 8, height: 11},
+                          ];
+                          const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
+			  const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
+                          for (let i = 0; i < paintings.length/2; i++) {
+			     let frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+
+	   		     let canvas = new THREE.Mesh( frameGeometry, frameMaterial );
+                             if ( paintings[i*2] ) {
+                                 let painting =  paintings[i*2];
+		                 canvas.position.x = wallE.x+frameDepth/2-eps;
+			         canvas.position.y = 77;
+		                 canvas.position.z = (1+2*i)*scale;
+                                 scene.add( canvas );
+
+	   		         canvas = new THREE.Mesh( matGeometry, matMaterial );
+		                 canvas.position.x = wallE.x+frameDepth/2-2*eps;
+			         canvas.position.y = 77;
+		                 canvas.position.z = (1+2*i)*scale;
+                                 scene.add( canvas );
+
+	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
+			            let artworkGeometry = new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed();
+                                    const material = new THREE.MeshBasicMaterial({ map: texture });
+	   		            const canvas = new THREE.Mesh( artworkGeometry, material );
+		                    canvas.position.x = wallE.x+frameDepth/2-3*eps;
+			            canvas.position.y = 77;
+		                    canvas.position.z = (1+2*i)*scale;
+                                    scene.add( canvas );
+			         } );
+
+	   		         canvas = new THREE.Mesh( frameGeometry, frameMaterial );
+                             }
+                             if ( paintings[1+i*2]) {
+                                 let painting =  paintings[1+i*2];
+		                 canvas.position.x = wallE.x+frameDepth/2-eps;
+			         canvas.position.y = 51;
+		                 canvas.position.z = (1+2*i)*scale;
+                                 scene.add( canvas );
+
+	   		         canvas = new THREE.Mesh( matGeometry, matMaterial );
+		                 canvas.position.x = wallE.x+frameDepth/2-2*eps;
+			         canvas.position.y = 51;
+		                 canvas.position.z = (1+2*i)*scale;
+                                 scene.add( canvas );
+
+	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
+			            let artworkGeometry = new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed();
+                                    const material = new THREE.MeshBasicMaterial({ map: texture });
+	   		            const canvas = new THREE.Mesh( artworkGeometry, material );
+		                    canvas.position.x = wallE.x+frameDepth/2-3*eps;
+			            canvas.position.y = 51;
+		                    canvas.position.z = (1+2*i)*scale;
+                                    scene.add( canvas );
+			         } );
+                             }
                         }
 			function initWallF() {
                         }
@@ -497,14 +573,14 @@ wallN = wallInfo[5];
 			function initWallM() {
                           const paintings = [
                               'F525.jpg', 'F526.jpg', 'F527.jpg', 'F528.jpg', 'F521.jpg', 'F522.jpg',
-                              'F523.jpg', 'F524.jpg', 'everwhere', 'F529.jpg' ];
+                              'F523.jpg', 'F524.jpg', '', 'F529.jpg' ];
                           const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
                           for (let i = 0; i < paintings.length/2; i++) {
 			     let frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
 			     let photoGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
 
 	   		     let canvas = new THREE.Mesh( frameGeometry, frameMaterial );
-                             if (i != 4) {
+                             if ( paintings[i*2].length > 0) {
 		                 canvas.position.x = (1+1.9*i)*scale;
 			         canvas.position.y = 77;
 		                 canvas.position.z = scale*20+frameDepth/2-eps;
@@ -520,19 +596,21 @@ wallN = wallInfo[5];
 			         } );
 	   		         canvas = new THREE.Mesh( frameGeometry, frameMaterial );
                              }
-		             canvas.position.x = (1+1.9*i)*scale;
-			     canvas.position.y = 51;
-		             canvas.position.z = scale*20+frameDepth/2-eps;
-                             scene.add( canvas );
+                             if ( paintings[1+i*2].length > 0) {
+		                 canvas.position.x = (1+1.9*i)*scale;
+			         canvas.position.y = 51;
+		                 canvas.position.z = scale*20+frameDepth/2-eps;
+                                 scene.add( canvas );
 
-	  		     textureLoader.load( 'img/' + paintings[1+i*2], function ( texture ) {
-                                const material = new THREE.MeshBasicMaterial({ map: texture });
-	   		        const canvas = new THREE.Mesh( photoGeometry, material );
-		                canvas.position.x = (1+1.9*i)*scale;
-			        canvas.position.y = 51;
-		                canvas.position.z = scale*20+frameDepth/2-2*eps;
-                                scene.add( canvas );
-			     } );
+	  		         textureLoader.load( 'img/' + paintings[1+i*2], function ( texture ) {
+                                    const material = new THREE.MeshBasicMaterial({ map: texture });
+	   		            const canvas = new THREE.Mesh( photoGeometry, material );
+		                    canvas.position.x = (1+1.9*i)*scale;
+			            canvas.position.y = 51;
+		                    canvas.position.z = scale*20+frameDepth/2-2*eps;
+                                    scene.add( canvas );
+			         } );
+                             }
                           }
                         }
 			function initWallN() {
@@ -581,14 +659,7 @@ wallN = wallInfo[5];
 			function initWallO() {
                         }
 			function initWallP() {
-                          const paintings = [
-'F615.jpg',
-'F616.jpg',
-'F613.jpg',
-'F614.jpg',
-'F612.jpg',
-'F611.jpg'
-];
+                          const paintings = [ 'F615.jpg', 'F616.jpg', 'F613.jpg', 'F614.jpg', 'F612.jpg', 'F611.jpg' ];
                           const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
                           for (let i = 0; i < paintings.length/2; i++) {
 			     let frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
