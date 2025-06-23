@@ -821,14 +821,14 @@ wallN = wallInfo[5];
 
 					controls.object.position.y += ( velocity.y * delta ); // new behavior
 
-					if ( controls.object.position.x > 20*scale ) {
-                                             controls.object.position.x = 20*scale;
+					if ( controls.object.position.x > (20-wallDepth)*scale ) {
+                                             controls.object.position.x = (20-wallDepth)*scale;
                                         }
-					if ( controls.object.position.x < 0 ) {
-                                             controls.object.position.x = 0;
+					if ( controls.object.position.x < wallDepth ) {
+                                             controls.object.position.x = wallDepth;
                                         }
-					if ( controls.object.position.z > 20*scale ) {
-                                             controls.object.position.z = 20*scale;
+					if ( controls.object.position.z > (20-wallDepth)*scale ) {
+                                             controls.object.position.z = (20-wallDepth)*scale;
                                         }
 					if ( controls.object.position.z < -12*scale ) {
                                              controls.object.position.z = -12*scale;
