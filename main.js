@@ -660,7 +660,7 @@ wallN = wallInfo[5];
                               {name: 'F501.jpg', width: 16, height: 20},
                               {name: 'F502.jpg', width: 16, height: 20},
                           ]
-                          const x = (-wallDepth+wallH.x) * scale - frameDepth/2;
+                          const x = (wallH.x) * scale - frameDepth/2;
 
 			  const frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
                           for (let i = 0; i < paintings.length; i++) {
