@@ -554,6 +554,32 @@ wallN = wallInfo[5];
 			function initWallG() {
                         }
 			function initWallH() {
+                          const paintings = [
+                              {name: 'F403.jpg', width: 8, height: 11},
+                              {name: 'F404.jpg', width: 8, height: 11},
+                              {name: 'F405.jpg', width: 8, height: 11},
+                              {name: 'F406.jpg', width: 8, height: 11},
+                          ]
+                          const x = (wallDepth+wallH.x) * scale + frameDepth/2;
+
+			  const frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+			  const matGeometry = new THREE.BoxGeometry(frameDepth , frameLong-2 , frameShort-2).toNonIndexed();
+                          for (let i = 0; i < paintings.length; i++) {
+                             const painting =  paintings[i];
+                             if ( painting ) {
+                                 const column = (i-(i%2))/2;
+                                 const z = (wallH.z+1+column*2) * scale;
+                                 const y = (i % 2 == 0) ? upperY : lowerY;
+
+	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
+                                    addBox(frameGeometry, frameMaterial, x+eps, y, z);
+                                    addBox(matGeometry, matMaterial, x+2*eps, y, z);
+                                    addBox(new THREE.BoxGeometry(frameDepth, painting.height, painting.width).toNonIndexed(),
+                                           new THREE.MeshBasicMaterial({ map: texture }),
+                                           x+3*eps, y, z);
+			         } );
+                             }
+                          }
                         }
 			function initWallI() {
                         }
@@ -628,6 +654,32 @@ wallN = wallInfo[5];
 			  } );
                         }
 			function initWallL() {
+                          const paintings = [
+                              {name: 'F503.jpg', width: 16, height: 20},
+                              {name: 'F504.jpg', width: 16, height: 20},
+                              {name: 'F501.jpg', width: 16, height: 20},
+                              {name: 'F502.jpg', width: 16, height: 20},
+                          ]
+                          const x = (-wallDepth+wallH.x) * scale - frameDepth/2;
+
+			  const frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+                          for (let i = 0; i < paintings.length; i++) {
+                             const painting =  paintings[i];
+                             if ( painting ) {
+                                 const column = (i-(i%2))/2;
+                                 const z = (wallH.z+1+column*2) * scale;
+                                 const y = (i % 2 == 0) ? upperY : lowerY;
+
+	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
+                                    addBox(frameGeometry, frameMaterial, x-eps, y, z);
+                                    addBox(new THREE.BoxGeometry(frameDepth, painting.height, painting.width).toNonIndexed(),
+                                           new THREE.MeshBasicMaterial({ map: texture }),
+                                           x-3*eps, y, z);
+			         } );
+                             }
+                          }
+                        }
+			function initWallI() {
                         }
 			function initWallM() {
                           const paintings = [
