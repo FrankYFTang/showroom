@@ -625,7 +625,7 @@ wallN = wallInfo[5];
                              const painting =  paintings[i];
                              if ( painting ) {
                                  const column = (i-(i%2))/2;
-                                 const z = (1+column*2) * scale;
+                                 const z = (wallK.z+1+column*2) * scale;
                                  const y = (i % 2 == 0) ? upperY : lowerY;
 
 	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
