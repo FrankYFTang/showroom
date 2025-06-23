@@ -435,7 +435,7 @@ wallN = wallInfo[5];
 			  const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
 			  const artworkGeometry = new THREE.BoxGeometry(8, 11 , frameDepth).toNonIndexed();
                           for (let i = 0; i < paintings.length; i++) {
-                             painting = paintings[i];
+                             const painting = paintings[i];
                              const column = (i-(i%2))/2;
                              const x = (14.2+column*4.8) * scale;
                              const y = (i % 2 == 0) ? upperY : lowerY;
