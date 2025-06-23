@@ -433,7 +433,7 @@ wallN = wallInfo[5];
 
 	  		     textureLoader.load( 'img/' + paintings[i*2], function ( texture ) {
                                 const material = new THREE.MeshBasicMaterial({ map: texture });
-	   		        const canvas = new THREE.Mesh( artworkoGeometry, material );
+	   		        canvas = new THREE.Mesh( artworkoGeometry, material );
 		                canvas.position.x = (14.2+5*i)*scale;
 			        canvas.position.y = 77;
 		                canvas.position.z = frameDepth/2+2*eps;
@@ -453,7 +453,7 @@ wallN = wallInfo[5];
 
 	  		     textureLoader.load( 'img/' + paintings[1+i*2], function ( texture ) {
                                 const material = new THREE.MeshBasicMaterial({ map: texture });
-	   		        const canvas = new THREE.Mesh( artworkGeometry, material );
+	   		        canvas = new THREE.Mesh( artworkGeometry, material );
 		                canvas.position.x = (14.2+5*i)*scale;
 			        canvas.position.y = 51;
 		                canvas.position.z = frameDepth/2+2*eps;
