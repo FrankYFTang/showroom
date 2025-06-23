@@ -32,11 +32,17 @@ let moveLeft = false;
 let moveRight = false;
 let canJump = false;
 
-			let prevTime = performance.now();
-			const velocity = new THREE.Vector3();
-			const direction = new THREE.Vector3();
-			const vertex = new THREE.Vector3();
-			const color = new THREE.Color();
+let prevTime = performance.now();
+const velocity = new THREE.Vector3();
+const direction = new THREE.Vector3();
+const vertex = new THREE.Vector3();
+const color = new THREE.Color();
+
+const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
+const matMaterial = new THREE.MeshBasicMaterial({ color: 'white'});
+const floorMat = new THREE.MeshStandardMaterial( { roughness: 0.8, color: 0xffffff, metalness: 0.2, bumpScale: 1 } );
+const boxMaterial1 = new THREE.MeshBasicMaterial({ color: wallColor1});
+const boxMaterial2 = new THREE.MeshBasicMaterial({ color: wallColor2});
 
 			init();
 
@@ -202,12 +208,6 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 
 				// floor
 
-	const floorMat = new THREE.MeshStandardMaterial( {
-					roughness: 0.8,
-					color: 0xffffff,
-					metalness: 0.2,
-					bumpScale: 1
-				} );
 				textureLoader = new THREE.TextureLoader();
 				textureLoader.load( 'img/hardwood2_diffuse.jpg', function ( map ) {
 
@@ -304,8 +304,6 @@ wallH = wallInfo[6];
 wallK = wallInfo[8];
 wallN = wallInfo[5];
 
-                                const boxMaterial1 = new THREE.MeshBasicMaterial({ color: wallColor1});
-                                const boxMaterial2 = new THREE.MeshBasicMaterial({ color: wallColor2});
                                 for (let i = 0; i < wallInfo.length; i++)
                                 {
                                   const info = wallInfo[i];
@@ -413,8 +411,6 @@ wallN = wallInfo[5];
                           const paintings = [
                               'F113.jpg', 'F117.jpg', 'F106.jpg', 'F120.jpg'
                           ];
-                          const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
-                          const matMaterial = new THREE.MeshBasicMaterial({ color: 'white'});
                           {
 			     let frameGeometry = new THREE.BoxGeometry(29 , 42 , frameDepth).toNonIndexed();
 			     let artworkGeometry = new THREE.BoxGeometry(24, 36 , frameDepth).toNonIndexed();
@@ -501,8 +497,6 @@ wallN = wallInfo[5];
                               {name: 'F213.jpg', width: 8, height: 11},
                               {name: 'F207.jpg', width: 8, height: 11},
                           ];
-                          const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
-                          const matMaterial = new THREE.MeshBasicMaterial({ color: 'white'});
 			  const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
                           for (let i = 0; i < paintings.length/2; i++) {
 			     let frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
@@ -576,7 +570,6 @@ wallN = wallInfo[5];
                           const paintings = [
                               'F525.jpg', 'F526.jpg', 'F527.jpg', 'F528.jpg', 'F521.jpg', 'F522.jpg',
                               'F523.jpg', 'F524.jpg', '', 'F529.jpg' ];
-                          const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
                           for (let i = 0; i < paintings.length/2; i++) {
 			     let frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
 			     let photoGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
@@ -622,7 +615,6 @@ wallN = wallInfo[5];
                               'F513.jpg', 'F514.jpg', 'F515.jpg', 'F516.jpg', 'F517.jpg', 'F518.jpg',
                               'F519.jpg', 'F520.jpg',
                           ];
-                          const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
                           for (let i = 0; i < paintings.length/2; i++) {
 			     let frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
 			     let photoGeometry = new THREE.BoxGeometry(frameDepth , frameLong-2 , frameShort-2).toNonIndexed();
@@ -662,7 +654,6 @@ wallN = wallInfo[5];
                         }
 			function initWallP() {
                           const paintings = [ 'F615.jpg', 'F616.jpg', 'F613.jpg', 'F614.jpg', 'F612.jpg', 'F611.jpg' ];
-                          const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
                           for (let i = 0; i < paintings.length/2; i++) {
 			     let frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
 			     let photoGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
