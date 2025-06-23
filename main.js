@@ -419,14 +419,14 @@ wallN = wallInfo[5];
 			     let frameGeometry = new THREE.BoxGeometry(29 , 42 , frameDepth).toNonIndexed();
 			     let artworkGeometry = new THREE.BoxGeometry(24, 36 , frameDepth).toNonIndexed();
 	   		     let canvas = new THREE.Mesh( frameGeometry, frameMaterial );
-		             canvas.position.x = (14.2+2.4*i)*scale;
+		             canvas.position.x = (14.2+2.4)*scale;
 			     canvas.position.y = 48+21;
 		             canvas.position.z = frameDepth/2;
                              scene.add( canvas );
 	  		     textureLoader.load( 'img/F130.jpg', function ( texture ) {
                                 const material = new THREE.MeshBasicMaterial({ map: texture });
 	   		        canvas = new THREE.Mesh( artworkGeometry, material );
-		                canvas.position.x = (14.2+2.4*i)*scale;
+		                canvas.position.x = (14.2+2.4)*scale;
 			        canvas.position.y = 48+21;
 		                canvas.position.z = frameDepth/2+eps;
                                 scene.add( canvas );
