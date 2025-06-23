@@ -498,55 +498,36 @@ wallN = wallInfo[5];
                               {name: 'F207.jpg', width: 8, height: 11},
                           ];
 			  const matGeometry = new THREE.BoxGeometry(frameDepth, frameLong-2 , frameShort-2).toNonIndexed();
-                          for (let i = 0; i < paintings.length/2; i++) {
-			     let frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+			  const frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
 
-	   		     let canvas = new THREE.Mesh( frameGeometry, frameMaterial );
-                             if ( paintings[i*2] ) {
-                                 let painting =  paintings[i*2];
-		                 canvas.position.x = wallE.x+frameDepth/2-eps;
-			         canvas.position.y = 77;
-		                 canvas.position.z = (1+2*i)*scale;
+                          const x = wallE.x * scale + frameDepth/2;
+
+                          for (let i = 0; i < paintings.length; i++) {
+                             const column = 1+i-(i%2);
+                             const z = column * scale;
+
+                             const y = (i % 2 == 0) ? 77 : 51;
+                             let painting =  paintings[i];
+                             if ( painting ) {
+	   		         let canvas = new THREE.Mesh( frameGeometry, frameMaterial );
+		                 canvas.position.x = x-eps;
+			         canvas.position.y = y;
+		                 canvas.position.z = z;
                                  scene.add( canvas );
 
 	   		         canvas = new THREE.Mesh( matGeometry, matMaterial );
-		                 canvas.position.x = wallE.x+frameDepth/2-2*eps;
-			         canvas.position.y = 77;
-		                 canvas.position.z = (1+2*i)*scale;
+		                 canvas.position.x = x-2*eps;
+			         canvas.position.y = y;
+		                 canvas.position.z = z;
                                  scene.add( canvas );
 
 	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
-			            let artworkGeometry = new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed();
+			            let geometry = new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed();
                                     const material = new THREE.MeshBasicMaterial({ map: texture });
-	   		            const canvas = new THREE.Mesh( artworkGeometry, material );
-		                    canvas.position.x = wallE.x+frameDepth/2-3*eps;
-			            canvas.position.y = 77;
-		                    canvas.position.z = (1+2*i)*scale;
-                                    scene.add( canvas );
-			         } );
-
-	   		         canvas = new THREE.Mesh( frameGeometry, frameMaterial );
-                             }
-                             if ( paintings[1+i*2]) {
-                                 let painting =  paintings[1+i*2];
-		                 canvas.position.x = wallE.x+frameDepth/2-eps;
-			         canvas.position.y = 51;
-		                 canvas.position.z = (1+2*i)*scale;
-                                 scene.add( canvas );
-
-	   		         canvas = new THREE.Mesh( matGeometry, matMaterial );
-		                 canvas.position.x = wallE.x+frameDepth/2-2*eps;
-			         canvas.position.y = 51;
-		                 canvas.position.z = (1+2*i)*scale;
-                                 scene.add( canvas );
-
-	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
-			            let artworkGeometry = new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed();
-                                    const material = new THREE.MeshBasicMaterial({ map: texture });
-	   		            const canvas = new THREE.Mesh( artworkGeometry, material );
-		                    canvas.position.x = wallE.x+frameDepth/2-3*eps;
-			            canvas.position.y = 51;
-		                    canvas.position.z = (1+2*i)*scale;
+	   		            const canvas = new THREE.Mesh( geometry, material );
+		                    canvas.position.x = x-3*eps;
+			            canvas.position.y = y;
+		                    canvas.position.z = z;
                                     scene.add( canvas );
 			         } );
                              }
