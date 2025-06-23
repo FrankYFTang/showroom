@@ -539,7 +539,7 @@ wallN = wallInfo[5];
                           for (let i = 0; i < paintings.length; i++) {
                              const painting = paintings[i];
                              const column = (i-(i%2))/2;
-		             const x = (scale*(wallF.x+wallF.width/2))+frameDepth/2;
+		             const x = (scale*(wallF.x+wallF.width))+frameDepth/2;
                              const y = (i % 2 == 0) ? upperY : lowerY;
                              const z = (wallF.z + 1 + column * 2) * scale;
 
