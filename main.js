@@ -588,12 +588,12 @@ wallN = wallInfo[5];
                         }
 			function initWallK() {
                           const paintings = [
-                              {name: 'F316.jpg', width: 8, height: 11},
-                              {name: 'F317.jpg', width: 8, height: 11},
-                              {name: 'F303.jpg', width: 8, height: 11},
-                              {name: 'F304.jpg', width: 8, height: 11},
                               {name: 'F301.jpg', width: 8, height: 11},
                               {name: 'F302.jpg', width: 8, height: 11},
+                              {name: 'F303.jpg', width: 8, height: 11},
+                              {name: 'F304.jpg', width: 8, height: 11},
+                              {name: 'F316.jpg', width: 8, height: 11},
+                              {name: 'F317.jpg', width: 8, height: 11},
                           ]
                           const x = (wallDepth+wallK.x) * scale + frameDepth/2;
 
