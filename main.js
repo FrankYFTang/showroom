@@ -587,6 +587,31 @@ wallN = wallInfo[5];
                           }
                         }
 			function initWallK() {
+                          const paintings = [
+                              {name: 'F316.jpg', width: 8, height: 11},
+                              {name: 'F317.jpg', width: 8, height: 11},
+                              {name: 'F303.jpg', width: 8, height: 11},
+                              {name: 'F304.jpg', width: 8, height: 11},
+                              {name: 'F301.jpg', width: 8, height: 11},
+                              {name: 'F302.jpg', width: 8, height: 11},
+                          ]
+                          const x = (wallDepth+wallK.x) * scale + frameDepth/2;
+
+			  const frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+                          for (let i = 0; i < paintings.length; i++) {
+                             const painting =  paintings[i];
+                             if ( painting ) {
+                                 const column = (i-(i%2))/2;
+                                 const z = (wallK.z+1+column*2) * scale;
+                                 const y = (i % 2 == 0) ? upperY : lowerY;
+
+	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
+                                    addBox(frameGeometry, frameMaterial, x+eps, y, z);
+                                    addBox(new THREE.BoxGeometry(frameDepth, painting.height, painting.width).toNonIndexed(),
+                                           new THREE.MeshBasicMaterial({ map: texture }),
+                                           x+2*eps, y, z);
+			         } );
+                             }
                         }
 			function initWallL() {
                         }
