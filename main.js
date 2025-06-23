@@ -547,7 +547,7 @@ wallN = wallInfo[5];
                              const column = (i-(i%2))/2;
 		             const x = wallN.x+frameDepth/2;
                              const y = (i % 2 == 0) ? upperY : lowerY;
-                             const z = 1 + column * 2 * scale;
+                             const z = (1 + column * 2) * scale;
 
 	  		     textureLoader.load( 'img/' + painting, function ( texture ) {
                                 addBox(frameGeometry, frameMaterial, x+eps, y, z);
