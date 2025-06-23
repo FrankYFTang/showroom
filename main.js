@@ -526,11 +526,9 @@ wallN = wallInfo[5];
 		             const x = (1+1.9*column)*scale;
                              if ( painting != '') {
 	  		         textureLoader.load( 'img/' + painting, function ( texture ) {
-                                    addBox(frameGeometry, frameMaterial
-                                           x, y, z-eps);
+                                    addBox(frameGeometry, frameMaterial, x, y, z-eps);
                                     addBox(artworkGeometry,
-                                           new THREE.MeshBasicMaterial({ map: texture }),
-                                           x, y, z-2*eps);
+                                           new THREE.MeshBasicMaterial({ map: texture }), x, y, z-2*eps);
 			         } );
                              }
                           }
