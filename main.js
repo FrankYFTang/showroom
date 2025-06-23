@@ -603,19 +603,19 @@ wallN = wallInfo[5];
                              const painting =  paintings[i];
                              if ( painting ) {
                                  const column = (i-(i%2))/2;
-                                 const z = (wallK.z+1+column*2) * scale;
+                                 const z = (wallK.z+2+column*1.8) * scale;
                                  const y = (i % 2 == 0) ? upperY : lowerY;
 
 	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
                                     addBox(frameGeometry, frameMaterial, x+eps, y, z);
-                                    addBox(matGeometry, matMaterial, x, y, z + 2*eps);
+                                    addBox(matGeometry, matMaterial, x+2*eps, y, z);
                                     addBox(new THREE.BoxGeometry(frameDepth, painting.height, painting.width).toNonIndexed(),
                                            new THREE.MeshBasicMaterial({ map: texture }),
                                            x+3*eps, y, z);
 			         } );
                              }
                           }
-                          const painting = {name: 'F315.jpg', width: 8, height: 11};
+                          const painting = {name: 'F315.jpg', width: 11, height: 14};
                           const y = (upperY+lowerY)/2;
                           const column = 3;
                           const z =  (wallK.z+1+column*2) * scale;
