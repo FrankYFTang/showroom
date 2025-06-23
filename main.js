@@ -555,6 +555,7 @@ wallN = wallInfo[5];
                                     scene.add( canvas );
 			         } );
                              }
+                          }
                         }
 			function initWallF() {
                         }
