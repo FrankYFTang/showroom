@@ -445,7 +445,7 @@ wallN = wallInfo[5];
 		             canvas.position.z = frameDepth/2;
                              scene.add( canvas );
 
-	   		     let canvas = new THREE.Mesh( matGeometry, matMaterial );
+	   		     canvas = new THREE.Mesh( matGeometry, matMaterial );
 		             canvas.position.x = (14.2+5*i)*scale;
 			     canvas.position.y = 51;
 		             canvas.position.z = frameDepth/2+eps;
