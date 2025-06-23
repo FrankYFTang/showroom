@@ -524,6 +524,32 @@ wallN = wallInfo[5];
                           }
                         }
 			function initWallF() {
+                          const paintings = [
+                              {name: 'F109.jpg', width: 8, height: 11},
+                              {name: 'F118.jpg', width: 8, height: 11},
+                              {name: 'F124.jpg', width: 8, height: 11},
+                              {name: 'F126.jpg', width: 8, height: 11},
+                              {name: 'F125.jpg', width: 8, height: 11},
+                              {name: 'F127.jpg', width: 8, height: 11},
+                              {name: 'F128.jpg', width: 8, height: 11},
+                              {name: 'F129.jpg', width: 8, height: 11},
+                          ];
+			  const frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+			  const matGeometry = new THREE.BoxGeometry(frameDepth , frameLong-2 , frameShort-2).toNonIndexed();
+                          for (let i = 0; i < paintings.length; i++) {
+                             const painting = paintings[i];
+                             const column = (i-(i%2))/2;
+		             const x = wallF.x+frameDepth/2;
+                             const y = (i % 2 == 0) ? upperY : lowerY;
+                             const z = (wallF.z + 1 + column * 2) * scale;
+
+	  		     textureLoader.load( 'img/' + painting.name, function ( texture ) {
+                                addBox(frameGeometry, frameMaterial, x+eps, y, z);
+                                addBox(matGeometry, matMaterial, x+2*eps, y, z);
+                                addBox(new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed();
+                                       new THREE.MeshBasicMaterial({ map: texture }), x+3*eps, y, z);
+			     } );
+                          }
                         }
 			function initWallG() {
                         }
