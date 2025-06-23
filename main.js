@@ -502,7 +502,7 @@ wallN = wallInfo[5];
 			  const matGeometryL = new THREE.BoxGeometry(frameDepth, frameShort-2 , frameLong-2).toNonIndexed();
 			  const frameGeometryL = new THREE.BoxGeometry(frameDepth , frameShort , frameLong).toNonIndexed();
 
-                          const x = wallE.x * scale + frameDepth/2;
+                          const x = wallE.x * scale - frameDepth/2;
 
                           for (let i = 0; i < paintings.length; i++) {
                              const painting =  paintings[i];
