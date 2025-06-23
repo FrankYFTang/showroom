@@ -492,10 +492,10 @@ wallN = wallInfo[5];
                               {name: 'F206.jpg', width: 8, height: 11},
                               {name: 'F210.jpg', width: 8, height: 11},
                               {name: 'F211.jpg', width: 8, height: 11},
-                              {name: 'F213.jpg', width: 8, height: 11},
-                              {name: 'F203.jpg', width: 8, height: 11},
+                              {name: 'F212.jpg', width: 8, height: 11},
+                              {name: 'F203.jpg', width: 6, height: 8},
                               {name: 'F202.jpg', width: 11, height: 8},
-                              {name: 'F204.jpg', width: 11, height: 8},
+                              {name: 'F204.jpg', width: 8, height: 6},
                               {name: 'F213.jpg', width: 11, height: 8},
                               {name: 'F207.jpg', width: 11, height: 8},
                           ];
