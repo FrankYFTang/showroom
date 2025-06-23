@@ -14,23 +14,23 @@ const frameShort = 18;
 const frameLong = 22;
 const frameDepth = 1;
 
-                        import * as THREE from 'three';
-			import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import * as THREE from 'three';
+import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
-			let camera, scene, renderer, controls, textureLoader, sound;
+let camera, scene, renderer, controls, textureLoader, sound;
 sound = undefined;
-			let dirLight, spotLight;
+let dirLight, spotLight;
 let wallA, wallB, wallC, wallE, wallF, wallG, wallH, wallK, wallN;
 
-			const objects = [];
+const objects = [];
 
-			let raycaster;
+let raycaster;
 
-			let moveForward = false;
-			let moveBackward = false;
-			let moveLeft = false;
-			let moveRight = false;
-			let canJump = false;
+let moveForward = false;
+let moveBackward = false;
+let moveLeft = false;
+let moveRight = false;
+let canJump = false;
 
 			let prevTime = performance.now();
 			const velocity = new THREE.Vector3();
