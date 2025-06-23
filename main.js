@@ -557,7 +557,7 @@ wallN = wallInfo[5];
                           const paintings = [
                               {name: 'F403.jpg', width: 8, height: 11},
                               {name: 'F404.jpg', width: 8, height: 11},
-                              {name: 'F405.jpg', width: 8, height: 11},
+                              {name: 'F405.jpg', width: 14, height: 17},
                               {name: 'F406.jpg', width: 8, height: 11},
                           ]
                           const x = (wallDepth+wallH.x) * scale + frameDepth/2;
