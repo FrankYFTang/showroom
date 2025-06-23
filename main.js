@@ -419,8 +419,8 @@ wallN = wallInfo[5];
                               {name: 'F114.jpg', width: 8, height: 11},
                               {name: 'F108.jpg', width: 8, height: 11},
                               {name: 'F110.jpg', width: 8, height: 11},
-                              {name: 'F103.jpg', width: 8, height: 11},
-                              {name: 'F104.jpg', width: 8, height: 11},
+                              {name: 'F103.jpg', width: 14, height: 17},
+                              {name: 'F104.jpg', width: 14, height: 17},
                           ];
 			  const frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
 			  const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
@@ -434,7 +434,7 @@ wallN = wallInfo[5];
 	  		     textureLoader.load( 'img/' + painting.name, function ( texture ) {
                                 addBox(frameGeometry, frameMaterial, x, y, z - eps);
                                 addBox(matGeometry, matMaterial, x, y, z - 2*eps);
-                                addBox(new THREE.BoxGeometry(painting.width, painting.height , frameDepth).toNonIndexed();
+                                addBox(new THREE.BoxGeometry(painting.width, painting.height , frameDepth).toNonIndexed(),
                                        new THREE.MeshBasicMaterial({ map: texture }),
                                        x, y, z - 3*eps);
 			     } );
