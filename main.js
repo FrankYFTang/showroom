@@ -497,7 +497,7 @@ wallN = wallInfo[5];
                               {name: 'F213.jpg', width: 8, height: 11},
                               {name: 'F207.jpg', width: 8, height: 11},
                           ];
-			  const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
+			  const matGeometry = new THREE.BoxGeometry(frameDepth, frameLong-2 , frameShort-2).toNonIndexed();
                           for (let i = 0; i < paintings.length/2; i++) {
 			     let frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
 
