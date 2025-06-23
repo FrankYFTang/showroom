@@ -502,6 +502,7 @@ wallN = wallInfo[5];
                               {name: 'F207.jpg', width: 8, height: 11},
                           ];
                           const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
+                          const matMaterial = new THREE.MeshBasicMaterial({ color: 'white'});
 			  const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
                           for (let i = 0; i < paintings.length/2; i++) {
 			     let frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
