@@ -655,7 +655,7 @@ wallN = wallInfo[5];
 	  		  textureLoader.load( 'img/friends.jpg', function ( texture ) {
                              let canvas = addBox(labelGeometry2, 
                                     new THREE.MeshBasicMaterial({ map: texture }),
-                                    wallF.x * scale - 0.1;
+                                    wallF.x * scale - 0.1,
                                     (upperY+lowerY)/2,
                                     5.7 + wallF.z + wallDepth) * scale);
 			  } );
@@ -839,7 +839,7 @@ wallN = wallInfo[5];
 	  		  textureLoader.load( 'img/projection.jpg', function ( texture ) {
                              let canvas = addBox(labelGeometry2, 
                                     new THREE.MeshBasicMaterial({ map: texture }),
-                                    wallK.x * scale - 0.1;
+                                    wallK.x * scale - 0.1,
                                     (upperY+lowerY)/2,
                                     (wallK.z+1+2*2) * scale);
 			  } );
