@@ -824,8 +824,8 @@ wallN = wallInfo[5];
 					if ( controls.object.position.x > (20-wallDepth)*scale ) {
                                              controls.object.position.x = (20-wallDepth)*scale;
                                         }
-					if ( controls.object.position.x < wallDepth ) {
-                                             controls.object.position.x = wallDepth;
+					if ( controls.object.position.x < wallDepth*scale ) {
+                                             controls.object.position.x = wallDepth*scale;
                                         }
 					if ( controls.object.position.z > (20-wallDepth)*scale ) {
                                              controls.object.position.z = (20-wallDepth)*scale;
