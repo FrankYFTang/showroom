@@ -6,7 +6,8 @@ const cameraX = 10.0;
 const cameraY = 5.5;
 const cameraZ = -10.0;
 const jumpNumOfWall = 5;
-const wallColor1 = 'ivory';
+//const wallColor1 = 'ivory';
+const wallColor1 = 'white';
 const wallColor2 = 'whitesmoke';
 const skyColor = 'dimgray';
 const eps = 0.01;
@@ -342,7 +343,7 @@ wallN = wallInfo[5];
 	  		  textureLoader.load( 'img/bio.jpg', function ( texture ) {
                              let canvas = addBox(labelGeometry, 
                                     new THREE.MeshBasicMaterial({ map: texture }),
-                                    (3.5+2.5) * scale,
+                                    (3.2+2.5) * scale,
                                     (2+5/2) * scale,
                                     -wallDepth*scale -0.1);
 			  } );
@@ -358,7 +359,7 @@ wallN = wallInfo[5];
 	  		  textureLoader.load( 'img/statement.jpg', function ( texture ) {
                              let canvas = addBox(labelGeometry, 
                                     new THREE.MeshBasicMaterial({ map: texture }),
-                                    (-3.5+17.5) * scale,
+                                    (-3.2+17.5) * scale,
                                     (2+5/2) * scale,
                                     -wallDepth*scale -0.1);
 			  } );
