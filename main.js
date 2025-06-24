@@ -582,10 +582,9 @@ wallN = wallInfo[5];
 			  const matGeometry = new THREE.BoxGeometry(frameDepth, 36-2 , 24-2).toNonIndexed();
 			  const frameGeometry = new THREE.BoxGeometry(frameDepth , 36 , 24).toNonIndexed();
 
-                          const x = (wallF.x-wallDepth) * scale - frameDepth/2;
+                          const x = wallF.x * scale - frameDepth/2;
                           const z = (1.5 + wallF.z + wallDepth) * scale;
-                          const y = 48+19;
-
+                          const y = (upperY + lowerY) / 2;
 	  		  textureLoader.load( 'img/' + painting.name, function ( texture ) {
                               addBox(frameGeometry, frameMaterial, x-eps, y, z);
                               addBox(matGeometry, matMaterial, x-2*eps, y, z);
