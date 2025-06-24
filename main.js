@@ -2,7 +2,7 @@
 const scale = 12.0;
 const wallDepth = 0.5; // ft
 const wallHeight = 10.0;
-const verticalShift = 2.5;
+const verticalShift = 1.5;
 
 const cameraX = 10.0;
 const cameraY = 5.5;
@@ -169,7 +169,7 @@ const labelGeometry2 = new THREE.BoxGeometry(0.2, 22, 16).toNonIndexed();
 							break;
 						case 'KeyM':
 							moveDown = true;
-							velocity.y = -verticalShift*scale;
+							velocity.y = verticalShift*scale;
 							break;					}
 
 				};
@@ -932,8 +932,11 @@ setTimeout(initWallJ, 2600);
 
 					velocity.x -= velocity.x * 10.0 * delta;
 					velocity.z -= velocity.z * 10.0 * delta;
-
-					velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+                                        if (moveUp) {		
+					    velocity.y += 9.8 * 100.0 * delta; // 100.0 = mass
+					} else {	
+					    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+					}
 
 					direction.z = Number( moveForward ) - Number( moveBackward );
 					direction.x = Number( moveRight ) - Number( moveLeft );
@@ -951,9 +954,7 @@ setTimeout(initWallJ, 2600);
 
 					controls.moveRight( - velocity.x * delta );
 					controls.moveForward( - velocity.z * delta );
-
 					controls.object.position.y += ( velocity.y * delta ); // new behavior
-
 					if ( controls.object.position.x > (20-wallDepth)*scale ) {
                                              controls.object.position.x = (20-wallDepth)*scale;
                                         }
