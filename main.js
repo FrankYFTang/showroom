@@ -578,12 +578,12 @@ wallN = wallInfo[5];
                           }
                         }
 			function initWallI() {
-                          let painting = {name: 'F311.jpg', width: 20, height: 28};
-			  let matGeometry = new THREE.BoxGeometry(frameDepth, 36-2 , 24-2).toNonIndexed();
-			  let frameGeometry = new THREE.BoxGeometry(frameDepth , 36 , 24).toNonIndexed();
+                          const painting = {name: 'F311.jpg', width: 20, height: 28};
+			  const matGeometry = new THREE.BoxGeometry(frameDepth, 36-2 , 24-2).toNonIndexed();
+			  const frameGeometry = new THREE.BoxGeometry(frameDepth , 36 , 24).toNonIndexed();
 
                           const x = wallF.x * scale - frameDepth/2;
-                          let z = (1.5 + wallF.z + wallDepth) * scale;
+                          const z = (1.5 + wallF.z + wallDepth) * scale;
                           const y = (upperY + lowerY) / 2;
 	  		  textureLoader.load( 'img/' + painting.name, function ( texture ) {
                               addBox(frameGeometry, frameMaterial, x-eps, y, z);
@@ -593,18 +593,20 @@ wallN = wallInfo[5];
                                      x-3*eps, y, z);
 			  } );
 
-                          painting = {name: 'F312.jpg', width: 8, height: 11};
-			  matGeometry = new THREE.BoxGeometry(frameDepth, 18-2 , 22-2).toNonIndexed();
-			  frameGeometry = new THREE.BoxGeometry(frameDepth , 18 , 22).toNonIndexed();
+                          {
+                              const painting = {name: 'F312.jpg', width: 8, height: 11};
+			      const matGeometry = new THREE.BoxGeometry(frameDepth, 18-2 , 22-2).toNonIndexed();
+			      const frameGeometry = new THREE.BoxGeometry(frameDepth , 18 , 22).toNonIndexed();
 
-                          z = (5 + wallF.z + wallDepth) * scale;
-	  		  textureLoader.load( 'img/' + painting.name, function ( texture ) {
-                              addBox(frameGeometry, frameMaterial, x-eps, y, z);
-                              addBox(matGeometry, matMaterial, x-2*eps, y, z);
-                              addBox(new THREE.BoxGeometry(frameDepth, painting.height, painting.width).toNonIndexed(),
-                                     new THREE.MeshBasicMaterial({ map: texture }),
-                                     x-3*eps, y, z);
-			  } );
+                              const z = (5 + wallF.z + wallDepth) * scale;
+	  		      textureLoader.load( 'img/' + painting.name, function ( texture ) {
+                                  addBox(frameGeometry, frameMaterial, x-eps, y, z);
+                                  addBox(matGeometry, matMaterial, x-2*eps, y, z);
+                                  addBox(new THREE.BoxGeometry(frameDepth, painting.height, painting.width).toNonIndexed(),
+                                         new THREE.MeshBasicMaterial({ map: texture }),
+                                         x-3*eps, y, z);
+			      } );
+                          }
                         }
 			function initWallJ() {
                           const paintings = [
