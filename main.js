@@ -595,10 +595,10 @@ wallN = wallInfo[5];
 
                           {
                               const painting = {name: 'F312.jpg', width: 8, height: 11};
-			      const matGeometry = new THREE.BoxGeometry(frameDepth, 18-2 , 22-2).toNonIndexed();
-			      const frameGeometry = new THREE.BoxGeometry(frameDepth , 18 , 22).toNonIndexed();
+			      const matGeometry = new THREE.BoxGeometry(frameDepth, 22-2 , 18-2).toNonIndexed();
+			      const frameGeometry = new THREE.BoxGeometry(frameDepth , 22 , 18).toNonIndexed();
 
-                              const z = (5 + wallF.z + wallDepth) * scale;
+                              const z = (3.7 + wallF.z + wallDepth) * scale;
 	  		      textureLoader.load( 'img/' + painting.name, function ( texture ) {
                                   addBox(frameGeometry, frameMaterial, x-eps, y, z);
                                   addBox(matGeometry, matMaterial, x-2*eps, y, z);
