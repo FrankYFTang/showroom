@@ -329,9 +329,7 @@ wallN = wallInfo[5];
                                 }
 
                                 initFrontWalls();
-// load other walls later
-setTimeout(initOtherWalls, 3000);
-				//
+                                initOtherWalls();
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -373,19 +371,26 @@ function initFrontWalls() {
 }
 
 function initOtherWalls() {
-				initWallD();
-				initWallE();
-				initWallF();
-				initWallG();
-				initWallH();
-				initWallI();
-				initWallJ();
-				initWallK();
-				initWallL();
-				initWallM();
-				initWallN();
-				initWallO();
-				initWallP();
+// Separate the loading to avoid blocking
+setTimeout(initWallE, 3000);
+setTimeout(initWallN, 3000);
+
+setTimeout(initWallG, 4000);
+setTimeout(initWallM, 4000);
+
+setTimeout(initWallF, 5000);
+setTimeout(initWallO, 5000);
+
+setTimeout(initWallD, 6000);
+setTimeout(initWallP, 6000);
+
+setTimeout(initWallH, 7000);
+setTimeout(initWallL, 7000);
+
+setTimeout(initWallI, 8000);
+setTimeout(initWallK, 8000);
+
+setTimeout(initWallJ, 9000);
 }
 			function initWallA() {
 	  		  textureLoader.load( 'img/F101.jpg', function ( texture ) {
