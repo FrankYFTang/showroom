@@ -139,7 +139,7 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 
 				} );
 // mobile support
-		let euler = new Euler( 0, 0, 0, 'YXZ' );
+		let euler = new THREE.Euler( 0, 0, 0, 'YXZ' );
 
 		const PI_2 = Math.PI / 2;
 		const PI_2y = Math.PI / 3.8;
