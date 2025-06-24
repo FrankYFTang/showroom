@@ -138,6 +138,41 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 					instructions.style.display = '';
 
 				} );
+// mobile support
+		let euler = new Euler( 0, 0, 0, 'YXZ' );
+
+		const PI_2 = Math.PI / 2;
+		const PI_2y = Math.PI / 3.8;
+
+		const PI_2_mobile = Math.PI / 9;
+                const changeEvent = { type: 'change' };
+	        const  isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); 
+
+		function onTouch(){
+		}
+	        function onTouchEnd( e ) {
+		};
+		function onTouchMove( e ) {
+     	                const ww = document.body.clientWidth/2;
+	                const wh = document.body.clientHeight/.2;
+		  	const clientY = e.touches[0].clientY;
+		  	const clientX = e.touches[0].clientX;
+		  	const xfromtouch = clientX-ww;
+			const yfromtouch = clientY-(h-100) ;
+			euler.setFromQuaternion( camera.quaternion );
+			euler.y = xfromtouch * 0.005;
+			euler.x = yfromtouch * 0.005;
+			euler.x = Math.max( - PI_2, Math.min( PI_2_mobile, euler.x ) );
+			euler.y = Math.max( - PI_2y, Math.min( PI_2y, euler.y ) );
+			camera.quaternion.setFromEuler( euler );
+			scope.dispatchEvent( changeEvent );
+		};
+                        if (isMobile) {
+			document.addEventListener( 'touchstart', onTouch, false );
+			document.addEventListener( 'touchmove', onTouchMove, false);
+					controls.lock();
+                        }
+// end mobiile support
 
 				scene.add( controls.object );
 
