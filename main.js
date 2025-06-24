@@ -168,6 +168,8 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 			scope.dispatchEvent( changeEvent );
 		};
                         if (isMobile) {
+					instructions.style.display = 'none';
+					blocker.style.display = 'none';
 			document.addEventListener( 'touchstart', onTouch, false );
 			document.addEventListener( 'touchmove', onTouchMove, false);
 					controls.lock();
