@@ -291,6 +291,7 @@ wallN = wallInfo[5];
 				  objects.push( wall );
                                 }
 
+				initTitle();
 				initWallA();
 				initWallB();
 				initWallC();
@@ -331,6 +332,16 @@ wallN = wallInfo[5];
 		             canvas.position.z = z;
                              scene.add( canvas );
                              return canvas;
+                        }
+			function initTitle() {
+	  		  textureLoader.load( 'img/title.jpg', function ( texture ) {
+                             let canvas = addBox(
+                                    new THREE.BoxGeometry(72, 24, 0.2).toNonIndexed(),
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+                                    10 * scale,
+                                    9 * scale,
+                                    -wallDepth*scale -0.1);
+			  } );
                         }
 			function initWallA() {
 	  		  textureLoader.load( 'img/F101.jpg', function ( texture ) {
