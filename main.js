@@ -49,6 +49,7 @@ const boxMaterial2 = new THREE.MeshBasicMaterial({ color: wallColor2});
 
 const largeCanvasGeometry = new THREE.BoxGeometry(scale * 4 , scale * 5, scale*wallDepth).toNonIndexed();
 const labelGeometry = new THREE.BoxGeometry(16, 22, 0.2).toNonIndexed();
+const labelGeometry2 = new THREE.BoxGeometry(0.2, 22, 16).toNonIndexed();
 
 			init();
 
@@ -492,6 +493,13 @@ wallN = wallInfo[5];
 			         } );
                              }
                           }
+	  		  textureLoader.load( 'img/family.jpg', function ( texture ) {
+                             let canvas = addBox(labelGeometry2, 
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+                                    wallE.x * scale - 0.1;
+                                    (upperY+lowerY)/2,
+                                    (1+4*2) * scale);
+			  } );
                         }
 			function initWallF() {
                           const paintings = [
@@ -644,6 +652,13 @@ wallN = wallInfo[5];
                                          x-3*eps, y, z);
 			      } );
                           }
+	  		  textureLoader.load( 'img/friends.jpg', function ( texture ) {
+                             let canvas = addBox(labelGeometry2, 
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+                                    wallF.x * scale - 0.1;
+                                    (upperY+lowerY)/2,
+                                    5.7 + wallF.z + wallDepth) * scale);
+			  } );
                         }
 			function initWallJ() {
                           const paintings = [
@@ -821,6 +836,13 @@ wallN = wallInfo[5];
 			         } );
                              }
                           }
+	  		  textureLoader.load( 'img/projection.jpg', function ( texture ) {
+                             let canvas = addBox(labelGeometry2, 
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+                                    wallK.x * scale - 0.1;
+                                    (upperY+lowerY)/2,
+                                    (wallK.z+1+2*2) * scale);
+			  } );
                         }
 			function initWallP() {
                           const paintings = [ 'F615.jpg', 'F616.jpg', 'F613.jpg', 'F614.jpg', 'F612.jpg', 'F611.jpg' ];
