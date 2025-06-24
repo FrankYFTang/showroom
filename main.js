@@ -252,39 +252,6 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
                 floorMesh.receiveShadow = true;
 	        floorMesh.rotation.x = - Math.PI / 2.0;
                 scene.add( floorMesh );
-				// vertex displacement
-/*
-				let position = floorGeometry.attributes.position;
-
-				for ( let i = 0, l = position.count; i < l; i ++ ) {
-
-					vertex.fromBufferAttribute( position, i );
-
-					vertex.x += Math.random() * 20 - 10;
-					vertex.y += Math.random() * 2;
-					vertex.z += Math.random() * 20 - 10;
-
-					position.setXYZ( i, vertex.x, vertex.y, vertex.z );
-
-				}
-
-				floorGeometry = floorGeometry.toNonIndexed(); // ensure each face has unique vertices
-
-				position = floorGeometry.attributes.position;
-				const colorsFloor = [];
-
-				for ( let i = 0, l = position.count; i < l; i ++ ) {
-
-					color.setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75, THREE.SRGBColorSpace );
-					colorsFloor.push( color.r, color.g, color.b );
-
-				}
-
-				floorGeometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colorsFloor, 3 ) );
-				const floorMaterial = new THREE.MeshBasicMaterial( { vertexColors: true } );
-				const floor = new THREE.Mesh( floorGeometry, floorMaterial );
-				scene.add( floor );
-*/
 
 let wallInfo = [
   {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth}, // a and p
@@ -337,38 +304,6 @@ wallN = wallInfo[5];
 				initWallN();
 				initWallO();
 				initWallP();
-/*
-				// objects
-				const boxGeometry = new THREE.BoxGeometry( 20, 20, 20 ).toNonIndexed();
-
-				position = boxGeometry.attributes.position;
-				const colorsBox = [];
-
-				for ( let i = 0, l = position.count; i < l; i ++ ) {
-
-					color.setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75, THREE.SRGBColorSpace );
-					colorsBox.push( color.r, color.g, color.b );
-
-				}
-
-
-				boxGeometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colorsBox, 3 ) );
-
-				for ( let i = 0; i < 500; i ++ ) {
-
-					const boxMaterial = new THREE.MeshPhongMaterial( { specular: 0xffffff, flatShading: true, vertexColors: true } );
-					boxMaterial.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75, THREE.SRGBColorSpace );
-
-					const box = new THREE.Mesh( boxGeometry, boxMaterial );
-					box.position.x = Math.floor( Math.random() * 20 - 10 ) * 20;
-					box.position.y = Math.floor( Math.random() * 20 ) * 20 + 10;
-					box.position.z = Math.floor( Math.random() * 20 - 10 ) * 20;
-
-					scene.add( box );
-					objects.push( box );
-
-				}
-*/
 
 				//
 
@@ -510,12 +445,17 @@ wallN = wallInfo[5];
                                  const column = (i-(i%2))/2;
                                  const z = (1+column*2) * scale;
                                  const y = (i % 2 == 0) ? upperY : lowerY;
-                                 const frameGeometry = painting.width < painting.height ? frameGeometryP : frameGeometryL;
-                                 const matGeometry = painting.width < painting.height ? matGeometryP : matGeometryL;
 
 	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
-                                    addBox(frameGeometry, frameMaterial, x-eps, y, z);
-                                    addBox(matGeometry, matMaterial, x-2*eps, y, z);
+                                    if (painting.width < painting.height) {
+                                      // Portrait
+                                      addBox(frameGeometryP, frameMaterial, x-eps, y, z);
+                                      addBox(matGeometryP, matMaterial, x-2*eps, y, z);
+                                    } else {
+                                      // Landscape
+                                      addBox(frameGeometryL, frameMaterial, x-eps, y, z);
+                                      addBox(matGeometryL, matMaterial, x-2*eps, y, z);
+                                    }
                                     addBox(new THREE.BoxGeometry(frameDepth, painting.height, painting.width).toNonIndexed(),
                                            new THREE.MeshBasicMaterial({ map: texture }),
                                            x-3*eps, y, z);
@@ -552,6 +492,50 @@ wallN = wallInfo[5];
                           }
                         }
 			function initWallG() {
+                          const paintings = [
+                              {name: 'F402.jpg', width: 8, height: 11},
+                              {name: 'F407.jpg', width: 8, height: 11},
+                              undefined,
+                              undefined,
+                              undefined,
+                              undefined,
+                              {name: 'F201.jpg', width: 11, height: 8},
+                              {name: 'F214.jpg', width: 13, height: 17},
+                              {name: 'F208.jpg', width: 8, height: 11},
+                              {name: 'F209.jpg', width: 8, height: 11},
+                          ];
+			  const frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
+
+			  const matGeometryP = new THREE.BoxGeometry(frameShort-2, frameLong-2 , frameDepth).toNonIndexed();
+			  const frameGeometryP = new THREE.BoxGeometry(frameShort, frameLong , frameDepth).toNonIndexed();
+			  const matGeometryL = new THREE.BoxGeometry(frameLong-2, frameShort-2 , frameDepth).toNonIndexed();
+			  const frameGeometryL = new THREE.BoxGeometry(frameLong , frameShort , frameDepth).toNonIndexed();
+
+                          for (let i = 0; i < paintings.length; i++) {
+                             const painting =  paintings[i];
+                             if ( painting ) {
+                                 const painting = paintings[i];
+                                 const column = (i-(i%2))/2;
+                                 const z = 20 * scale - frameDepth/2;
+                                 const y = (i % 2 == 0) ? upperY : lowerY;
+		                 const x = (10.5+1.9*column)*scale;
+
+	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
+                                    if (painting.width < painting.height) {
+                                      // Portrait
+                                      addBox(frameGeometryP, frameMaterial, x, y, z-eps);
+                                      addBox(matGeometryP, matMaterial, x, y, z-2*eps);
+                                    } else {
+                                      // Landscape
+                                      addBox(frameGeometryL, frameMaterial, x-eps, y, z-eps);
+                                      addBox(matGeometryL, matMaterial, x, y, z-2*eps);
+                                    }
+                                    addBox(new THREE.BoxGeometry(painting.width, painting.height, frameDepth).toNonIndexed(),
+                                           new THREE.MeshBasicMaterial({ map: texture }),
+                                           x, y, z-3*eps);
+			         } );
+                             }
+                          }
                         }
 			function initWallH() {
                           const paintings = [
