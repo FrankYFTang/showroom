@@ -657,7 +657,7 @@ wallN = wallInfo[5];
                                     new THREE.MeshBasicMaterial({ map: texture }),
                                     wallF.x * scale - 0.1,
                                     (upperY+lowerY)/2,
-                                    5.7 + wallF.z + wallDepth) * scale);
+                                    (5.7 + wallF.z + wallDepth) * scale);
 			  } );
                         }
 			function initWallJ() {
