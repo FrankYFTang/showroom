@@ -496,7 +496,7 @@ wallN = wallInfo[5];
 	  		  textureLoader.load( 'img/family.jpg', function ( texture ) {
                              let canvas = addBox(labelGeometry2, 
                                     new THREE.MeshBasicMaterial({ map: texture }),
-                                    wallE.x * scale - 0.1;
+                                    wallE.x * scale - 0.1,
                                     (upperY+lowerY)/2,
                                     (1+4*2) * scale);
 			  } );
