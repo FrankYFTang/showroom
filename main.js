@@ -47,6 +47,7 @@ const boxMaterial1 = new THREE.MeshBasicMaterial({ color: wallColor1});
 const boxMaterial2 = new THREE.MeshBasicMaterial({ color: wallColor2});
 
 const largeCanvasGeometry = new THREE.BoxGeometry(scale * 4 , scale * 5, scale*wallDepth).toNonIndexed();
+const labelGeometry = new THREE.BoxGeometry(16, 22, 0.2).toNonIndexed();
 
 			init();
 
@@ -336,6 +337,14 @@ wallN = wallInfo[5];
                                     2.5 * scale,
                                     (2+5/2) * scale,
                                     -wallDepth/2*scale -0.5);
+                             camera.lookAt(canvas.position);
+			  } );
+	  		  textureLoader.load( 'img/bio.jpg', function ( texture ) {
+                             let canvas = addBox(labelGeometry, 
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+                                    (3+2.5) * scale,
+                                    (2+5/2) * scale,
+                                    -wallDepth/2*scale -0.1);
                              camera.lookAt(canvas.position);
 			  } );
                         }
