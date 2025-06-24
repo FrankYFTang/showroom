@@ -593,7 +593,7 @@ wallN = wallInfo[5];
                                      x-3*eps, y, z);
 			  } );
 
-                          let painting = {name: 'F312.jpg', width: 8, height: 11};
+                          painting = {name: 'F312.jpg', width: 8, height: 11};
 			  matGeometry = new THREE.BoxGeometry(frameDepth, 18-2 , 22-2).toNonIndexed();
 			  frameGeometry = new THREE.BoxGeometry(frameDepth , 18 , 22).toNonIndexed();
 
