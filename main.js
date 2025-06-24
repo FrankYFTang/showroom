@@ -578,6 +578,13 @@ wallN = wallInfo[5];
                                     new THREE.MeshBasicMaterial({ map: texture }),
                                     x, y, z-3*eps);
 			  } );
+	  		  textureLoader.load( 'img/abstraction.jpg', function ( texture ) {
+                             let canvas = addBox(labelGeometry, 
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+		                    (11.2+1.9*2)*scale,
+                                    y,
+                                    20*scale -0.1);
+			  } );
                         }
 			function initWallH() {
                           const paintings = [
@@ -754,6 +761,13 @@ wallN = wallInfo[5];
 			         } );
                              }
                           }
+	  		  textureLoader.load( 'img/everywhere.jpg', function ( texture ) {
+                             let canvas = addBox(labelGeometry, 
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+		                    (1+1.9*4)*scale,
+                                    upperY,
+                                    20*scale -0.1);
+			  } );
                         }
 			function initWallN() {
                           const paintings = [
