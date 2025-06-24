@@ -731,7 +731,7 @@ wallN = wallInfo[5];
                               {name: 'F622.jpg', width: 16, height: 20},
                               undefined,
                               undefined,
-                              {name: 'K511.jpg', width: 16, height: 20},
+                              {name: 'F511.jpg', width: 16, height: 20},
                               {name: 'F512.jpg', width: 16, height: 20},
                           ]
                           const x = wallK.x * scale - frameDepth/2;
