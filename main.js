@@ -105,24 +105,8 @@ const labelGeometry2 = new THREE.BoxGeometry(0.2, 22, 16).toNonIndexed();
 				instructions.addEventListener( 'click', function () {
 
 					controls.lock();
+                                        initAudio();
 
-if (sound == undefined) {
-// create an AudioListener and add it to the camera
-const listener = new THREE.AudioListener();
-camera.add( listener );
-
-// create a global audio source
-sound = new THREE.Audio( listener );
-
-// load a sound and set it as the Audio object's buffer
-const audioLoader = new THREE.AudioLoader();
-audioLoader.load( './audio/audio1.mp4', function( buffer ) {
-	sound.setBuffer( buffer );
-	sound.setLoop( true );
-	sound.setVolume( 0.5 );
-	sound.play();
-});
-}
 				} );
 
 				controls.addEventListener( 'lock', function () {
@@ -167,6 +151,7 @@ audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 			camera.quaternion.setFromEuler( euler );
 			scope.dispatchEvent( changeEvent );
 		};
+
                         if (isMobile) {
 					instructions.style.display = 'none';
 					blocker.style.display = 'none';
@@ -363,6 +348,26 @@ wallN = wallInfo[5];
                                     -wallDepth*scale -0.1);
 			  } );
                         }
+function initAudio() {
+  if (sound == undefined) {
+  // create an AudioListener and add it to the camera
+  const listener = new THREE.AudioListener();
+  camera.add( listener );
+
+  // create a global audio source
+  sound = new THREE.Audio( listener );
+
+  // load a sound and set it as the Audio object's buffer
+  const audioLoader = new THREE.AudioLoader();
+  audioLoader.load( './audio/audio1.mp4', function( buffer ) {
+	sound.setBuffer( buffer );
+	sound.setLoop( true );
+	sound.setVolume( 0.5 );
+	sound.play();
+  });
+  }
+}
+
 function initFrontWalls() {
 				initTitle();
 				initWallA();
@@ -372,25 +377,25 @@ function initFrontWalls() {
 
 function initOtherWalls() {
 // Separate the loading to avoid blocking
-setTimeout(initWallE, 3000);
-setTimeout(initWallN, 3000);
+setTimeout(initWallE, 2000);
+setTimeout(initWallN, 2000);
 
-setTimeout(initWallG, 4000);
-setTimeout(initWallM, 4000);
+setTimeout(initWallG, 2100);
+setTimeout(initWallM, 2100);
 
-setTimeout(initWallF, 5000);
-setTimeout(initWallO, 5000);
+setTimeout(initWallF, 2200);
+setTimeout(initWallO, 2200);
 
-setTimeout(initWallD, 6000);
-setTimeout(initWallP, 6000);
+setTimeout(initWallD, 2300);
+setTimeout(initWallP, 2300);
 
-setTimeout(initWallH, 7000);
-setTimeout(initWallL, 7000);
+setTimeout(initWallH, 2400);
+setTimeout(initWallL, 2400);
 
-setTimeout(initWallI, 8000);
-setTimeout(initWallK, 8000);
+setTimeout(initWallI, 2500);
+setTimeout(initWallK, 2500);
 
-setTimeout(initWallJ, 9000);
+setTimeout(initWallJ, 2600);
 }
 			function initWallA() {
 	  		  textureLoader.load( 'img/F101.jpg', function ( texture ) {
