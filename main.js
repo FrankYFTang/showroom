@@ -518,7 +518,7 @@ wallN = wallInfo[5];
                                  const column = (i-(i%2))/2;
                                  const z = 20 * scale - frameDepth/2;
                                  const y = (i % 2 == 0) ? upperY : lowerY;
-		                 const x = (10.5+1.9*column)*scale;
+		                 const x = (11.5+1.8*column)*scale;
 
 	  		         textureLoader.load( 'img/' + painting.name, function ( texture ) {
                                     if (painting.width < painting.height) {
