@@ -327,9 +327,8 @@ wallN = wallInfo[5];
 			          scene.add( wall );
 				  objects.push( wall );
                                 }
-}
-                                initFrontWalls();
 
+                                initFrontWalls();
 // load other walls later
 setTimeout(initOtherWalls, 3000);
 				//
