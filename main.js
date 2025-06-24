@@ -536,6 +536,18 @@ wallN = wallInfo[5];
 			         } );
                              }
                           }
+                          const painting = {name: 'F401.jpg', width: 8, height: 11};
+                          const column = 1;
+                          const z = 20 * scale - frameDepth/2;
+                          const y = (upperY + lowerY) / 2;
+		          const x = (11.2+1.9*column)*scale;
+	  		  textureLoader.load( 'img/' + painting.name, function ( texture ) {
+                             addBox(frameGeometryP, frameMaterial, x, y, z-eps);
+                             addBox(matGeometryP, matMaterial, x, y, z-2*eps);
+                             addBox(new THREE.BoxGeometry(painting.width, painting.height, frameDepth).toNonIndexed(),
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+                                    x, y, z-3*eps);
+			  } );
                         }
 			function initWallH() {
                           const paintings = [
