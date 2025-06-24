@@ -641,7 +641,7 @@ wallN = wallInfo[5];
 			         } );
                              }
                           }
-                          const painting = {name: 'F315.jpg', width: 11, height: 14};
+                          const painting = {name: 'F315.jpg', width: 14, height: 17};
                           const y = (upperY+lowerY)/2;
                           const column = 3;
                           const z = (wallK.z+1.5+column*1.8) * scale;
