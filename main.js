@@ -2,6 +2,8 @@
 const scale = 12.0;
 const wallDepth = 0.5; // ft
 const wallHeight = 10.0;
+const verticalShift = 2.5;
+
 const cameraX = 10.0;
 const cameraY = 5.5;
 const cameraZ = -10.0;
@@ -33,6 +35,8 @@ let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
+let moveUp = false;
+let moveDown = false;
 let canJump = false;
 
 let prevTime = performance.now();
@@ -159,8 +163,14 @@ const labelGeometry2 = new THREE.BoxGeometry(0.2, 22, 16).toNonIndexed();
 							if ( canJump === true ) velocity.y = wallHeight*jumpNumOfWall*scale;
 							canJump = false;
 							break;
-
-					}
+						case 'KeyU':
+							moveUp = true;
+							velocity.y = verticalShift*scale;
+							break;
+						case 'KeyM':
+							moveDown = true;
+							velocity.y = -verticalShift*scale;
+							break;					}
 
 				};
 
@@ -188,8 +198,13 @@ const labelGeometry2 = new THREE.BoxGeometry(0.2, 22, 16).toNonIndexed();
 							moveRight = false;
 							break;
 
+						case 'KeyU':
+							moveUp = false;
+							break;
+						case 'KeyM':
+							moveDown = false;
+							break;
 					}
-
 				};
 
 				document.addEventListener( 'keydown', onKeyDown );
@@ -952,7 +967,7 @@ setTimeout(initWallJ, 2600);
                                              controls.object.position.z = -12*scale;
                                         }
 
-					if ( controls.object.position.y < cameraY*scale ) {
+					if ( !moveDown && controls.object.position.y < cameraY*scale ) {
 
 						velocity.y = 0;
 						controls.object.position.y = cameraY*scale;
