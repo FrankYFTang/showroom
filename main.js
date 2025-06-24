@@ -966,14 +966,22 @@ setTimeout(initWallJ, 2600);
 					if ( controls.object.position.z < -12*scale ) {
                                              controls.object.position.z = -12*scale;
                                         }
-
-					if ( !moveDown && controls.object.position.y < cameraY*scale ) {
-
+                                        if ( moveDown) {
+					    if (controls.object.position.y < (cameraY - verticalShift) * scale ) {
+						velocity.y = 0;
+						controls.object.position.y = (cameraY - verticalShift)*scale;
+					    }
+					} else if ( moveUp ) {
+					    if (controls.object.position.y > (cameraY + verticalShift) * scale ) {
+						velocity.y = 0;
+						controls.object.position.y = (cameraY + verticalShift)*scale;
+					    }
+					} else {
+					    if (controls.object.position.y < cameraY*scale ) {
 						velocity.y = 0;
 						controls.object.position.y = cameraY*scale;
-
 						canJump = true;
-
+					    }
 					}
 
 				}
