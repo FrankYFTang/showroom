@@ -582,8 +582,8 @@ wallN = wallInfo[5];
 			  const matGeometry = new THREE.BoxGeometry(frameDepth, 36-2 , 24-2).toNonIndexed();
 			  const frameGeometry = new THREE.BoxGeometry(frameDepth , 36 , 24).toNonIndexed();
 
-                          const x = (wallE.x-wallDepth) * scale - frameDepth/2;
-                          const z = (wallE.z + wallDepth) * scale;
+                          const x = (wallF.x-wallDepth) * scale - frameDepth/2;
+                          const z = (1.5 + wallF.z + wallDepth) * scale;
                           const y = 48+19;
 
 	  		  textureLoader.load( 'img/' + painting.name, function ( texture ) {
