@@ -327,25 +327,11 @@ wallN = wallInfo[5];
 			          scene.add( wall );
 				  objects.push( wall );
                                 }
+}
+                                initFrontWalls();
 
-				initTitle();
-				initWallA();
-				initWallB();
-				initWallC();
-				initWallD();
-				initWallE();
-				initWallF();
-				initWallG();
-				initWallH();
-				initWallI();
-				initWallJ();
-				initWallK();
-				initWallL();
-				initWallM();
-				initWallN();
-				initWallO();
-				initWallP();
-
+// load other walls later
+setTimeout(initOtherWalls, 3000);
 				//
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -380,6 +366,28 @@ wallN = wallInfo[5];
                                     -wallDepth*scale -0.1);
 			  } );
                         }
+function initFrontWalls() {
+				initTitle();
+				initWallA();
+				initWallB();
+				initWallC();
+}
+
+function initOtherWalls() {
+				initWallD();
+				initWallE();
+				initWallF();
+				initWallG();
+				initWallH();
+				initWallI();
+				initWallJ();
+				initWallK();
+				initWallL();
+				initWallM();
+				initWallN();
+				initWallO();
+				initWallP();
+}
 			function initWallA() {
 	  		  textureLoader.load( 'img/F101.jpg', function ( texture ) {
                              let canvas = addBox(largeCanvasGeometry, 
