@@ -578,6 +578,21 @@ wallN = wallInfo[5];
                           }
                         }
 			function initWallI() {
+                          let painting = {name: 'F311.jpg', width: 20, height: 30};
+			  const matGeometry = new THREE.BoxGeometry(frameDepth, 36-2 , 24-2).toNonIndexed();
+			  const frameGeometry = new THREE.BoxGeometry(frameDepth , 36 , 24).toNonIndexed();
+
+                          const x = (wallE.x-wallDepth) * scale - frameDepth/2;
+                          const z = (wallE.z + wallDepth) * scale;
+                          const y = 48+19;
+
+	  		  textureLoader.load( 'img/' + painting.name, function ( texture ) {
+                              addBox(frameGeometry, frameMaterial, x-eps, y, z);
+                              addBox(matGeometry, matMaterial, x-2*eps, y, z);
+                              addBox(new THREE.BoxGeometry(frameDepth, painting.height, painting.width).toNonIndexed(),
+                                     new THREE.MeshBasicMaterial({ map: texture }),
+                                     x-3*eps, y, z);
+			  } );
                         }
 			function initWallJ() {
                           const paintings = [
