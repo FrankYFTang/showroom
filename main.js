@@ -3,6 +3,7 @@ const scale = 12.0;
 const wallDepth = 0.5; // ft
 const wallHeight = 10.0;
 const verticalShift = 1.5;
+const musicInitVol = 0.5;
 
 const cameraX = 10.0;
 const cameraY = 5.5;
@@ -22,11 +23,12 @@ const upperY = 77;
 import * as THREE from 'three';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
-let camera, scene, renderer, controls, textureLoader, sound;
-sound = undefined;
+let camera, scene, renderer, controls, textureLoader, music;
+music = undefined;
 let dirLight, spotLight;
 let wallA, wallB, wallC, wallE, wallF, wallG, wallH, wallK, wallN;
 
+const audioDevices = [];
 const objects = [];
 
 let raycaster;
@@ -133,10 +135,10 @@ const labelGeometry2 = new THREE.BoxGeometry(0.2, 22, 16).toNonIndexed();
 
 					switch ( event.code ) {
 						case 'BracketLeft':
-	                                                sound.setVolume( sound.getVolume() * 0.9 );
+                                                        audioDevices.forEach((audio)=> audio.setVolume( audio.getVolume() * 0.9 ));
 							break;
 						case 'BracketRight':
-	                                                sound.setVolume( sound.getVolume() * 1.1 );
+                                                        audioDevices.forEach((audio)=> audio.setVolume( audio.getVolume() * 1.1 ));
 							break;
 
 						case 'ArrowUp':
@@ -326,21 +328,22 @@ wallN = wallInfo[5];
 			  } );
                         }
 function initAudio() {
-  if (sound == undefined) {
+  if (music == undefined) {
   // create an AudioListener and add it to the camera
   const listener = new THREE.AudioListener();
   camera.add( listener );
 
   // create a global audio source
-  sound = new THREE.Audio( listener );
+  music = new THREE.Audio( listener );
 
   // load a sound and set it as the Audio object's buffer
   const audioLoader = new THREE.AudioLoader();
   audioLoader.load( './audio/audio1.mp4', function( buffer ) {
-	sound.setBuffer( buffer );
-	sound.setLoop( true );
-	sound.setVolume( 0.5 );
-	sound.play();
+	music.setBuffer( buffer );
+	music.setLoop( true );
+	music.setVolume(musicInitVol);
+	music.play();
+        audioDevices.push(music);
   });
   }
 }
