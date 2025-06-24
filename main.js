@@ -342,10 +342,9 @@ wallN = wallInfo[5];
 	  		  textureLoader.load( 'img/bio.jpg', function ( texture ) {
                              let canvas = addBox(labelGeometry, 
                                     new THREE.MeshBasicMaterial({ map: texture }),
-                                    (3+2.5) * scale,
+                                    (3.5+2.5) * scale,
                                     (2+5/2) * scale,
                                     -wallDepth*scale -0.1);
-                             camera.lookAt(canvas.position);
 			  } );
                         }
 			function initWallB() {
@@ -355,6 +354,13 @@ wallN = wallInfo[5];
                                     17.5 * scale,
                                     (2+5/2) * scale,
                                     -wallDepth/2*scale -0.5);
+			  } );
+	  		  textureLoader.load( 'img/statement.jpg', function ( texture ) {
+                             let canvas = addBox(labelGeometry, 
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+                                    (-3.5+17.5) * scale,
+                                    (2+5/2) * scale,
+                                    -wallDepth*scale -0.1);
 			  } );
                         }
 			function initWallC() {
@@ -383,6 +389,20 @@ wallN = wallInfo[5];
                                        x, y, z - 3*eps);
 			     } );
                           }
+	  		  textureLoader.load( 'img/theme.jpg', function ( texture ) {
+                             let canvas = addBox(labelGeometry, 
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+                                    7 * scale,
+                                    upperY,
+                                    wallC.z*scale -0.1);
+			  } );
+	  		  textureLoader.load( 'img/self.jpg', function ( texture ) {
+                             let canvas = addBox(labelGeometry, 
+                                    new THREE.MeshBasicMaterial({ map: texture }),
+                                    7 * scale,
+                                    lowerY,
+                                    wallC.z*scale -0.1);
+			  } );
                         }
 			function initWallD() {
                           const paintings = [
