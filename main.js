@@ -727,7 +727,7 @@ wallN = wallInfo[5];
                           const paintings = [
                               {name: 'F619.jpg', width: 16, height: 20},
                               {name: 'F620.jpg', width: 16, height: 20},
-                              {name: 'F615.jpg', width: 16, height: 20},
+                              {name: 'F617.jpg', width: 16, height: 20},
                               {name: 'F622.jpg', width: 16, height: 20},
                               undefined,
                               undefined,
