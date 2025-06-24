@@ -344,7 +344,7 @@ wallN = wallInfo[5];
                                     new THREE.MeshBasicMaterial({ map: texture }),
                                     (3+2.5) * scale,
                                     (2+5/2) * scale,
-                                    -wallDepth/2*scale -0.1);
+                                    -wallDepth*scale -0.1);
                              camera.lookAt(canvas.position);
 			  } );
                         }
