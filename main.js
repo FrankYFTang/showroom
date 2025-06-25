@@ -249,6 +249,7 @@ function initWalls() {
 	  wall.position.x = (info.x + info.width / 2.0) * scale;
 	  wall.position.z = (info.z + info.depth / 2.0) * scale;;
 	  wall.position.y = (info.y + info.height / 2.0) * scale;
+	  wall.castShadow = true;
 	  scene.add( wall );
 	  objects.push( wall );
     }
@@ -277,6 +278,8 @@ function addBox(geometry, material, x, y, z) {
      canvas.position.x = x;
      canvas.position.y = y;
      canvas.position.z = z;
+     // only cast shadow on frame or large canvas for performance reason.
+     canvas.castShadow = (material == frameMaterial || geometry == largeCanvasGeometry);
      scene.add( canvas );
      return canvas;
 }
