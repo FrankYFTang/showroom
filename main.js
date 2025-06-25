@@ -48,7 +48,7 @@ const direction = new THREE.Vector3();
 const vertex = new THREE.Vector3();
 const color = new THREE.Color();
 
-const frameMaterial = new THREE.MeshStandardMaterial( { roughness: 0.8, color: 'black', metalness: 0.2, bumpScale: 1 } ); 
+let frameMaterial; 
 const matMaterial = new THREE.MeshBasicMaterial({ color: 'white'});
 const floorMat = new THREE.MeshStandardMaterial( { roughness: 0.8, color: 0xffffff, metalness: 0.2, bumpScale: 1 } );
 const boxMaterial1 = new THREE.MeshBasicMaterial({ color: wallColor1});
@@ -219,12 +219,7 @@ function initFloor() {
     scene.add( floorMesh );
 }
 function initWalls() {
-    textureLoader.load( 'img/blackwood.png', function ( map ) {
-	map.wrapS = THREE.RepeatWrapping;
-	map.wrapT = THREE.RepeatWrapping;
-	frameMaterial.map = map;
-	frameMaterial.needsUpdate = true;
-    } );
+
     let wallInfo = [
 	  {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth}, // a and p
 	  {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: 13, y:0, z: -wallDepth},  // b and d
@@ -260,8 +255,12 @@ function initWalls() {
 	  scene.add( wall );
 	  objects.push( wall );
     }
-    initFrontWalls();
-    initOtherWalls();
+    textureLoader.load( 'img/blackwood.png', function ( map ) {
+	frameMaterial = new THREE.MeshBasicMaterial({ map: texture });
+	// perform the following initialization after we create frameMaterial
+        initFrontWalls();
+        initOtherWalls();	
+    } );
 }
 function initRenderer() {
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -358,25 +357,25 @@ function initFrontWalls() {
 
 function initOtherWalls() {
 	// Separate the loading to avoid blocking
-	setTimeout(initWallE, 2000);
-	setTimeout(initWallN, 2000);
+	setTimeout(initWallE, 1000);
+	setTimeout(initWallN, 1100);
 	
-	setTimeout(initWallG, 2100);
-	setTimeout(initWallM, 2100);
+	setTimeout(initWallG, 1200);
+	setTimeout(initWallM, 1300);
 	
-	setTimeout(initWallF, 2200);
-	setTimeout(initWallO, 2200);
+	setTimeout(initWallF, 1400);
+	setTimeout(initWallO, 1500);
 	
-	setTimeout(initWallD, 2300);
-	setTimeout(initWallP, 2300);
+	setTimeout(initWallD, 1600);
+	setTimeout(initWallP, 1700);
 	
-	setTimeout(initWallH, 2400);
-	setTimeout(initWallL, 2400);
+	setTimeout(initWallH, 1800);
+	setTimeout(initWallL, 1900);
 	
-	setTimeout(initWallI, 2500);
-	setTimeout(initWallK, 2500);
+	setTimeout(initWallI, 2000);
+	setTimeout(initWallK, 2100);
 	
-	setTimeout(initWallJ, 2600);
+	setTimeout(initWallJ, 2200);
 }
 function initWallA() {
 	textureLoader.load( 'img/F101.jpg', function ( texture ) {
