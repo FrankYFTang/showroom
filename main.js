@@ -4,7 +4,7 @@ const wallDepth = 0.5; // ft
 const wallHeight = 10.0;
 const verticalShift = 1.5;
 const musicInitVol = 0.5;
-
+const voiceDistance = 2.5;
 const cameraX = 10.0;
 const cameraY = 5.5;
 const cameraZ = -10.0;
@@ -27,7 +27,7 @@ let camera, scene, renderer, controls, textureLoader, music;
 music = undefined;
 let dirLight, spotLight;
 let wallA, wallB, wallC, wallE, wallF, wallG, wallH, wallK, wallN;
-
+let audioListener, audioLoader;
 const audioDevices = [];
 const objects = [];
 
@@ -303,16 +303,30 @@ function init() {
     initWalls();
     initRenderer();
 }
+function addVoice(label, file) {
+	// create a global audio source
+	voice = new THREE.PositionalAudio( audioListener );
+	// load a sound and set it as the Audio object's buffer
+	audioLoader.load( './audio/' + file, function( buffer ) {
+		voice.setBuffer( buffer );
+		voice.setLoop( true );
+		voice.setVolume(1);
+		voice.setRefDistance( voiceDistance * scale );
+		voice.play();
+		audioDevices.push(voice);
+	});
+}
                         			
 function initAudio() {
     if (music == undefined) {
 	// create an AudioListener and add it to the camera
-	const listener = new THREE.AudioListener();
-	camera.add( listener );
+	audioListener = new THREE.AudioListener();
+	audioLoader = new THREE.AudioLoader();
+	camera.add( audioListener );
+	    
 	// create a global audio source
-	music = new THREE.Audio( listener );
+	music = new THREE.Audio( audioListener );
 	// load a sound and set it as the Audio object's buffer
-	const audioLoader = new THREE.AudioLoader();
 	audioLoader.load( './audio/audio1.mp4', function( buffer ) {
 		music.setBuffer( buffer );
 		music.setLoop( true );
@@ -362,11 +376,12 @@ function initWallA() {
 		camera.lookAt(canvas.position);
 	} );
 	textureLoader.load( 'img/bio.jpg', function ( texture ) {
-		let canvas = addBox(labelGeometry, 
+		let label = addBox(labelGeometry, 
 		    new THREE.MeshBasicMaterial({ map: texture }),
 		    (3.2+2.5) * scale,
 		    (2+5/2) * scale,
 		    -wallDepth*scale -0.1);
+		addVoice(label, 'bio.m4a');
 	} );
 }
 function initWallB() {
@@ -378,11 +393,12 @@ function initWallB() {
 		    -wallDepth/2*scale -0.5);
 	} );
 	textureLoader.load( 'img/statement.jpg', function ( texture ) {
-		let canvas = addBox(labelGeometry, 
+		let label = addBox(labelGeometry, 
 		    new THREE.MeshBasicMaterial({ map: texture }),
 		    (-3.2+17.5) * scale,
 		    (2+5/2) * scale,
 		    -wallDepth*scale -0.1);
+		addVoice(label, 'statement.m4a');
 	} );
 }
 function initWallC() {
@@ -514,11 +530,12 @@ function initWallE() {
 		}
 	}
 	textureLoader.load( 'img/family.jpg', function ( texture ) {
-		let canvas = addBox(labelGeometry2, 
+		let label = addBox(labelGeometry2, 
 		    			new THREE.MeshBasicMaterial({ map: texture }),
 		  			wallE.x * scale - 0.1,
 		  			(upperY+lowerY)/2,
 		 			(1+4*2) * scale);
+		addVoice(label, 'family.m4a');
 	} );
 }
 function initWallF() {
@@ -669,11 +686,12 @@ function initWallI() {
 		} );
 	}
 	textureLoader.load( 'img/friends.jpg', function ( texture ) {
-		addBox(labelGeometry2, 
+		let label = addBox(labelGeometry2, 
 			new THREE.MeshBasicMaterial({ map: texture }),
 			wallF.x * scale - 0.1,
 			(upperY+lowerY)/2,
 			(5.7 + wallF.z + wallDepth) * scale);
+		addVoice(label, 'friends.m4a');
 	} );
 }
 function initWallJ() {
@@ -793,11 +811,12 @@ function initWallM() {
 		}
 	}
 	textureLoader.load( 'img/everywhere.jpg', function ( texture ) {
-		addBox(labelGeometry, 
+		let label = addBox(labelGeometry, 
 		    new THREE.MeshBasicMaterial({ map: texture }),
 		    (1+1.9*4)*scale,
 		    upperY,
 		    20*scale -0.1);
+		addVoice(label, 'everywhere.m4a');
 	} );
 }
 function initWallN() {
@@ -853,11 +872,12 @@ function initWallO() {
 		}
 	}
 	textureLoader.load( 'img/projection.jpg', function ( texture ) {
-		addBox(labelGeometry2, 
+		let label = addBox(labelGeometry2, 
 		    new THREE.MeshBasicMaterial({ map: texture }),
 		    wallK.x * scale - 0.1,
 		    (upperY+lowerY)/2,
 		    (wallK.z+1+2*2) * scale);
+		addVoice(label, 'projection.m4a');
 	} );
 }
 function initWallP() {
