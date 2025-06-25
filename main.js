@@ -305,7 +305,7 @@ function init() {
 }
 function addVoice(label, file) {
 	// create a global audio source
-	voice = new THREE.PositionalAudio( audioListener );
+	const voice = new THREE.PositionalAudio( audioListener );
 	// load a sound and set it as the Audio object's buffer
 	audioLoader.load( './audio/' + file, function( buffer ) {
 		voice.setBuffer( buffer );
