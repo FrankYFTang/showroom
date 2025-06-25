@@ -219,6 +219,12 @@ function initFloor() {
     scene.add( floorMesh );
 }
 function initWalls() {
+    textureLoader.load( 'img/blackwood.png', function ( map ) {
+	map.wrapS = THREE.RepeatWrapping;
+	map.wrapT = THREE.RepeatWrapping;
+	frameMaterial.map = map;
+	frameMaterial.needsUpdate = true;
+    } );
     let wallInfo = [
 	  {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: -wallDepth, y:0, z: -wallDepth}, // a and p
 	  {width: 7 + wallDepth,    depth: wallDepth, height: wallHeight, x: 13, y:0, z: -wallDepth},  // b and d
