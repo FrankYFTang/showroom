@@ -60,7 +60,7 @@ const labelGeometry2 = new THREE.BoxGeometry(0.2, 22, 16).toNonIndexed();
 
 init();
 function initLights() {
-    scene.add( new THREE.AmbientLight( 0x404040, 3 ) );
+    // scene.add( new THREE.AmbientLight( 0x404040, 3 ) );
     spotLight = new THREE.SpotLight( 0xffffff, 500 );
     spotLight.name = 'Spot Light';
     spotLight.angle = Math.PI / 5;
@@ -75,7 +75,7 @@ function initLights() {
 
     dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
     dirLight.name = 'Dir. Light';
-    dirLight.position.set( 0, 11 * scale, 0 );
+    dirLight.position.set( 8 * scale, 13 * scale, 10*scale );
     dirLight.castShadow = true;
     dirLight.shadow.camera.near = 1;
     dirLight.shadow.camera.far = 10;
