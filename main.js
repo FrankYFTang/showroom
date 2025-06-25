@@ -94,7 +94,6 @@ function initControls() {
 
     instructions.addEventListener( 'click', function () {
 	controls.lock();
-        initAudio();
     } );
 
     controls.addEventListener( 'lock', function () {
@@ -302,6 +301,7 @@ function init() {
     initFloor();
     initWalls();
     initRenderer();
+    initAudio();
 }
 function addVoice(label, file) {
 	// create a global audio source
@@ -318,7 +318,6 @@ function addVoice(label, file) {
 }
                         			
 function initAudio() {
-    if (music == undefined) {
 	// create an AudioListener and add it to the camera
 	audioListener = new THREE.AudioListener();
 	audioLoader = new THREE.AudioLoader();
@@ -334,7 +333,6 @@ function initAudio() {
 		music.play();
 		audioDevices.push(music);
 	});
-    }
 }
 
 function initFrontWalls() {
