@@ -3,7 +3,8 @@ const scale = 12.0;
 const wallDepth = 0.5; // ft
 const wallHeight = 10.0;
 const verticalShift = 1.5;
-const musicInitVol = 0.5;
+const musicInitVol = 0.0;
+const voiceInitVol = 0.9;
 const voiceDistance = 2.5;
 const cameraX = 10.0;
 const cameraY = 5.5;
@@ -310,7 +311,7 @@ function addVoice(label, file) {
 	audioLoader.load( './audio/' + file, function( buffer ) {
 		voice.setBuffer( buffer );
 		voice.setLoop( true );
-		voice.setVolume(1);
+		voice.setVolume(voiceInitVol);
 		voice.setRefDistance( voiceDistance * scale );
 		voice.play();
 		audioDevices.push(voice);
