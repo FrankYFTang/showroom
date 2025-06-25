@@ -48,7 +48,7 @@ const direction = new THREE.Vector3();
 const vertex = new THREE.Vector3();
 const color = new THREE.Color();
 
-const frameMaterial = new THREE.MeshBasicMaterial({ color: 'black'});
+const frameMaterial = new THREE.MeshStandardMaterial( { roughness: 0.8, color: 'black', metalness: 0.2, bumpScale: 1 } ); 
 const matMaterial = new THREE.MeshBasicMaterial({ color: 'white'});
 const floorMat = new THREE.MeshStandardMaterial( { roughness: 0.8, color: 0xffffff, metalness: 0.2, bumpScale: 1 } );
 const boxMaterial1 = new THREE.MeshBasicMaterial({ color: wallColor1});
@@ -270,7 +270,7 @@ function initRenderer() {
 	renderer.setAnimationLoop( animate );
 	renderer.shadowMap.enabled = true;
 	// renderer.shadowMap.type = THREE.BasicShadowMap;
-	renderer.shadowMap.type = THREE.VSMShadowMap 
+	renderer.shadowMap.type = THREE.PCFShadowMap 
 	
 	document.body.appendChild( renderer.domElement );
 	window.addEventListener( 'resize', onWindowResize );
