@@ -255,7 +255,7 @@ function initWalls() {
 	  scene.add( wall );
 	  objects.push( wall );
     }
-    textureLoader.load( 'img/blackwood.png', function ( map ) {
+    textureLoader.load( 'img/blackwood.png', function ( texture ) {
 	frameMaterial = new THREE.MeshBasicMaterial({ map: texture });
 	// perform the following initialization after we create frameMaterial
         initFrontWalls();
