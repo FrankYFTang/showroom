@@ -256,6 +256,7 @@ function initWalls() {
 	  wall.position.z = (info.z + info.depth / 2.0) * scale;;
 	  wall.position.y = (info.y + info.height / 2.0) * scale;
 	  wall.castShadow = true;
+	  wall.receiveShadow = true;
 	  scene.add( wall );
 	  objects.push( wall );
     }
@@ -268,7 +269,8 @@ function initRenderer() {
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.setAnimationLoop( animate );
 	renderer.shadowMap.enabled = true;
-	renderer.shadowMap.type = THREE.BasicShadowMap;
+	// renderer.shadowMap.type = THREE.BasicShadowMap;
+	renderer.shadowMap.type = THREE.VSMShadowMap 
 	
 	document.body.appendChild( renderer.domElement );
 	window.addEventListener( 'resize', onWindowResize );
