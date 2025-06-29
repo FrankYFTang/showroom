@@ -465,7 +465,7 @@ function initWallD() {
 	const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
 	const paintings = [ 'F113.jpg', 'F117.jpg', 'F106.jpg', 'F120.jpg' ];
 	for (let i = 0; i < paintings.length; i++) {
-                addFrameArtwork(painting[i], frameGeometry, matGeometry, (14.2+ (i-(i%2))*2.4) * scale, ((i % 2 == 0) ? upperY : lowerY), z, 0, eps, 8, 11 , frameDepth);
+                addFrameArtwork(paintings[i], frameGeometry, matGeometry, (14.2+ (i-(i%2))*2.4) * scale, ((i % 2 == 0) ? upperY : lowerY), z, 0, eps, 8, 11 , frameDepth);
 	}
 }
 function initWallE() {
@@ -578,7 +578,7 @@ function initWallG() {
 		addBox(labelGeometry, 
 		    new THREE.MeshBasicMaterial({ map: texture }),
 		    (11.2+1.9*2)*scale,
-		    y,
+		    (upperY + lowerY) / 2,
 		    20*scale -0.1);
 	} );
 }
