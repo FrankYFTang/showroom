@@ -592,7 +592,7 @@ function initWallG() {
 			const z = 20 * scale - frameDepth/2 - eps;
 			const y = (i % 2 == 0) ? upperY : lowerY;
 			const x = (11.2+1.9*column)*scale;
-                        const artGeometry = new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed();
+                        const artGeometry = new THREE.BoxGeometry(painting.width, painting.height, frameDepth).toNonIndexed();
 			if (painting.width < painting.height) {
 				// Portrait
             	                addFrameArtwork(painting.name, frameGeometryP, matGeometryP, x, y, z, 0, 0, -eps, artGeometry);
@@ -607,8 +607,9 @@ function initWallG() {
 	const z = 20 * scale - frameDepth/2 -eps;
 	const y = (upperY + lowerY) / 2;
 	const x = (11.2+1.9*column)*scale;
-        const artGeometry = new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed();
+        const artGeometry = new THREE.BoxGeometry(painting.width, painting.height, frameDepth).toNonIndexed();
         addFrameArtwork('F401.jpg', frameGeometryP, matGeometryP, x, y, z, 0, 0, -eps, artGeometry);
+
 	textureLoader.load( 'img/abstraction.jpg', function ( texture ) {
 		addBox(labelGeometry, 
 		    new THREE.MeshBasicMaterial({ map: texture }),
