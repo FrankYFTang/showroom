@@ -475,7 +475,7 @@ function initWallD() {
 	}
 	const frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
 	const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
-	const artworkGeometry = new THREE.BoxGeometry(8, 11 , frameDepth).toNonIndexed();
+	const artGeometry = new THREE.BoxGeometry(8, 11 , frameDepth).toNonIndexed();
 	for (let i = 0; i < paintings.length; i++) {
 		const painting = paintings[i];
 		const column = (i-(i%2))/2;
@@ -607,6 +607,7 @@ function initWallG() {
 	const z = 20 * scale - frameDepth/2 -eps;
 	const y = (upperY + lowerY) / 2;
 	const x = (11.2+1.9*column)*scale;
+        const artGeometry = new THREE.BoxGeometry(frameDepth , painting.height, painting.width).toNonIndexed();
         addFrameArtwork('F401.jpg', frameGeometryP, matGeometryP, x, y, z, 0, 0, -eps, artGeometry);
 	textureLoader.load( 'img/abstraction.jpg', function ( texture ) {
 		addBox(labelGeometry, 
