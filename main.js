@@ -412,6 +412,16 @@ function initWallB() {
 		addVoice(label, 'statement.m4a');
 	} );
 }
+
+function addFrameArtwork(name, frameGeometry, matGeometry, x, y, z, xd, yd, zd, 
+                         artGeometry) {
+	textureLoader.load( 'img/' + name, function ( texture ) {
+		addBox(frameGeometry, frameMaterial, x, y, z);
+		addBox(matGeometry, matMaterial, x + xd, y + yd, z +zd);
+		addBox(artGeometry, new THREE.MeshBasicMaterial({ map: texture }),
+		       x+2*xd, y+2*yd, z+2*zd);
+	} );
+} 
 function initWallC() {
 	const paintings = [
 		{name: 'F105.jpg', width: 8, height: 11},
@@ -428,15 +438,13 @@ function initWallC() {
 		const column = (i-(i%2))/2;
 		const x = (9+column*2) * scale;
 		const y = (i % 2 == 0) ? upperY : lowerY;
-		const z = wallC.z*scale - frameDepth/2;
-		
-		textureLoader.load( 'img/' + painting.name, function ( texture ) {
-			addBox(frameGeometry, frameMaterial, x, y, z - eps);
-			addBox(matGeometry, matMaterial, x, y, z - 2*eps);
-			addBox(new THREE.BoxGeometry(painting.width, painting.height , frameDepth).toNonIndexed(),
-			       new THREE.MeshBasicMaterial({ map: texture }),
-			       x, y, z - 3*eps);
-		} );
+		const z = wallC.z*scale - frameDepth/2 - eps;
+
+                const xd = 0;
+                const yd = 0;
+                const zd = -eps;
+	        const artGeometry = new THREE.BoxGeometry(painting.width, painting.height , frameDepth).toNonIndexed();
+                addFrameArtwork(painting.name, frameGeometry, matGeometry, x, y, z, xd, yd, zd, artGeometry);
 	}
 	textureLoader.load( 'img/theme.jpg', function ( texture ) {
 		let canvas = addBox(labelGeometry, 
