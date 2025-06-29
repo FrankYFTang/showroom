@@ -421,7 +421,7 @@ function addFrameArtwork(name, frameGeometry, matGeometry, x, y, z, xd, zd, xp, 
 		    addBox(matGeometry, matMaterial, x + xd, y, z +zd);
                 }
 		addBox(artGeometry, new THREE.MeshBasicMaterial({ map: texture }),
-		       x+2*xd, y+2*yd, z+2*zd);
+		       x+2*xd, y, z+2*zd);
 	} );
 } 
 function initWallC() {
