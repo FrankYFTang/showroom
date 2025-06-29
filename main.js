@@ -715,6 +715,7 @@ function initWallL() {
 	const x = (wallH.x) * scale - frameDepth/2 - eps;
 	
 	const frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+	const matGeometry = new THREE.BoxGeometry(frameDepth , frameLong-2, frameShort-2).toNonIndexed();
 	for (let i = 0; i < paintings.length; i++) {
 		const painting =  paintings[i];
 		if ( painting ) {
@@ -767,7 +768,7 @@ function initWallN() {
 		const y = (i % 2 == 0) ? upperY : lowerY;
 		const z = (1 + column * 2) * scale;
 		
-                addFrameArtwork(painting, frameGeometry, matGeometry, x, y, z, eps, 0, 0, frameDept, frameLong-2 , frameShort-2);
+                addFrameArtwork(painting, frameGeometry, matGeometry, x, y, z, eps, 0, 0, frameDepth, frameLong-2 , frameShort-2);
 	}
 }
 function initWallO() {
@@ -783,7 +784,7 @@ function initWallO() {
 	]
 	const x = wallK.x * scale - frameDepth/2;
 	
-	const frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
+	const frameGeometry = new THREE.BoxGeometry(frameDepth, frameLong, frameShort).toNonIndexed();
 	for (let i = 0; i < paintings.length; i++) {
 		const painting =  paintings[i];
 		if ( painting ) {
