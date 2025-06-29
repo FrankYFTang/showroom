@@ -415,13 +415,26 @@ function initWallB() {
 
 function addFrameArtwork(name, frameGeometry, matGeometry, x, y, z, xd, zd, xp, yp, zp) {
         const artGeometry = new THREE.BoxGeometry(xp, yp, zp).toNonIndexed();
-	textureLoader.load( 'img/' + name, function ( texture ) {
-		addBox(frameGeometry, frameMaterial, x, y, z);
-                if (matGeometry) {
-		    addBox(matGeometry, matMaterial, x + xd, y, z +zd);
-                }
-		addBox(artGeometry, new THREE.MeshBasicMaterial({ map: texture }),
-		       x+2*xd, y, z+2*zd);
+        addBox(frameGeometry, frameMaterial, x, y, z);
+        if (matGeometry) {
+	   addBox(matGeometry, matMaterial, x + xd, y, z +zd);
+        }
+	textureLoader.load( 'img/' + name, function ( lowtexture ) {
+	    textureLoader.load( 'img/mid/' + name, function ( midtexture ) { 
+	        textureLoader.load( 'img/full/' + name, function ( fulltexture ) {
+                    const low = new THREE.Mesh(artGeometry, new THREE.MeshBasicMaterial({ map: lowtexture }) );
+                    const mid = new THREE.Mesh(artGeometry, new THREE.MeshBasicMaterial({ map: midtexture }) );
+                    const full = new THREE.Mesh(artGeometry, new THREE.MeshBasicMaterial({ map: fulltexture }) );
+                    low.position.x = mid.position.x = full.position.x = x+2*xd;
+                    low.position.y = mid.position.y = full.position.y = y;
+                    low.position.z = mid.position.z = full.position.z = z+2*zd;
+                    const lod = new THREE.LOD();
+                    lod.addLevel(full, 12);
+                    lod.addLevel(mid, 48);
+                    lod.addLevel(low, 0 );
+                    scene.add( lod );
+                } );
+            } );
 	} );
 } 
 function initWallC() {
