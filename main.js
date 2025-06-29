@@ -419,20 +419,12 @@ function addFrameArtwork(name, frameGeometry, matGeometry, x, y, z, xd, zd, xp, 
         if (matGeometry) {
 	   addBox(matGeometry, matMaterial, x + xd, y, z +zd);
         }
-	textureLoader.load( 'img/' + name, function ( lowtexture ) {
 	    textureLoader.load( 'img/mid/' + name, function ( midtexture ) { 
-	        textureLoader.load( 'img/full/' + name, function ( fulltexture ) {
-                    const low = new THREE.Mesh(artGeometry, new THREE.MeshBasicMaterial({ map: lowtexture }) );
                     const mid = new THREE.Mesh(artGeometry, new THREE.MeshBasicMaterial({ map: midtexture }) );
-                    const full = new THREE.Mesh(artGeometry, new THREE.MeshBasicMaterial({ map: fulltexture }) );
-                    low.position.x = mid.position.x = full.position.x = x+2*xd;
-                    low.position.y = mid.position.y = full.position.y = y;
-                    low.position.z = mid.position.z = full.position.z = z+2*zd;
-                    const lod = new THREE.LOD();
-                    lod.addLevel(low, 200);
-                    lod.addLevel(mid, 48);
-                    lod.addLevel(full, 12);
-                    scene.add( lod );
+                    mid.position.x = x+2*xd;
+                    mid.position.y = y;
+                    mid.position.z = z+2*zd;
+                    scene.add( mid );
                 } );
             } );
 	} );
