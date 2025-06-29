@@ -672,7 +672,7 @@ function initWallL() {
 	for (let i = 0; i < paintings.length; i++) {
 		const painting =  paintings[i];
 		if ( painting ) {
-                        addFrameArtwork(painting.name, frameGeometry, undefined, x, (i % 2 == 0) ? upperY : lowerY, (wallH.z+1+ (i-(i%2)) * scale, -eps, 0, frameDepth, painting.height, painting.width);
+                        addFrameArtwork(painting.name, frameGeometry, undefined, x, (i % 2 == 0) ? upperY : lowerY, (wallH.z+1+ (i-(i%2))) * scale, -eps, 0, frameDepth, painting.height, painting.width);
 		}
 	}
 }
