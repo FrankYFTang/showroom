@@ -429,8 +429,8 @@ function addFrameArtwork(name, frameGeometry, matGeometry, x, y, z, xd, zd, xp, 
                     low.position.y = mid.position.y = full.position.y = y;
                     low.position.z = mid.position.z = full.position.z = z+2*zd;
                     const lod = new THREE.LOD();
-                    lod.addLevel(low);
-                    lod.addLevel(mid, 24);
+                    lod.addLevel(low, 200);
+                    lod.addLevel(mid, 48);
                     lod.addLevel(full, 12);
                     scene.add( lod );
                 } );
