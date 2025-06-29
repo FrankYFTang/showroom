@@ -419,15 +419,13 @@ function addFrameArtwork(name, frameGeometry, matGeometry, x, y, z, xd, zd, xp, 
         if (matGeometry) {
 	   addBox(matGeometry, matMaterial, x + xd, y, z +zd);
         }
-	    textureLoader.load( 'img/mid/' + name, function ( midtexture ) { 
-                    const mid = new THREE.Mesh(artGeometry, new THREE.MeshBasicMaterial({ map: midtexture }) );
-                    mid.position.x = x+2*xd;
-                    mid.position.y = y;
-                    mid.position.z = z+2*zd;
-                    scene.add( mid );
-                } );
-            } );
-	} );
+	textureLoader.load( 'img/mid/' + name, function ( midtexture ) { 
+            const mid = new THREE.Mesh(artGeometry, new THREE.MeshBasicMaterial({ map: midtexture }) );
+            mid.position.x = x+2*xd;
+            mid.position.y = y;
+            mid.position.z = z+2*zd;
+            scene.add( mid );
+        } );
 } 
 function initWallC() {
 	const paintings = [
