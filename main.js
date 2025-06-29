@@ -521,7 +521,7 @@ function initWallE() {
 			const column = (i-(i%2))/2;
 			const z = (1+column*2) * scale;
 			const y = (i % 2 == 0) ? upperY : lowerY;
-                        const artGeometry = (new THREE.BoxGeometry(frameDepth, painting.height, painting.width).toNonIndexed();
+                        const artGeometry = new THREE.BoxGeometry(frameDepth, painting.height, painting.width).toNonIndexed();
 			
 			if (painting.width < painting.height) {
 			      	// Portrait
