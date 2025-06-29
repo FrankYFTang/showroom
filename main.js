@@ -435,16 +435,10 @@ function initWallC() {
 	];
 	const frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
 	const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
+	const z = wallC.z*scale - frameDepth/2 - eps;
 	for (let i = 0; i < paintings.length; i++) {
 		const painting = paintings[i];
-		const column = (i-(i%2))/2;
-		const x = (9+column*2) * scale;
-		const y = (i % 2 == 0) ? upperY : lowerY;
-		const z = wallC.z*scale - frameDepth/2 - eps;
-
-                const xd = 0;
-                const zd = -eps;
-                addFrameArtwork(painting.name, frameGeometry, matGeometry, x, y, z, xd, zd, painting.width, painting.height, frameDepth);
+                addFrameArtwork(painting.name, frameGeometry, matGeometry, (9+ (i-(i%2))) * scale, ((i % 2 == 0) ? upperY : lowerY), z, 0, -eps, painting.width, painting.height, frameDepth);
 	}
 	textureLoader.load( 'img/theme.jpg', function ( texture ) {
 		let canvas = addBox(labelGeometry, 
@@ -462,25 +456,16 @@ function initWallC() {
 	} );
 }
 function initWallD() {
-	const paintings = [
-		'F113.jpg', 'F117.jpg', 'F106.jpg', 'F120.jpg'
-	];
+	const z = frameDepth/2;
 	{
-		const x = (14.2+2.4)*scale;
-		const y = 48+19;
-		const z = frameDepth/2;
                 const frameGeometry = new THREE.BoxGeometry(29 , 42 , frameDepth).toNonIndexed();
-                addFrameArtwork('F130.jpg', frameGeometry, undefined, x, y, z, 0, eps, 24 , 36, frameDepth);
+                addFrameArtwork('F130.jpg', frameGeometry, undefined, (14.2+2.4)*scale, 48+19, z, 0, eps, 24 , 36, frameDepth);
 	}
 	const frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
 	const matGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
+	const paintings = [ 'F113.jpg', 'F117.jpg', 'F106.jpg', 'F120.jpg' ];
 	for (let i = 0; i < paintings.length; i++) {
-		const painting = paintings[i];
-		const column = (i-(i%2))/2;
-		const x = (14.2+column*4.8) * scale;
-		const y = (i % 2 == 0) ? upperY : lowerY;
-		const z = frameDepth/2;
-                addFrameArtwork(painting, frameGeometry, matGeometry, x, y, z, 0, eps, 8, 11 , frameDepth);
+                addFrameArtwork(painting[i], frameGeometry, matGeometry, (14.2+ (i-(i%2))*2.4) * scale, ((i % 2 == 0) ? upperY : lowerY), z, 0, eps, 8, 11 , frameDepth);
 	}
 }
 function initWallE() {
@@ -516,15 +501,12 @@ function initWallE() {
 	for (let i = 0; i < paintings.length; i++) {
 		const painting =  paintings[i];
 		if ( painting ) {
-			const column = (i-(i%2))/2;
-			const z = (1+column*2) * scale;
-			const y = (i % 2 == 0) ? upperY : lowerY;
 			if (painting.width < painting.height) {
 			      	// Portrait
-                		addFrameArtwork(painting.name, frameGeometryP, matGeometryP, x, y, z, -eps, 0, frameDepth, painting.height, painting.width);
+                		addFrameArtwork(painting.name, frameGeometryP, matGeometryP, x, (i % 2 == 0) ? upperY : lowerY, (1+ (i-(i%2))) * scale, -eps, 0, frameDepth, painting.height, painting.width);
 			} else {
 				// Landscape
-                		addFrameArtwork(painting.name, frameGeometryL, matGeometryL, x, y, z, -eps, 0, frameDepth, painting.height, painting.width);
+                		addFrameArtwork(painting.name, frameGeometryL, matGeometryL, x, (i % 2 == 0) ? upperY : lowerY, (1+ (i-(i%2))) * scale, -eps, 0, frameDepth, painting.height, painting.width);
 			}
 		}
 	}
@@ -550,13 +532,10 @@ function initWallF() {
 	];
 	const frameGeometry = new THREE.BoxGeometry(frameDepth , frameLong , frameShort).toNonIndexed();
 	const matGeometry = new THREE.BoxGeometry(frameDepth , frameLong-2 , frameShort-2).toNonIndexed();
+	const x = (scale*(wallF.x+wallF.width))+frameDepth/2 + eps;
 	for (let i = 0; i < paintings.length; i++) {
 		const painting = paintings[i];
-		const column = (i-(i%2))/2;
-		const x = (scale*(wallF.x+wallF.width))+frameDepth/2 + eps;
-		const y = (i % 2 == 0) ? upperY : lowerY;
-		const z = (wallF.z + 1 + column * 2) * scale;	
-            	addFrameArtwork(painting.name, frameGeometry, matGeometry, x, y, z, eps, 0, frameDepth , painting.height, painting.width);
+            	addFrameArtwork(painting.name, frameGeometry, matGeometry, x,  (i % 2 == 0) ? upperY : lowerY, (wallF.z + 1 + (i-(i%2))) * scale, eps, 0, frameDepth , painting.height, painting.width);
 	}
 }
 function initWallG() {
@@ -578,30 +557,22 @@ function initWallG() {
 	const frameGeometryP = new THREE.BoxGeometry(frameShort, frameLong , frameDepth).toNonIndexed();
 	const matGeometryL = new THREE.BoxGeometry(frameLong-2, frameShort-2 , frameDepth).toNonIndexed();
 	const frameGeometryL = new THREE.BoxGeometry(frameLong , frameShort , frameDepth).toNonIndexed();
-	
+	const z = 20 * scale - frameDepth/2 - eps;
 	for (let i = 0; i < paintings.length; i++) {
 		const painting =  paintings[i];
 		if ( painting ) {
 			const painting = paintings[i];
-			const column = (i-(i%2))/2;
-			const z = 20 * scale - frameDepth/2 - eps;
-			const y = (i % 2 == 0) ? upperY : lowerY;
-			const x = (11.2+1.9*column)*scale;
 			if (painting.width < painting.height) {
 				// Portrait
-            	                addFrameArtwork(painting.name, frameGeometryP, matGeometryP, x, y, z, 0, -eps, painting.width, painting.height, frameDepth);
+            	                addFrameArtwork(painting.name, frameGeometryP, matGeometryP, (11.2+0.95*(i-(i%2)))*scale, (i % 2 == 0) ? upperY : lowerY, z, 0, -eps, painting.width, painting.height, frameDepth);
 			} else {
 				// Landscape
-            	                addFrameArtwork(painting.name, frameGeometryL, matGeometryL, x, y, z, 0, -eps, painting.width, painting.height, frameDepth);
+            	                addFrameArtwork(painting.name, frameGeometryL, matGeometryL, (11.2+0.95*(i-(i%2)))*scale, (i % 2 == 0) ? upperY : lowerY, z, 0, -eps, painting.width, painting.height, frameDepth);
 			}
 		}
 	}
 	const painting = {name: 'F401.jpg', width: 8, height: 11};
-	const column = 1;
-	const z = 20 * scale - frameDepth/2 -eps;
-	const y = (upperY + lowerY) / 2;
-	const x = (11.2+1.9*column)*scale;
-        addFrameArtwork('F401.jpg', frameGeometryP, matGeometryP, x, y, z, 0, -eps, painting.width, painting.height, frameDepth);
+        addFrameArtwork('F401.jpg', frameGeometryP, matGeometryP, (11.2+1.9)*scale, (upperY + lowerY) / 2, z, 0, -eps, painting.width, painting.height, frameDepth);
 
 	textureLoader.load( 'img/abstraction.jpg', function ( texture ) {
 		addBox(labelGeometry, 
@@ -625,26 +596,19 @@ function initWallH() {
 	for (let i = 0; i < paintings.length; i++) {
 		const painting =  paintings[i];
 		if ( painting ) {
-			const column = (i-(i%2))/2;
-			const z = (wallH.z+1+column*2) * scale;
-			const y = (i % 2 == 0) ? upperY : lowerY;
-                        addFrameArtwork(painting.name, frameGeometry, matGeometry, x, y, z, eps, 0, frameDepth, painting.height, painting.width);
+                        addFrameArtwork(painting.name, frameGeometry, matGeometry, x, (i % 2 == 0) ? upperY : lowerY, (wallH.z+1+ (i-(i%2)) * scale, eps, 0, frameDepth, painting.height, painting.width);
 		}
 	}
 }
 function initWallI() {
 	const painting = {name: 'F311.jpg', width: 20, height: 28};
 	const frameGeometry = new THREE.BoxGeometry(frameDepth , 36 , 24).toNonIndexed();
-	const x = wallF.x * scale - frameDepth/2 - eps;
-	const z = (1.5 + wallF.z + wallDepth) * scale;
-	const y = (upperY + lowerY) / 2;
-        addFrameArtwork(painting.name, frameGeometry, undefined, x, y, z, -eps, 0, frameDepth, painting.height, painting.width);
+        addFrameArtwork(painting.name, frameGeometry, undefined, wallF.x * scale - frameDepth/2 - eps, (upperY + lowerY) / 2, (1.5 + wallF.z + wallDepth) * scale, -eps, 0, frameDepth, painting.height, painting.width);
 	{
 		const painting = {name: 'F312.jpg', width: 8, height: 11};
 		const matGeometry = new THREE.BoxGeometry(frameDepth, 22-2 , 18-2).toNonIndexed();
 		const frameGeometry = new THREE.BoxGeometry(frameDepth , 22 , 18).toNonIndexed();
-		const z = (3.7 + wallF.z + wallDepth) * scale;
-                addFrameArtwork(painting.name, frameGeometry, matGeometry, x, y, z, -eps, 0, frameDepth, painting.height, painting.width);
+                addFrameArtwork(painting.name, frameGeometry, matGeometry, wallF.x * scale - frameDepth/2 - eps, (upperY + lowerY) / 2, (3.7 + wallF.z + wallDepth) * scale, -eps, 0, frameDepth, painting.height, painting.width);
 	}
 	textureLoader.load( 'img/friends.jpg', function ( texture ) {
 		let label = addBox(labelGeometry2, 
@@ -671,10 +635,7 @@ function initWallJ() {
 	const z = (wallC.z + wallDepth)*scale + frameDepth/2 + eps;
 	for (let i = 0; i < paintings.length; i++) {
 		const painting = paintings[i];
-		const column = (i-(i%2))/2;
-		const x = (7+column*2) * scale;
-		const y = (i % 2 == 0) ? upperY : lowerY;
-                addFrameArtwork(painting.name, frameGeometry, matGeometry, x, y, z, 0, eps, painting.width, painting.height , frameDepth);
+                addFrameArtwork(painting.name, frameGeometry, matGeometry, (7+(i-(i%2)) * scale, (i % 2 == 0) ? upperY : lowerY, z, 0, eps, painting.width, painting.height , frameDepth);
 	}
 }
 function initWallK() {
@@ -692,17 +653,11 @@ function initWallK() {
 	for (let i = 0; i < paintings.length; i++) {
 		const painting =  paintings[i];
 		if ( painting ) {
-			const column = (i-(i%2))/2;
-			const z = (wallK.z+1.5+column*1.8) * scale;
-			const y = (i % 2 == 0) ? upperY : lowerY;
-                        addFrameArtwork(painting.name, frameGeometry, matGeometry, x, y, z, eps, 0, frameDepth, painting.height, painting.width);
+                        addFrameArtwork(painting.name, frameGeometry, matGeometry, x, (i % 2 == 0) ? upperY : lowerY, (wallK.z+1.5+(i-(i%2))*0.9) * scale, eps, 0, frameDepth, painting.height, painting.width);
 		}
 	}
 	const painting = {name: 'F315.jpg', width: 14, height: 17};
-	const y = (upperY+lowerY)/2;
-	const column = 3;
-	const z = (wallK.z+1.5+column*1.8) * scale;
-        addFrameArtwork(painting.name, frameGeometry, matGeometry, x, y, z, eps, 0, frameDepth, painting.height, painting.width);
+        addFrameArtwork(painting.name, frameGeometry, matGeometry, x, (upperY+lowerY)/2, (wallK.z+1.5+3*1.8) * scale, eps, 0, frameDepth, painting.height, painting.width);
 }
 function initWallL() {
 	const paintings = [
@@ -717,10 +672,7 @@ function initWallL() {
 	for (let i = 0; i < paintings.length; i++) {
 		const painting =  paintings[i];
 		if ( painting ) {
-			const column = (i-(i%2))/2;
-			const z = (wallH.z+1+column*2) * scale;
-			const y = (i % 2 == 0) ? upperY : lowerY;
-                        addFrameArtwork(painting.name, frameGeometry, undefined, x, y, z, -eps, 0, frameDepth, painting.height, painting.width);
+                        addFrameArtwork(painting.name, frameGeometry, undefined, x, (i % 2 == 0) ? upperY : lowerY, (wallH.z+1+ (i-(i%2)) * scale, -eps, 0, frameDepth, painting.height, painting.width);
 		}
 	}
 }
@@ -733,11 +685,8 @@ function initWallM() {
 	const z = 20 * scale - frameDepth/2-eps;
 	for (let i = 0; i < paintings.length; i++) {
 		const painting = paintings[i];
-		const column = (i-(i%2))/2;
-		const y = (i % 2 == 0) ? upperY : lowerY;
-		const x = (1+1.9*column)*scale;
 		if ( painting != undefined) {
-                        addFrameArtwork(painting, frameGeometry, undefined, x, y, z, 0, -eps, frameShort-2 , frameLong-2, frameDepth);
+                        addFrameArtwork(painting, frameGeometry, undefined, (1+0.95*(i-(i%2)))*scale, (i % 2 == 0) ? upperY : lowerY, z, 0, -eps, frameShort-2 , frameLong-2, frameDepth);
 		}
 	}
 	textureLoader.load( 'img/everywhere.jpg', function ( texture ) {
@@ -760,11 +709,7 @@ function initWallN() {
 	const x = wallN.x+frameDepth/2 + eps;
 	for (let i = 0; i < paintings.length; i++) {
 		const painting = paintings[i];
-		const column = (i-(i%2))/2;
-		const y = (i % 2 == 0) ? upperY : lowerY;
-		const z = (1 + column * 2) * scale;
-		
-                addFrameArtwork(painting, frameGeometry, undefined, x, y, z, eps, 0, frameDepth, frameLong-2 , frameShort-2);
+                addFrameArtwork(painting, frameGeometry, undefined, x, (i % 2 == 0) ? upperY : lowerY, (1 + (i-(i%2))) * scale, eps, 0, frameDepth, frameLong-2 , frameShort-2);
 	}
 }
 function initWallO() {
@@ -784,11 +729,7 @@ function initWallO() {
 	for (let i = 0; i < paintings.length; i++) {
 		const painting =  paintings[i];
 		if ( painting ) {
-			const column = (i-(i%2))/2;
-			const z = (wallK.z+1+column*2) * scale;
-			const y = (i % 2 == 0) ? upperY : lowerY;
-			
-                        addFrameArtwork(painting.name, frameGeometry, undefined, x, y, z, -eps, 0, frameDepth, painting.height, painting.width);
+                        addFrameArtwork(painting.name, frameGeometry, undefined, x, (i % 2 == 0) ? upperY : lowerY, (wallK.z+1+(i-(i%2))) * scale, -eps, 0, frameDepth, painting.height, painting.width);
 		}
 	}
 	textureLoader.load( 'img/projection.jpg', function ( texture ) {
@@ -804,19 +745,10 @@ function initWallP() {
 	const paintings = [ 'F615.jpg', 'F616.jpg', 'F613.jpg', 'F614.jpg', 'F612.jpg', 'F611.jpg' ];
 	const frameGeometry = new THREE.BoxGeometry(frameShort , frameLong , frameDepth).toNonIndexed();
 	const artworkGeometry = new THREE.BoxGeometry(frameShort-2 , frameLong-2 , frameDepth).toNonIndexed();
+	const z = frameDepth/2 + eps;
 	for (let i = 0; i < paintings.length; i++) {
 		const painting = paintings[i];
-		const column = (i-(i%2))/2;
-		const x = (1.5+column*2) * scale;
-		const y = (i % 2 == 0) ? upperY : lowerY;
-		const z = frameDepth/2;
-		
-		textureLoader.load( 'img/' + painting, function ( texture ) {
-			addBox(frameGeometry, frameMaterial, x, y, z + eps);
-			addBox(artworkGeometry,
-			       new THREE.MeshBasicMaterial({ map: texture }),
-			       x, y, z + 2*eps);
-		} );
+                addFrameArtwork(painting, frameGeometry, undefined, (1.5+(i-(i%2))) * scale, (i % 2 == 0) ? upperY : lowerY, z, 0, eps, frameShort-2 , frameLong-2, frameDepth);
 	}
 }
 
