@@ -635,7 +635,7 @@ function initWallJ() {
 	const z = (wallC.z + wallDepth)*scale + frameDepth/2 + eps;
 	for (let i = 0; i < paintings.length; i++) {
 		const painting = paintings[i];
-                addFrameArtwork(painting.name, frameGeometry, matGeometry, (7+(i-(i%2)) * scale, (i % 2 == 0) ? upperY : lowerY, z, 0, eps, painting.width, painting.height , frameDepth);
+                addFrameArtwork(painting.name, frameGeometry, matGeometry, (7+(i-(i%2))) * scale, (i % 2 == 0) ? upperY : lowerY, z, 0, eps, painting.width, painting.height , frameDepth);
 	}
 }
 function initWallK() {
