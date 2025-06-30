@@ -427,7 +427,8 @@ function addFrameArtwork(name, frameGeometry, matGeometry, x, y, z, xd, zd, xp, 
             scene.add( mid );
         } );
 } 
-function addLabel(file, geometry x, y, z, voice) {
+
+function addLabel(file, geometry, x, y, z, voice) {
 	textureLoader.load( 'img/' + file, function ( texture ) {
 		let label = addBox(geometry, 
 		    new THREE.MeshBasicMaterial({ map: texture }),
@@ -437,6 +438,7 @@ function addLabel(file, geometry x, y, z, voice) {
                 }
 	} );
 }
+
 function initWallC() {
 	const paintings = [
 		{name: 'F105.jpg', width: 8, height: 11},
