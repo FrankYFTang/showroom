@@ -378,7 +378,7 @@ function initOtherWalls() {
 	setTimeout(initWallJ, 2200);
 }
 function initWallA() {
-	textureLoader.load( 'img/mid/F101.jpg', function ( texture ) {
+	textureLoader.load( 'img/full/F101.jpg', function ( texture ) {
 		let canvas = addBox(largeCanvasGeometry, 
 		    new THREE.MeshBasicMaterial({ map: texture }),
 		    2.5 * scale,
@@ -396,7 +396,7 @@ function initWallA() {
 	} );
 }
 function initWallB() {
-	textureLoader.load( 'img/mid/F102.jpg', function ( texture ) {
+	textureLoader.load( 'img/full/F102.jpg', function ( texture ) {
 		addBox(largeCanvasGeometry, 
 		    new THREE.MeshBasicMaterial({ map: texture }),
 		    17.5 * scale,
