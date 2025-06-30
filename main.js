@@ -708,7 +708,7 @@ function initWallO() {
                         addFrameArtwork(painting.name, frameGeometry, undefined, x, (i % 2 == 0) ? upperY : lowerY, (wallK.z+1+(i-(i%2))) * scale, -eps, 0, frameDepth, painting.height, painting.width);
 		}
 	}
-        addLabel('projection.jpg', labelGeometry2, wallK.x * scale - 0.1, (upperY+lowerY)/2, (wallK.z+1+2*2) * scale 'projection.m4a');
+        addLabel('projection.jpg', labelGeometry2, wallK.x * scale - 0.1, (upperY+lowerY)/2, (wallK.z+1+2*2) * scale, 'projection.m4a');
 }
 function initWallP() {
 	const paintings = [ 'F615.jpg', 'F616.jpg', 'F613.jpg', 'F614.jpg', 'F612.jpg', 'F611.jpg' ];
