@@ -672,7 +672,7 @@ function initWallM() {
                         addFrameArtwork(painting, frameGeometry, undefined, (1+0.95*(i-(i%2)))*scale, (i % 2 == 0) ? upperY : lowerY, z, 0, -eps, frameShort-2 , frameLong-2, frameDepth);
 		}
 	}
-        addLabel('everywhere.jpg', labelGeometry, (1+1.9*4)*scale, upperY, 20*scale -0.1), 'everywhere.m4a');
+        addLabel('everywhere.jpg', labelGeometry, (1+1.9*4)*scale, upperY, 20*scale -0.1, 'everywhere.m4a');
 }
 function initWallN() {
 	const paintings = [
