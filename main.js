@@ -427,6 +427,16 @@ function addFrameArtwork(name, frameGeometry, matGeometry, x, y, z, xd, zd, xp, 
             scene.add( mid );
         } );
 } 
+function addLabel(file, geometry x, y, z, voice) {
+	textureLoader.load( 'img/' + file, function ( texture ) {
+		let label = addBox(geometry, 
+		    new THREE.MeshBasicMaterial({ map: texture }),
+                    x, y, z);
+                if (voice) {
+		    addVoice(label, voice);
+                }
+	} );
+}
 function initWallC() {
 	const paintings = [
 		{name: 'F105.jpg', width: 8, height: 11},
@@ -443,20 +453,8 @@ function initWallC() {
 		const painting = paintings[i];
                 addFrameArtwork(painting.name, frameGeometry, matGeometry, (9+ (i-(i%2))) * scale, ((i % 2 == 0) ? upperY : lowerY), z, 0, -eps, painting.width, painting.height, frameDepth);
 	}
-	textureLoader.load( 'img/theme.jpg', function ( texture ) {
-		let canvas = addBox(labelGeometry, 
-		    new THREE.MeshBasicMaterial({ map: texture }),
-		    7 * scale,
-		    upperY,
-		    wallC.z*scale -0.1);
-	} );
-	textureLoader.load( 'img/self.jpg', function ( texture ) {
-		let canvas = addBox(labelGeometry, 
-		    new THREE.MeshBasicMaterial({ map: texture }),
-		    7 * scale,
-		    lowerY,
-		    wallC.z*scale -0.1);
-	} );
+        addLabel('theme.jpg', labelGeometry, 7 * scale, upperY, wallC.z*scale -0.1, undefined);
+        addLabel('self.jpg',labelGeometry,  7 * scale, lowerY, wallC.z*scale -0.1, undefined);
 }
 function initWallD() {
 	const z = frameDepth/2;
@@ -513,14 +511,7 @@ function initWallE() {
 			}
 		}
 	}
-	textureLoader.load( 'img/family.jpg', function ( texture ) {
-		let label = addBox(labelGeometry2, 
-		    			new THREE.MeshBasicMaterial({ map: texture }),
-		  			wallE.x * scale - 0.1,
-		  			(upperY+lowerY)/2,
-		 			(1+4*2) * scale);
-		addVoice(label, 'family.m4a');
-	} );
+        addLabel('family.jpg', labelGeometry2, wallE.x * scale - 0.1, (upperY+lowerY)/2, (1+4*2) * scale, 'family.m4a');
 }
 function initWallF() {
 	const paintings = [
@@ -577,13 +568,7 @@ function initWallG() {
 	const painting = {name: 'F401.jpg', width: 8, height: 11};
         addFrameArtwork('F401.jpg', frameGeometryP, matGeometryP, (11.2+1.9)*scale, (upperY + lowerY) / 2, z, 0, -eps, painting.width, painting.height, frameDepth);
 
-	textureLoader.load( 'img/abstraction.jpg', function ( texture ) {
-		addBox(labelGeometry, 
-		    new THREE.MeshBasicMaterial({ map: texture }),
-		    (11.2+1.9*2)*scale,
-		    (upperY + lowerY) / 2,
-		    20*scale -0.1);
-	} );
+        addLabel('abstraction.jpg', labelGeometry, (11.2+1.9*2)*scale, (upperY + lowerY) / 2, 20*scale -0.1, 'abstraction.m4a');
 }
 function initWallH() {
 	const paintings = [
@@ -613,14 +598,7 @@ function initWallI() {
 		const frameGeometry = new THREE.BoxGeometry(frameDepth , 22 , 18).toNonIndexed();
                 addFrameArtwork(painting.name, frameGeometry, matGeometry, wallF.x * scale - frameDepth/2 - eps, (upperY + lowerY) / 2, (3.7 + wallF.z + wallDepth) * scale, -eps, 0, frameDepth, painting.height, painting.width);
 	}
-	textureLoader.load( 'img/friends.jpg', function ( texture ) {
-		let label = addBox(labelGeometry2, 
-			new THREE.MeshBasicMaterial({ map: texture }),
-			wallF.x * scale - 0.1,
-			(upperY+lowerY)/2,
-			(5.7 + wallF.z + wallDepth) * scale);
-		addVoice(label, 'friends.m4a');
-	} );
+        addLabel('friends.jpg', labelGeometry2, wallF.x * scale - 0.1, (upperY+lowerY)/2, (5.7 + wallF.z + wallDepth) * scale, 'friends.m4a');
 }
 function initWallJ() {
 	const paintings = [
@@ -692,14 +670,7 @@ function initWallM() {
                         addFrameArtwork(painting, frameGeometry, undefined, (1+0.95*(i-(i%2)))*scale, (i % 2 == 0) ? upperY : lowerY, z, 0, -eps, frameShort-2 , frameLong-2, frameDepth);
 		}
 	}
-	textureLoader.load( 'img/everywhere.jpg', function ( texture ) {
-		let label = addBox(labelGeometry, 
-		    new THREE.MeshBasicMaterial({ map: texture }),
-		    (1+1.9*4)*scale,
-		    upperY,
-		    20*scale -0.1);
-		addVoice(label, 'everywhere.m4a');
-	} );
+        addLabel('everywhere.jpg', labelGeometry, (1+1.9*4)*scale, upperY, 20*scale -0.1), 'everywhere.m4a');
 }
 function initWallN() {
 	const paintings = [
@@ -735,14 +706,7 @@ function initWallO() {
                         addFrameArtwork(painting.name, frameGeometry, undefined, x, (i % 2 == 0) ? upperY : lowerY, (wallK.z+1+(i-(i%2))) * scale, -eps, 0, frameDepth, painting.height, painting.width);
 		}
 	}
-	textureLoader.load( 'img/projection.jpg', function ( texture ) {
-		let label = addBox(labelGeometry2, 
-		    new THREE.MeshBasicMaterial({ map: texture }),
-		    wallK.x * scale - 0.1,
-		    (upperY+lowerY)/2,
-		    (wallK.z+1+2*2) * scale);
-		addVoice(label, 'projection.m4a');
-	} );
+        addLabel('projection.jpg', labelGeometry2, wallK.x * scale - 0.1, (upperY+lowerY)/2, (wallK.z+1+2*2) * scale 'projection.m4a');
 }
 function initWallP() {
 	const paintings = [ 'F615.jpg', 'F616.jpg', 'F613.jpg', 'F614.jpg', 'F612.jpg', 'F611.jpg' ];
