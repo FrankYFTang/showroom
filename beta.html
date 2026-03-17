@@ -9,12 +9,22 @@
       #video { position: fixed; top: 15%; left: 5%; 
                width: 100%; height: 80%;
                z-index: 100;   }
+      .hide{ display:none}
     </style>
+    <script>
+      function showvideo(vid) {
+        document.getElementById('youtube').setAttribute("src", "https://www.youtube.com/embed/"+vid);
+        document.getElementById('video').setAttribute("class", "show");
+      }
+      function hidevideo() {
+        document.getElementById('video').setAttribute("class", "hide");
+      }
+    </script>
   </head>
   <body>
     <H1>Frank Yung-Fong Tang / 譚永鋒</H1>
-    <div id=video> 
-      <iframe src="https://www.youtube.com/embed/qeFdZ498UK4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" height="80%" width="90%"></iframe>    
+    <div id=video class=hide> 
+      <iframe id=youtube src="https://www.youtube.com/embed/qeFdZ498UK4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" height="80%" width="90%"></iframe>    
     </div>
     <div>
       <img height="80%" src=https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1118-h1815-s-no-gm>
@@ -24,6 +34,7 @@
           (2026)<br>
           Arcylic & paper on canvas<br>
           48x30<br>
+          <span onclick="hidevideo('qeFdZ498UK4')">[video]</span>
         </div>
       </span>
     </div>
