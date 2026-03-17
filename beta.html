@@ -13,6 +13,7 @@
     </style>
     <script>
       function showvideo(vid) {
+        console.log(vid);
         document.getElementById('youtube').setAttribute("src", "https://www.youtube.com/embed/"+vid);
         document.getElementById('video').setAttribute("class", "show");
       }
@@ -34,7 +35,7 @@
           (2026)<br>
           Arcylic & paper on canvas<br>
           48x30<br>
-          <span onclick="hidevideo('qeFdZ498UK4')">[video]</span>
+          <p onclick="showvideo('qeFdZ498UK4')">[video]</p>
         </div>
       </span>
     </div>
