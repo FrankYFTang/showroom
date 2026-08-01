@@ -99,6 +99,7 @@
     .filter-tabs {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .tab-btn {
@@ -202,6 +203,11 @@
       color: #cbd5e1;
     }
 
+    .badge.slides {
+      border-color: #60a5fa;
+      color: #93c5fd;
+    }
+
     /* Overlay Trigger Button */
     .img-overlay-btn {
       position: absolute;
@@ -262,6 +268,7 @@
       margin-top: auto;
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .action-btn {
@@ -275,6 +282,7 @@
       color: var(--text-main);
       cursor: pointer;
       transition: all 0.2s ease;
+      min-width: 120px;
     }
 
     .action-btn:hover {
@@ -318,9 +326,9 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 14px;
-      max-width: 1000px;
+      max-width: 1050px;
       width: 100%;
-      max-height: 90vh;
+      max-height: 92vh;
       overflow-y: auto;
       position: relative;
       padding: 30px;
@@ -421,7 +429,7 @@
       color: #fff;
     }
 
-    .video-container {
+    .video-container, .slides-container {
       position: relative;
       padding-bottom: 56.25%; /* 16:9 aspect ratio */
       height: 0;
@@ -430,7 +438,7 @@
       background: #000;
     }
 
-    .video-container iframe {
+    .video-container iframe, .slides-container iframe {
       position: absolute;
       top: 0;
       left: 0;
@@ -470,6 +478,7 @@
     <div class="filter-tabs">
       <button class="tab-btn active" onclick="filterGallery('selected')">Selected Works</button>
       <button class="tab-btn" onclick="filterGallery('studies')">Studies & Experiments</button>
+      <button class="tab-btn" onclick="filterGallery('portfolios')">Course Portfolios & Slides</button>
       <button class="tab-btn" onclick="filterGallery('all')">All Works</button>
     </div>
     <div class="item-count" id="itemCountDisplay">Showing 6 Selected Masterpieces</div>
@@ -480,7 +489,7 @@
     <!-- Rendered dynamically via JavaScript -->
   </main>
 
-  <!-- Interactive Process & Video Modal Overlay -->
+  <!-- Interactive Process & Video & Slides Modal Overlay -->
   <div class="modal-backdrop" id="modalBackdrop">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal()">&times;</button>
@@ -490,7 +499,7 @@
         <p id="modalSub">Medium & Dimensions</p>
       </div>
 
-      <!-- Process Viewer Container -->
+      <!-- Process / Video / Slides Viewer Container -->
       <div id="modalBody">
         <!-- Injected dynamically -->
       </div>
@@ -502,7 +511,7 @@
   </footer>
 
   <script>
-    // Data Model: Artworks with metadata, categories, awards, process stages, and video embeds
+    // Data Model: Artworks with metadata, categories, awards, process stages, video embeds, and slide decks
     const artworksData = [
       {
         id: "izmir",
@@ -620,12 +629,60 @@
       }
     ];
 
+    // Data Model: Academic Course Slide Decks (Non-intrusive interactive modals)
+    const courseSlideDecks = [
+      { id: "art19a", code: "ART 19A", title: "Oil Painting I Final Portfolio", slideId: "1afPyfkVC7B_yR-CTn_WTRYkH1JCzbouOZ-1jhyhZrgY", term: "Fall 2024", desc: "Complete studio progression of oil painting studies, value block-ins, and portrait compositions." },
+      { id: "art19c", code: "ART 19C", title: "Oil Painting II Final Portfolio", slideId: "15ySyIM3QIpoTx598OCNpPNQiw9jl8DPzWTCyDSx_r7Q", term: "Fall 2025", desc: "Advanced oil portraiture exploration, large-scale glazing, and conceptual series development." },
+      { id: "art19b", code: "ART 19B", title: "Acrylic Painting I Final Portfolio", slideId: "1c2q206SQ0QK8YDp2_pw95s9kEGID19DU1KDQ5LInMUc", term: "Winter 2026", desc: "Acrylic layering, quick-drying color dynamics, and multi-media canvas foundations." },
+      { id: "art19g", code: "ART 19G", title: "Outdoor Landscape Painting Portfolio", slideId: "1PK92nFcnF0mp-Osh0Nx_9nLXqLolZHIXXwNVrDfvl_Q", term: "Spring 2026", desc: "Plein air landscape painting in Northern California, light studies, and atmospheric color." },
+      { id: "art4c", code: "ART 4C", title: "Representational Drawing Final Portfolio", slideId: "1-ePzw2FMjtuH8Yz3_OmlCAzGRcdoZTrVhYgjrghya_U", term: "Winter 2025", desc: "Proportion grids, contour studies, charcoal value modeling, and anatomical figure drawing." },
+      { id: "art20", code: "ART 20", title: "Color Theory Final Portfolio", slideId: "1CpInb_zReISycFL6uzxHDiZ7PLJ-q9VMyf4OeLbN0fY", term: "Winter 2025", desc: "Color relativity, chromatic harmony, Munsell value charts, and psychological color application." },
+      { id: "art47a", code: "ART 47A", title: "Watercolor I Final Portfolio", slideId: "1yDzeKBdMLKW72tQFilXZxXcyW9TijE9I_hrt_qTYmAA", term: "Summer 2024", desc: "Transparent washes, wet-on-wet technique, negative space control, and ink accents." },
+      { id: "art47b", code: "ART 47B", title: "Watercolor II Final Portfolio", slideId: "1URitnjb3vZy4i36Cd868cX_mQcsDYy4UFXqMTVBdnG8", term: "Spring 2025", desc: "Advanced watercolor portraiture, gouache highlights, and complex wet-media compositions." },
+      { id: "art5b", code: "ART 5B", title: "3-D Foundations Final Portfolio", slideId: "189yPzX6l5ADpDrrQq2rbmEUicMB9moNvfZOiIaWbTms", term: "Spring 2026", desc: "Spatial form, volumetric sculpture, relief carving, and 3-dimensional material construction." },
+      { id: "art70r", code: "ART 70R", title: "Independent Study Final Portfolio (70R)", slideId: "1iVplw_sx6JCV7fEHqyX9QYuY8KL62LdR5CwQnZfsvsA", term: "Summer 2025", desc: "Self-directed studio research exploring Asian representation and large-scale canvas work." },
+      { id: "art71r", code: "ART 71R", title: "Independent Study Final Portfolio (71R)", slideId: "1KwgZtadxBlPD5g2J_Bb65RVndOU_oEwW-F_xkWcQq9o", term: "Fall 2025", desc: "Advanced independent studio project focusing on texture, found materials, and portraiture." },
+      { id: "gid31", code: "GID 31", title: "Graphic Design Drawing Portfolio", slideId: "1SRhy3gFKXhhKyx8Sp76jx6Do7kuagMQMD_M8etNb8kE", term: "Summer 2026", desc: "Graphic illustration, vector drafting principles, typography integration, and digital drawing." }
+    ];
+
     let currentFilter = "selected";
 
     // Render Gallery Cards
     function renderGallery() {
       const grid = document.getElementById("galleryGrid");
       grid.innerHTML = "";
+
+      if (currentFilter === "portfolios") {
+        document.getElementById("itemCountDisplay").innerText = `Showing 12 Academic Course Slide Decks`;
+        
+        courseSlideDecks.forEach(deck => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openSlidesModal('${deck.slideId}', '${deck.code}: ${deck.title}')" style="aspect-ratio: 16/9; background:#180f0e;">
+              <div class="badge-group"><span class="badge slides">Course Portfolio • ${deck.code}</span></div>
+              <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%; padding:20px; text-align:center;">
+                <div style="font-size:2rem; color:var(--accent-gold); margin-bottom:10px;">📊</div>
+                <h4 style="font-family:var(--font-heading); color:#fff; font-size:1.1rem;">${deck.title}</h4>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">${deck.term}</p>
+              </div>
+              <button class="img-overlay-btn"><span>▶ Interactive Slide Deck</span></button>
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${deck.code}: ${deck.title}</h3>
+              <div class="art-meta">${deck.term} • Foothill College Studio Art</div>
+              <p style="font-size:0.85rem; color:var(--text-main); margin-bottom:15px;">${deck.desc}</p>
+              <div class="card-actions">
+                <button class="action-btn primary" onclick="openSlidesModal('${deck.slideId}', '${deck.code}: ${deck.title}')">View Interactive Slides</button>
+                <a href="https://docs.google.com/presentation/d/${deck.slideId}/edit" target="_blank" class="action-btn">Open in Google Drive ↗</a>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+        return;
+      }
 
       const filtered = artworksData.filter(item => {
         if (currentFilter === "all") return true;
@@ -730,6 +787,25 @@
       openProcessModal(artId);
     }
 
+    // Google Slides Modal Viewer (Non-intrusive modal)
+    function openSlidesModal(slideId, title) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalSub").innerText = "Interactive Course Portfolio Presentation";
+
+      const modalBody = document.getElementById("modalBody");
+      modalBody.innerHTML = `
+        <div class="slides-container">
+          <iframe src="https://docs.google.com/presentation/d/${slideId}/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+          <span style="font-size:0.85rem; color:var(--text-muted);">Tip: Click inside the slide viewer or use arrow keys to flip through slides.</span>
+          <a href="https://docs.google.com/presentation/d/${slideId}/edit" target="_blank" class="action-btn" style="max-width:200px;">Open in Google Drive ↗</a>
+        </div>
+      `;
+
+      document.getElementById("modalBackdrop").classList.add("open");
+    }
+
     function selectStage(artId, stageIdx, el) {
       const art = artworksData.find(item => item.id === artId);
       if (!art || !art.processStages[stageIdx]) return;
@@ -742,7 +818,7 @@
 
     function closeModal() {
       document.getElementById("modalBackdrop").classList.remove("open");
-      document.getElementById("modalBody").innerHTML = ""; // Stop video playback
+      document.getElementById("modalBody").innerHTML = ""; // Stop video/iframe playback
     }
 
     // Close modal on escape key
