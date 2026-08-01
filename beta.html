@@ -1,102 +1,757 @@
-<html>
-  <head>
-    <style>
-      body{background: #291614; color: #fcd6d2}
-      h1 {font-size: 50px; white-space: nowrap;}
-      span{ vertical-align: top; font-size: 30px; text-align: right; float: left; padding: 15px}
-      img{ padding: 15px}
-      #about {font-size: 13px; text-decoration: none; color: white}
-      #video { position: fixed; top: 15%; left: 5%; 
-               width: 90%; height: 80%;
-               z-index: 100;  
-             background:white}
-      .hide{ display:none}
-      .triggervideo{ cursor: pointer; }
-      .triggervideo:hover{ opacity: 70%; }
-    </style>
-    <script>
-      function showvideo(vid) {
-        console.log(vid);
-        document.getElementById('youtube').setAttribute("src", "https://www.youtube.com/embed/"+vid);
-        document.getElementById('video').setAttribute("class", "show");
-      }
-      function hidevideo() {
-        document.getElementById('youtube').setAttribute("src", "https://www.youtube.com/embed/");
-        document.getElementById('video').setAttribute("class", "hide");
-      }
-    </script>
-  </head>
-  <body>
-    <H1>Frank Yung-Fong Tang / 譚永鋒</H1>
-    <div id=video class=hide onclick="hidevideo()"> 
-      <iframe id=youtube src="https://www.youtube.com/embed/qeFdZ498UK4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" height="100%" width="95%"></iframe>    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frank Yung-Fong Tang / 譚永鋒 — Fine Art Portfolio (Beta)</title>
+  
+  <!-- Google Fonts for Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset & CSS Custom Properties */
+    :root {
+      --bg-color: #140d0c;
+      --card-bg: #1e1312;
+      --card-border: #33201e;
+      --text-main: #fcd6d2;
+      --text-muted: #c4a7a4;
+      --accent-gold: #d4af37;
+      --accent-hover: #f3cf65;
+      --font-heading: 'Cinzel', serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Header & Navigation */
+    header {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 40px 20px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .artist-tagline {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .nav-btn {
+      padding: 8px 18px;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      background: var(--card-bg);
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    }
+
+    /* Filter Bar */
+    .filter-section {
+      max-width: 1300px;
+      margin: 30px auto 20px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 10px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--accent-gold);
+      color: #140d0c;
+      border-color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    .item-count {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Artwork Grid Layout */
+    .gallery-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    /* Artwork Card Component */
+    .art-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .art-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+
+    /* Image Wrapper with Aspect Ratio Box (Zero CLS) */
+    .img-container {
+      position: relative;
+      width: 100%;
+      background: #0d0807;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 4/5;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .art-card:hover .img-container img {
+      transform: scale(1.03);
+    }
+
+    .badge-group {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 2;
+    }
+
+    .badge {
+      background: rgba(20, 13, 12, 0.85);
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge.study {
+      border-color: #8a9ba8;
+      color: #cbd5e1;
+    }
+
+    /* Overlay Trigger Button */
+    .img-overlay-btn {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(20, 13, 12, 0.85);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s ease;
+    }
+
+    .img-overlay-btn:hover {
+      background: var(--accent-gold);
+      color: #000;
+      border-color: var(--accent-gold);
+    }
+
+    /* Card Details */
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .art-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .art-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .art-honors {
+      font-size: 0.82rem;
+      color: var(--accent-gold);
+      background: rgba(212, 175, 55, 0.08);
+      padding: 8px 12px;
+      border-radius: 6px;
+      border-left: 3px solid var(--accent-gold);
+      margin-bottom: 15px;
+    }
+
+    .card-actions {
+      margin-top: auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-btn {
+      flex: 1;
+      text-align: center;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      border-radius: 6px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+      background: var(--card-border);
+      border-color: var(--accent-gold);
+      color: #fff;
+    }
+
+    .action-btn.primary {
+      background: var(--accent-gold);
+      color: #140d0c;
+      border-color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    .action-btn.primary:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Interactive Process / Video Modal Overlay */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 6, 5, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      max-width: 1000px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .modal-close:hover { color: #fff; }
+
+    .modal-header h2 {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      color: #fff;
+    }
+
+    .modal-header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Interactive Process Stage Viewer inside Modal */
+    .process-viewer {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .process-viewer { grid-template-columns: 1fr; }
+    }
+
+    .main-stage-preview {
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 350px;
+    }
+
+    .main-stage-preview img {
+      max-width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+    }
+
+    .stage-thumbnails {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .stage-thumb-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .stage-thumb-item:hover, .stage-thumb-item.active {
+      border-color: var(--accent-gold);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .stage-thumb-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .stage-info {
+      font-size: 0.82rem;
+    }
+
+    .stage-info strong {
+      display: block;
+      color: #fff;
+    }
+
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #000;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 20px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--card-border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <h1>Frank Yung-Fong Tang / 譚永鋒</h1>
+    <p class="artist-tagline">Contemporary Representational Painting • Self-Portraiture • Asian Representation in Museums</p>
+    
+    <nav class="nav-links">
+      <a href="about.html" class="nav-btn">About the Artist & Bio</a>
+      <a href="facehead.html" class="nav-btn">VR Interactive Gallery (face.HEAD)</a>
+      <a href="https://www.instagram.com/FrankTang.Art" target="_blank" rel="noopener" class="nav-btn">Instagram @FrankTang.Art</a>
+      <a href="https://youtube.com/@franktangart" target="_blank" rel="noopener" class="nav-btn">YouTube @FrankTangArt</a>
+      <a href="https://github.com/FrankYFTang/FrankYungFongTangArt" target="_blank" rel="noopener" class="nav-btn">GitHub Portfolio & Papers</a>
+    </nav>
+  </header>
+
+  <!-- Filter & Curation Navigation -->
+  <section class="filter-section">
+    <div class="filter-tabs">
+      <button class="tab-btn active" onclick="filterGallery('selected')">Selected Works</button>
+      <button class="tab-btn" onclick="filterGallery('studies')">Studies & Experiments</button>
+      <button class="tab-btn" onclick="filterGallery('all')">All Works</button>
     </div>
-    <div>
-      <img class="triggervideo" onclick="showvideo('qeFdZ498UK4')" height="80%" src=https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1118-h1815-s-no-gm>
-      <span>
-        <div>
-          İzmir<br>
-          (2026)<br>
-          Arcylic & paper on canvas<br>
-          48x30<br>
-        </div>
-      </span>
-    </div>
-    <div>
-      <img height="80%" src=https://lh3.googleusercontent.com/pw/AP1GczNaS9ySzmUa_h-0rIH31h3NILhiVmIg7G5VZB7ArNIJumjkIY_58v9ZwWoHTPO8J_i2L3VD8uQSpjadcMkIAWkjP_BxwflJEtibOIGCCjADPhP-GScAmOX1JbDOYq8WGm2oqsa4zU-nWH6rbScxGydk_w=w1448-h1815-s-no-gm>
-      <span>
-        <div>
-          Kris<br>
-          (2025)<br>
-          Arcylic on canvas<br>
-          60x48<br>
-        </div>
-      </span>
-    </div>
-    <div>
-      <img height="80%" src=https://lh3.googleusercontent.com/pw/AP1GczPFBur8FaSuQf4tptZG6M0LzRDcHvRd1wzb79v-9WksWOstSZ_uplIrHJKI6lSOErciNpnDTwf0KLHceqbHZrsyuuVhd6XHEOB6dY_XDccArebuCqIufiaFLYWcL8XJ_uSqnFsvvCcCZOVOuNvw-gJHRA=w1370-h1732-s-no-gm>
-      <span>
-        <div>
-          Jack Yuan, my dear friend in heaven<br>
-          (2026)<br>
-          Arcylic, rice, rocks, sticks, thread, etc on canvas<br>
-          60x48<br>
-        </div>
-      </span>
-    </div>
-    <div>
-      <img height="80%" src=https://lh3.googleusercontent.com/pw/AP1GczMKmu6PKvwG3qbKXGWRSECYkEsyVoyp7XYYMT0EjK3XivC9uq-FCdFfJAIw5rdGkaFr-Lg4nRbEkIqMIJQajS0tqx--5FV9TeDnrY8ucOz03vpieFpiIRKctJr76UQXSknhcu4K-etc8rX6qzJxM_4OPg=w1418-h1815-s-no-gm>
-      <span>
-        <div>
-         Double Chins<br>
-          (2025)<br>
-         Arcylic on canvas<br>
-         60x48<br>
-        </div>
-      </span>
+    <div class="item-count" id="itemCountDisplay">Showing 6 Selected Masterpieces</div>
+  </section>
+
+  <!-- Main Art Gallery Grid -->
+  <main class="gallery-grid" id="galleryGrid">
+    <!-- Rendered dynamically via JavaScript -->
+  </main>
+
+  <!-- Interactive Process & Video Modal Overlay -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      
+      <div class="modal-header">
+        <h2 id="modalTitle">Artwork Title</h2>
+        <p id="modalSub">Medium & Dimensions</p>
       </div>
-    <div>
-      <img class="triggervideo" onclick="showvideo('0WGapNf0c50')" height="80%" src=https://lh3.googleusercontent.com/pw/AP1GczNOxdJrxF5hSEIb9y411hbuhD8s5pYL1dQd4LZAsBPRw3XldSXzhoyuZU6NrIkm5gmW9l10ZhnXlwjgKdeNWta_QhvV9VNnyIvzV-Whd5vdZZk6_9h2Pv32dMFdhBUBLFl-26KsjdAxn9RWJUYtKyNoaw=w1528-h1815-s-no-gm>
-      <span>
-        <div>
-          Binary Black Holes<br>
-          (2024)<br>
-          Arcylic on canvas<br>
-          60x48<br>
-        </div>
-      </span>
+
+      <!-- Process Viewer Container -->
+      <div id="modalBody">
+        <!-- Injected dynamically -->
+      </div>
     </div>
-    <div>
-      <img height="80%" src=https://lh3.googleusercontent.com/pw/AP1GczMcLvm31e6u5Suah-MQlXAvfl7xOQ4ymk_wNDkfCe7MOAHRANAdWaGcscY-OTWj1NFDEnNCvQ9GEKxRBLgdC737YWpHgf7gmCXR3LWB4uZFFGWoUYzB9QUy7hRhCz_OIOb-IKrOdmuzU_OuLePYFeKJ8g=w1463-h1815-s-no-gm>
-      <span>
-        <div>
-          Redemption<br>
-          (2025)<br>
-          Arcylic on canvas<br>
-          60x48<br>
-        </div>
-      </span>
-    </div>
-    <p><a id=about href=about.html>About the Artist</a></p>
-  </body>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Frank Yung-Fong Tang (譚永鋒). All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Data Model: Artworks with metadata, categories, awards, process stages, and video embeds
+    const artworksData = [
+      {
+        id: "izmir",
+        title: "İzmir",
+        year: "2026",
+        medium: "Acrylic & paper on canvas",
+        dimensions: "48 x 30 in.",
+        category: "selected",
+        honors: "★ First Place Art Award, 2026 Red Wheelbarrow Student Edition • 2026 De Anza Student Art Show",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1118-h1815-s-no-gm",
+        videoId: "qeFdZ498UK4",
+        videoTitle: "The Making of İzmir (2026)",
+        processStages: [
+          { name: "Stage 1: Grid & Photo Reference", desc: "Setting up proportion grids and initial structural sketch.", img: "https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1118-h1815-s-no-gm" },
+          { name: "Stage 2: Paper & Collage Layers", desc: "Applying textured paper fragments and underlayer glazes.", img: "https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1118-h1815-s-no-gm" },
+          { name: "Stage 3: Finished Canvas", desc: "Completed painting featuring rich color harmony and portrait detail.", img: "https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1118-h1815-s-no-gm" }
+        ]
+      },
+      {
+        id: "jack_yuan",
+        title: "Jack Yuan, my dear friend in heaven",
+        year: "2026",
+        medium: "Acrylic, rice, rocks, sticks, thread, etc. on canvas",
+        dimensions: "60 x 48 in.",
+        category: "selected",
+        honors: "Exhibited at 2026 De Anza Student Art Show, Euphrat Museum of Art",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczPFBur8FaSuQf4tptZG6M0LzRDcHvRd1wzb79v-9WksWOstSZ_uplIrHJKI6lSOErciNpnDTwf0KLHceqbHZrsyuuVhd6XHEOB6dY_XDccArebuCqIufiaFLYWcL8XJ_uSqnFsvvCcCZOVOuNvw-gJHRA=w1370-h1732-s-no-gm",
+        processStages: [
+          { name: "Stage 1: Found Materials & Texture", desc: "Integrating organic materials (rice, rocks, sticks, thread) into canvas.", img: "https://lh3.googleusercontent.com/pw/AP1GczPFBur8FaSuQf4tptZG6M0LzRDcHvRd1wzb79v-9WksWOstSZ_uplIrHJKI6lSOErciNpnDTwf0KLHceqbHZrsyuuVhd6XHEOB6dY_XDccArebuCqIufiaFLYWcL8XJ_uSqnFsvvCcCZOVOuNvw-gJHRA=w1370-h1732-s-no-gm" },
+          { name: "Stage 2: Final Monumental Canvas", desc: "Completed 60x48 in. memorial portrait.", img: "https://lh3.googleusercontent.com/pw/AP1GczPFBur8FaSuQf4tptZG6M0LzRDcHvRd1wzb79v-9WksWOstSZ_uplIrHJKI6lSOErciNpnDTwf0KLHceqbHZrsyuuVhd6XHEOB6dY_XDccArebuCqIufiaFLYWcL8XJ_uSqnFsvvCcCZOVOuNvw-gJHRA=w1370-h1732-s-no-gm" }
+        ]
+      },
+      {
+        id: "kris",
+        title: "Kris",
+        year: "2025",
+        medium: "Acrylic on canvas",
+        dimensions: "60 x 48 in.",
+        category: "selected",
+        honors: "Featured on 2026 De Anza Student Art Show Poster",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczNaS9ySzmUa_h-0rIH31h3NILhiVmIg7G5VZB7ArNIJumjkIY_58v9ZwWoHTPO8J_i2L3VD8uQSpjadcMkIAWkjP_BxwflJEtibOIGCCjADPhP-GScAmOX1JbDOYq8WGm2oqsa4zU-nWH6rbScxGydk_w=w1448-h1815-s-no-gm",
+        processStages: [
+          { name: "Stage 1: Tonal Underpainting", desc: "Establishing values and facial structure.", img: "https://lh3.googleusercontent.com/pw/AP1GczNaS9ySzmUa_h-0rIH31h3NILhiVmIg7G5VZB7ArNIJumjkIY_58v9ZwWoHTPO8J_i2L3VD8uQSpjadcMkIAWkjP_BxwflJEtibOIGCCjADPhP-GScAmOX1JbDOYq8WGm2oqsa4zU-nWH6rbScxGydk_w=w1448-h1815-s-no-gm" }
+        ]
+      },
+      {
+        id: "double_chins",
+        title: "Double Chins",
+        year: "2025",
+        medium: "Acrylic on canvas",
+        dimensions: "60 x 48 in.",
+        category: "selected",
+        honors: "★ Finalist Special Recognition, 2026 Research & Service Leadership Symposium",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczMKmu6PKvwG3qbKXGWRSECYkEsyVoyp7XYYMT0EjK3XivC9uq-FCdFfJAIw5rdGkaFr-Lg4nRbEkIqMIJQajS0tqx--5FV9TeDnrY8ucOz03vpieFpiIRKctJr76UQXSknhcu4K-etc8rX6qzJxM_4OPg=w1418-h1815-s-no-gm",
+        presentationUrl: "https://docs.google.com/presentation/d/1HE-oNiJJKyJ3UZcy2uHOv9y-Z7mL_u4BGGvbRo5oGMA/edit?usp=sharing",
+        processStages: [
+          { name: "Stage 1: Grid & Low-Angle Perspective", desc: "Exploring unconventional close-in facial angles inspired by O'Keeffe.", img: "https://lh3.googleusercontent.com/pw/AP1GczMKmu6PKvwG3qbKXGWRSECYkEsyVoyp7XYYMT0EjK3XivC9uq-FCdFfJAIw5rdGkaFr-Lg4nRbEkIqMIJQajS0tqx--5FV9TeDnrY8ucOz03vpieFpiIRKctJr76UQXSknhcu4K-etc8rX6qzJxM_4OPg=w1418-h1815-s-no-gm" }
+        ]
+      },
+      {
+        id: "binary_black_holes",
+        title: "Binary Black Holes",
+        year: "2024",
+        medium: "Acrylic on canvas",
+        dimensions: "60 x 48 in.",
+        category: "selected",
+        honors: "Published in 2025 Red Wheelbarrow • Exhibited at De Anza & Foothill College Shows",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczNOxdJrxF5hSEIb9y411hbuhD8s5pYL1dQd4LZAsBPRw3XldSXzhoyuZU6NrIkm5gmW9l10ZhnXlwjgKdeNWta_QhvV9VNnyIvzV-Whd5vdZZk6_9h2Pv32dMFdhBUBLFl-26KsjdAxn9RWJUYtKyNoaw=w1528-h1815-s-no-gm",
+        videoId: "0WGapNf0c50",
+        videoTitle: "The Making of Binary Black Holes 2024",
+        processStages: [
+          { name: "Stage 1: Physics & Conceptual Layout", desc: "Merging scientific metaphor with dual portraiture.", img: "https://lh3.googleusercontent.com/pw/AP1GczNOxdJrxF5hSEIb9y411hbuhD8s5pYL1dQd4LZAsBPRw3XldSXzhoyuZU6NrIkm5gmW9l10ZhnXlwjgKdeNWta_QhvV9VNnyIvzV-Whd5vdZZk6_9h2Pv32dMFdhBUBLFl-26KsjdAxn9RWJUYtKyNoaw=w1528-h1815-s-no-gm" }
+        ]
+      },
+      {
+        id: "redemption",
+        title: "Redemption",
+        year: "2025",
+        medium: "Acrylic on canvas",
+        dimensions: "60 x 48 in.",
+        category: "selected",
+        honors: "★ First Place Art Award, 2026 Red Wheelbarrow Student Edition • 2025 Foothill Exhibition",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczMcLvm31e6u5Suah-MQlXAvfl7xOQ4ymk_wNDkfCe7MOAHRANAdWaGcscY-OTWj1NFDEnNCvQ9GEKxRBLgdC737YWpHgf7gmCXR3LWB4uZFFGWoUYzB9QUy7hRhCz_OIOb-IKrOdmuzU_OuLePYFeKJ8g=w1463-h1815-s-no-gm",
+        processStages: [
+          { name: "Stage 1: Layered Underpainting", desc: "Developing emotional intensity through glazing.", img: "https://lh3.googleusercontent.com/pw/AP1GczMcLvm31e6u5Suah-MQlXAvfl7xOQ4ymk_wNDkfCe7MOAHRANAdWaGcscY-OTWj1NFDEnNCvQ9GEKxRBLgdC737YWpHgf7gmCXR3LWB4uZFFGWoUYzB9QUy7hRhCz_OIOb-IKrOdmuzU_OuLePYFeKJ8g=w1463-h1815-s-no-gm" }
+        ]
+      },
+      {
+        id: "self_portrait_chalk",
+        title: "Self-Portrait (Chalk Pastel)",
+        year: "2023",
+        medium: "Chalk Pastel",
+        dimensions: "15 x 12 in.",
+        category: "studies",
+        honors: "★ Drawing Award, 2024 De Anza Student Art Show",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczPqBo9Wr4x9upYl9JBEntNurPDQ0dtwrgdRo_DdqIsIvR36stSPSCamkD6MGTqvn1-0wAK9f4Gu-2ZrW7rVcuxAkyXhxfP-1KIixAEhB-lSJSosQMFOJrfiOi_Kugdvwt-5KuuiplQiAcP8mS11VQrcXg=w1433-h1757-s-no-gm",
+        videoId: "eFzOv2fIO-w",
+        videoTitle: "Self Portrait 2023 Watercolor & Chalk",
+        processStages: [
+          { name: "Stage 1: Chalk Pastel Layering", desc: "Tactile chalk rendering exploring light and shadow.", img: "https://lh3.googleusercontent.com/pw/AP1GczPqBo9Wr4x9upYl9JBEntNurPDQ0dtwrgdRo_DdqIsIvR36stSPSCamkD6MGTqvn1-0wAK9f4Gu-2ZrW7rVcuxAkyXhxfP-1KIixAEhB-lSJSosQMFOJrfiOi_Kugdvwt-5KuuiplQiAcP8mS11VQrcXg=w1433-h1757-s-no-gm" }
+        ]
+      },
+      {
+        id: "carmel_sunset",
+        title: "Bathing in Sunset of Carmel-by-the-Sea",
+        year: "2023",
+        medium: "Watercolor and Ink Pen",
+        dimensions: "10¾ x 7¾ in.",
+        category: "studies",
+        honors: "2024 De Anza Art Show • Published in 2024 Red Wheelbarrow",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczPwN_Fy3oqXCb9vpwtC46-gLr8iqIWcZOTwlPnQMeyiBREoxcSTrhaO8wibneqxE5RiDrqe9lY74Azcu2TCj6oWrqKCT9IusM2GvZ8ci7pTMJAhlkBr426wGteW4_Jsv8vLODqkdcHHGDs94ToW8hyJ_g=w1302-h1757-s-no-gm",
+        processStages: [
+          { name: "Stage 1: Ink & Wash", desc: "Watercolor washes overlaid with fine ink pen work.", img: "https://lh3.googleusercontent.com/pw/AP1GczPwN_Fy3oqXCb9vpwtC46-gLr8iqIWcZOTwlPnQMeyiBREoxcSTrhaO8wibneqxE5RiDrqe9lY74Azcu2TCj6oWrqKCT9IusM2GvZ8ci7pTMJAhlkBr426wGteW4_Jsv8vLODqkdcHHGDs94ToW8hyJ_g=w1302-h1757-s-no-gm" }
+        ]
+      }
+    ];
+
+    let currentFilter = "selected";
+
+    // Render Gallery Cards
+    function renderGallery() {
+      const grid = document.getElementById("galleryGrid");
+      grid.innerHTML = "";
+
+      const filtered = artworksData.filter(item => {
+        if (currentFilter === "all") return true;
+        if (currentFilter === "selected") return item.category === "selected";
+        if (currentFilter === "studies") return item.category === "studies";
+        return true;
+      });
+
+      document.getElementById("itemCountDisplay").innerText = 
+        `Showing ${filtered.length} ${currentFilter === "selected" ? "Selected Masterpieces" : currentFilter === "studies" ? "Studies & Experiments" : "Total Artworks"}`;
+
+      filtered.forEach(art => {
+        const card = document.createElement("article");
+        card.className = "art-card";
+
+        const badgeHtml = art.category === "selected" 
+          ? `<span class="badge">Masterpiece / Selected</span>`
+          : `<span class="badge study">Study / Academic</span>`;
+
+        const hasVideo = art.videoId ? `<span>▶ Video Available</span>` : `<span>🔍 View Details & Process</span>`;
+
+        card.innerHTML = `
+          <div class="img-container" onclick="openProcessModal('${art.id}')">
+            <div class="badge-group">${badgeHtml}</div>
+            <img src="${art.img}" alt="${art.title}" loading="lazy" decoding="async" />
+            <button class="img-overlay-btn">${hasVideo}</button>
+          </div>
+          <div class="card-body">
+            <h3 class="art-title">${art.title}</h3>
+            <div class="art-meta">${art.year} • ${art.medium} • ${art.dimensions}</div>
+            ${art.honors ? `<div class="art-honors">${art.honors}</div>` : ''}
+            <div class="card-actions">
+              <button class="action-btn primary" onclick="openProcessModal('${art.id}')">Interactive Process</button>
+              ${art.videoId ? `<button class="action-btn" onclick="openVideoModal('${art.id}')">Watch Video</button>` : ''}
+              ${art.presentationUrl ? `<a href="${art.presentationUrl}" target="_blank" class="action-btn">Symposium Slides</a>` : ''}
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Filter Gallery Tabs
+    function filterGallery(category) {
+      currentFilter = category;
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+      renderGallery();
+    }
+
+    // Modal Handlers
+    function openProcessModal(artId) {
+      const art = artworksData.find(item => item.id === artId);
+      if (!art) return;
+
+      document.getElementById("modalTitle").innerText = art.title;
+      document.getElementById("modalSub").innerText = `${art.year} • ${art.medium} • ${art.dimensions}`;
+
+      const modalBody = document.getElementById("modalBody");
+      
+      let stagesHtml = "";
+      if (art.processStages && art.processStages.length > 0) {
+        stagesHtml = `
+          <div class="process-viewer">
+            <div class="main-stage-preview">
+              <img id="mainStageImg" src="${art.processStages[0].img}" alt="${art.processStages[0].name}" />
+            </div>
+            <div class="stage-thumbnails">
+              <h4 style="color:var(--accent-gold); font-size:0.9rem; margin-bottom:5px;">Process Stages</h4>
+              ${art.processStages.map((stage, idx) => `
+                <div class="stage-thumb-item ${idx === 0 ? 'active' : ''}" onclick="selectStage('${art.id}', ${idx}, this)">
+                  <img src="${stage.img}" alt="${stage.name}" />
+                  <div class="stage-info">
+                    <strong>${stage.name}</strong>
+                    <span style="color:var(--text-muted); font-size:0.75rem;">${stage.desc}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      let videoSection = "";
+      if (art.videoId) {
+        videoSection = `
+          <div style="margin-top: 20px;">
+            <h4 style="color:#fff; font-size:1rem; margin-bottom:10px;">Process Video (${art.videoTitle})</h4>
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/${art.videoId}?autoplay=1" title="${art.videoTitle}" allowfullscreen></iframe>
+            </div>
+          </div>
+        `;
+      }
+
+      modalBody.innerHTML = stagesHtml + videoSection;
+      document.getElementById("modalBackdrop").classList.add("open");
+    }
+
+    function openVideoModal(artId) {
+      openProcessModal(artId);
+    }
+
+    function selectStage(artId, stageIdx, el) {
+      const art = artworksData.find(item => item.id === artId);
+      if (!art || !art.processStages[stageIdx]) return;
+
+      document.querySelectorAll(".stage-thumb-item").forEach(item => item.classList.remove("active"));
+      el.classList.add("active");
+
+      document.getElementById("mainStageImg").src = art.processStages[stageIdx].img;
+    }
+
+    function closeModal() {
+      document.getElementById("modalBackdrop").classList.remove("open");
+      document.getElementById("modalBody").innerHTML = ""; // Stop video playback
+    }
+
+    // Close modal on escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    // Initial render
+    renderGallery();
+  </script>
+</body>
 </html>
