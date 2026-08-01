@@ -203,6 +203,11 @@
       color: #cbd5e1;
     }
 
+    .badge.cat {
+      border-color: #f472b6;
+      color: #fbcfe8;
+    }
+
     .badge.slides {
       border-color: #60a5fa;
       color: #93c5fd;
@@ -462,7 +467,7 @@
   <!-- Header Section -->
   <header>
     <h1>Frank Yung-Fong Tang / 譚永鋒</h1>
-    <p class="artist-tagline">Contemporary Representational Painting • Self-Portraiture • Asian Representation in Museums</p>
+    <p class="artist-tagline">Contemporary Representational Painting • Human & Feline Portraiture • Asian Representation in Museums</p>
     
     <nav class="nav-links">
       <a href="about.html" class="nav-btn">About the Artist & Bio</a>
@@ -477,6 +482,7 @@
   <section class="filter-section">
     <div class="filter-tabs">
       <button class="tab-btn active" onclick="filterGallery('selected')">Selected Works</button>
+      <button class="tab-btn" onclick="filterGallery('cats')">🐱 Cat Portraits Series</button>
       <button class="tab-btn" onclick="filterGallery('studies')">Studies & Experiments</button>
       <button class="tab-btn" onclick="filterGallery('portfolios')">Course Portfolios & Slides</button>
       <button class="tab-btn" onclick="filterGallery('all')">All Works</button>
@@ -629,7 +635,17 @@
       }
     ];
 
-    // Data Model: Academic Course Slide Decks (Non-intrusive interactive modals)
+    // Data Model: Cat Portrait Series (Emphasizing feline character studies and future canvas projects)
+    const catSeriesData = [
+      { id: "cat1", title: "Feline Character Study No. 1", year: "2025–2026", medium: "Graphite & Colored Pencil on Paper", img: "img/cats/cat_15.jpg", desc: "Intimate feline gaze study investigating expression, fur texture, and eye luminosity." },
+      { id: "cat2", title: "Feline Character Study No. 2", year: "2025–2026", medium: "Ink & Wash on Paper", img: "img/cats/cat_16.jpg", desc: "Contour drawing exploring cat posture, fluid motion, and resting vulnerability." },
+      { id: "cat3", title: "Feline Character Study No. 3", year: "2025–2026", medium: "Chalk & Charcoal on Toned Paper", img: "img/cats/cat_17.jpg", desc: "Tonal value study rendering light reflection on feline facial structure." },
+      { id: "cat4", title: "Feline Character Study No. 4", year: "2025–2026", medium: "Acrylic & Mixed Media Prep", img: "img/cats/cat_18.jpg", desc: "Color block-in study preparing for large-scale feline portrait canvases." },
+      { id: "cat5", title: "Feline Character Study No. 5", year: "2025–2026", medium: "Pen & Ink Hatching", img: "img/cats/cat_19.jpg", desc: "Detailed line work capturing the quiet dignity and curiosity of domestic cats." },
+      { id: "cat6", title: "Feline Character Study No. 6", year: "2025–2026", medium: "Watercolor & Gouache", img: "img/cats/cat_20.jpg", desc: "Exploring vibrant pigmentation and soft fur transitions in watercolor." }
+    ];
+
+    // Data Model: Academic Course Slide Decks
     const courseSlideDecks = [
       { id: "art19a", code: "ART 19A", title: "Oil Painting I Final Portfolio", slideId: "1afPyfkVC7B_yR-CTn_WTRYkH1JCzbouOZ-1jhyhZrgY", term: "Fall 2024", desc: "Complete studio progression of oil painting studies, value block-ins, and portrait compositions." },
       { id: "art19c", code: "ART 19C", title: "Oil Painting II Final Portfolio", slideId: "15ySyIM3QIpoTx598OCNpPNQiw9jl8DPzWTCyDSx_r7Q", term: "Fall 2025", desc: "Advanced oil portraiture exploration, large-scale glazing, and conceptual series development." },
@@ -651,6 +667,34 @@
     function renderGallery() {
       const grid = document.getElementById("galleryGrid");
       grid.innerHTML = "";
+
+      if (currentFilter === "cats") {
+        document.getElementById("itemCountDisplay").innerText = `Showing Feline Portraiture Series (300+ Sketches & Studies)`;
+
+        catSeriesData.forEach(cat => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openCatModal('${cat.img}', '${cat.title}')">
+              <div class="badge-group"><span class="badge cat">🐱 Cat Portrait Series</span></div>
+              <img src="${cat.img}" alt="${cat.title}" loading="lazy" decoding="async" />
+              <button class="img-overlay-btn"><span>🔍 View High-Res</span></button>
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${cat.title}</h3>
+              <div class="art-meta">${cat.year} • ${cat.medium}</div>
+              <p style="font-size:0.85rem; color:var(--text-main); margin-bottom:15px;">${cat.desc}</p>
+              <div class="card-actions">
+                <button class="action-btn primary" onclick="openCatModal('${cat.img}', '${cat.title}')">View Portrait</button>
+                <a href="https://photos.google.com/album/AF1QipOnYohAeV95ncLPaxJmYs_IquV8f98FE53YmvmH" target="_blank" class="action-btn">Full Album (300+ Photos) ↗</a>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+        return;
+      }
 
       if (currentFilter === "portfolios") {
         document.getElementById("itemCountDisplay").innerText = `Showing 12 Academic Course Slide Decks`;
@@ -780,6 +824,26 @@
       }
 
       modalBody.innerHTML = stagesHtml + videoSection;
+      document.getElementById("modalBackdrop").classList.add("open");
+    }
+
+    function openCatModal(imgSrc, title) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalSub").innerText = "Feline Portraiture & Character Study Series";
+
+      const modalBody = document.getElementById("modalBody");
+      modalBody.innerHTML = `
+        <div style="display:flex; flex-direction:column; align-items:center; gap:15px;">
+          <div style="max-height:65vh; overflow:hidden; border-radius:8px; background:#000;">
+            <img src="${imgSrc}" alt="${title}" style="max-height:65vh; width:auto; object-fit:contain;" />
+          </div>
+          <p style="font-size:0.9rem; color:var(--text-main); text-align:center;">
+            Exploring facial expressions, eye luminosity, and unique individual personalities of cats in preparation for major canvas works.
+          </p>
+          <a href="https://photos.google.com/album/AF1QipOnYohAeV95ncLPaxJmYs_IquV8f98FE53YmvmH" target="_blank" class="action-btn primary" style="max-width:300px;">Explore Full Google Album (300+ Drawings) ↗</a>
+        </div>
+      `;
+
       document.getElementById("modalBackdrop").classList.add("open");
     }
 
