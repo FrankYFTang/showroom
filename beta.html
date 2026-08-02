@@ -1082,12 +1082,31 @@
 
       modalBody.innerHTML = albumSection + videoSection;
       document.getElementById("modalBackdrop").classList.add("open");
+
+      if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
+        startAlbumAutoPlay();
+      }
     }
 
     let currentAlbumPhotos = [];
     let currentAlbumIndex = 0;
+    let albumAutoPlayTimer = null;
 
-    function selectAlbumPhoto(index) {
+    function startAlbumAutoPlay() {
+      stopAlbumAutoPlay();
+      albumAutoPlayTimer = setInterval(() => {
+        stepAlbum(1, false);
+      }, 4000);
+    }
+
+    function stopAlbumAutoPlay() {
+      if (albumAutoPlayTimer) {
+        clearInterval(albumAutoPlayTimer);
+        albumAutoPlayTimer = null;
+      }
+    }
+
+    function selectAlbumPhoto(index, resetTimer = true) {
       if (!currentAlbumPhotos || index < 0 || index >= currentAlbumPhotos.length) return;
       currentAlbumIndex = index;
       const imgEl = document.getElementById("albumMainImg");
@@ -1106,17 +1125,22 @@
       
       const activeThumb = document.getElementById(`albumThumb_${index}`);
       if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+      if (resetTimer) {
+        startAlbumAutoPlay();
+      }
     }
 
-    function stepAlbum(direction) {
+    function stepAlbum(direction, resetTimer = true) {
       if (!currentAlbumPhotos || currentAlbumPhotos.length === 0) return;
       let newIdx = currentAlbumIndex + direction;
       if (newIdx < 0) newIdx = currentAlbumPhotos.length - 1;
       if (newIdx >= currentAlbumPhotos.length) newIdx = 0;
-      selectAlbumPhoto(newIdx);
+      selectAlbumPhoto(newIdx, resetTimer);
     }
 
     function openCatModal(imgSrc, title, year, size, medium, desc) {
+      stopAlbumAutoPlay();
       document.getElementById("modalTitle").innerText = title;
       document.getElementById("modalSub").innerText = `${year} • ${medium} • ${size}`;
 
@@ -1143,6 +1167,7 @@
 
     // Google Slides Modal Viewer (Non-intrusive modal)
     function openSlidesModal(slideId, title) {
+      stopAlbumAutoPlay();
       document.getElementById("modalTitle").innerText = title;
       document.getElementById("modalSub").innerText = "Interactive Course Portfolio Presentation";
 
@@ -1171,6 +1196,7 @@
     }
 
     function closeModal() {
+      stopAlbumAutoPlay();
       document.getElementById("modalBackdrop").classList.remove("open");
       document.getElementById("modalBody").innerHTML = ""; // Stop video/iframe playback
     }
