@@ -554,10 +554,38 @@
         img: "https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1118-h1815-s-no-gm",
         videoId: "qeFdZ498UK4",
         videoTitle: "The Making of İzmir (2026)",
+        processAlbumUrl: "https://photos.app.goo.gl/cxxsvxTWCeGZDCaV8",
         processStages: [
-          { name: "Stage 1: Grid & Photo Reference", desc: "Setting up proportion grids and initial structural sketch.", img: "https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1118-h1815-s-no-gm" },
-          { name: "Stage 2: Paper & Collage Layers", desc: "Applying textured paper fragments and underlayer glazes.", img: "https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1118-h1815-s-no-gm" },
-          { name: "Stage 3: Finished Canvas", desc: "Completed painting featuring rich color harmony and portrait detail.", img: "https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1118-h1815-s-no-gm" }
+          {
+            name: "Stage 1: Grid & Proportion Sketch",
+            desc: "Setting up proportion grids and drawing the initial structural sketch on canvas.",
+            img: "https://lh3.googleusercontent.com/pw/AP1GczO8o84LM8wd89mznsmLfPj-d9UTlCP9tPpRZB4Wv3ruYuWBW0veKSKssJEQSyfLo8svGER2Dkva1VygA16fU6wYEN1HmIsnUGTZ9QmjUxX9lHuKQ94M=w1200"
+          },
+          {
+            name: "Stage 2: Paper Fragment & Collage Assembly",
+            desc: "Applying textured paper fragments and building structural collage layers across the canvas.",
+            img: "https://lh3.googleusercontent.com/pw/AP1GczN2O3WzobBf9kcKR40k_lqR0wrbIMAbQE6jI3QiX9d-bEFym4qUXnKv5t3fHR02jLALZx0vxxQaDdI7b7AepjMu1Jtw5ZuvStbmhYrxJa2Pg-eWHXws=w1200"
+          },
+          {
+            name: "Stage 3: Tonal Block-In & Underpainting",
+            desc: "Establishing dark-to-light values and foundational shadows across facial structures.",
+            img: "https://lh3.googleusercontent.com/pw/AP1GczMcB7Nrjo6xWWbjwRQJgU-NFhaZsGzasOrK9wrmG5lG6fKfNeaQI9rnmERg525XpVhDcqwp3cEw0p39-FxLYrZgLIv3Au6IWjB3fc0DDERrN7SaqG_6=w1200"
+          },
+          {
+            name: "Stage 4: Acrylic Glazing & Color Layering",
+            desc: "Layering transparent glazes to build skin tone vibrancy and background contrast.",
+            img: "https://lh3.googleusercontent.com/pw/AP1GczMd2rDavPfscqpSqowYXj92TyqGWTnuqQsfH44qM2KJI_vrtltjqqq_TPy3NXc7jNi_BhslXfUQe-rlpwLF2ej5WWLB2gaQ6fSo3NWBLqmWOI7ZNE1v=w1200"
+          },
+          {
+            name: "Stage 5: Final Portrait Canvas",
+            desc: "Completed 48x30 in. acrylic and paper collage painting on canvas.",
+            img: "https://lh3.googleusercontent.com/pw/AP1GczOhbZcL5hVIUyWl2XlEnmFVFIHI7aCI4TkXKeY67fmi-b_oYjVfug18QDUt1WX1Y1bKhxsTZW2foK1L35IiMXC5Waqn_mr_7rhP0c_Nypyw6Gj32LpnuKKjpe38XwB4bbytmHxGTJ8pkQpUqaOkyiFqLg=w1200"
+          },
+          {
+            name: "Stage 6: Exhibition & 1st Place Award",
+            desc: "Exhibited at the Euphrat Museum of Art, winning 1st Place in 2026 Red Wheelbarrow.",
+            img: "https://lh3.googleusercontent.com/pw/AP1GczNCkMnHWYm8Jq8w22Ng99xqXnsmYoEeXc7wD09PBzPY8W2oqGKpivDy9bhP5DaGmH5QXilcIHg4eJPsk1dHhswqzoRkW34hicrPTyGcBYWPKLI7mKLk=w1200"
+          }
         ]
       },
       {
@@ -997,7 +1025,16 @@
         `;
       }
 
-      modalBody.innerHTML = stagesHtml + videoSection;
+      let albumSection = "";
+      if (art.processAlbumUrl) {
+        albumSection = `
+          <div style="margin-top: 15px; text-align: center;">
+            <a href="${art.processAlbumUrl}" target="_blank" class="action-btn primary" style="max-width:380px; display:inline-block;">Explore Full Process Photo Album (Google Photos) ↗</a>
+          </div>
+        `;
+      }
+
+      modalBody.innerHTML = stagesHtml + albumSection + videoSection;
       document.getElementById("modalBackdrop").classList.add("open");
     }
 
