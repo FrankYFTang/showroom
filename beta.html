@@ -533,6 +533,24 @@
     </div>
   </div>
 
+  
+  <!-- Dedicated Fullscreen High-Res Zoom Inspector Modal -->
+  <div class="modal-backdrop" id="fullscreenZoomModal" style="z-index: 2000; padding: 0; background: rgba(5, 3, 2, 0.96);">
+    <button class="modal-close" onclick="closeZoomInspector()" style="top: 20px; right: 25px; z-index: 2010; font-size: 2.4rem; color: #fff;" title="Close Inspector">&times;</button>
+
+    <!-- Floating Zoom Control Bar -->
+    <div style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; background: rgba(20, 13, 12, 0.9); color: var(--accent-gold); padding: 8px 18px; border-radius: 30px; border: 1px solid var(--accent-gold); backdrop-filter: blur(8px); z-index: 2010; box-shadow: 0 8px 24px rgba(0,0,0,0.6);">
+      <button onclick="changeInspectorZoom(-0.5)" style="background: transparent; border: none; color: var(--accent-gold); font-size: 1.2rem; cursor: pointer; padding: 0 6px;" title="Zoom Out (-)">➖</button>
+      <span id="inspectorZoomDisplay" style="font-size: 0.9rem; font-weight: 700; min-width: 55px; text-align: center;">100%</span>
+      <button onclick="changeInspectorZoom(0.5)" style="background: transparent; border: none; color: var(--accent-gold); font-size: 1.2rem; cursor: pointer; padding: 0 6px;" title="Zoom In (+)">➕</button>
+      <button onclick="resetInspectorZoom()" style="background: rgba(212,175,55,0.15); border: 1px solid var(--accent-gold); color: var(--accent-gold); font-size: 0.8rem; border-radius: 14px; padding: 4px 10px; cursor: pointer; margin-left: 6px;" title="Reset Zoom">Reset 100%</button>
+    </div>
+
+    <div id="inspectorViewport" style="width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; cursor: zoom-in; position: relative;" onclick="if(inspectorZoomLevel===1.0) changeInspectorZoom(1.5);">
+      <img id="inspectorImg" src="" alt="Artwork High Res Detail" style="max-width: 90vw; max-height: 90vh; object-fit: contain; transition: transform 0.1s ease-out; transform-origin: center center; user-select: none;" />
+    </div>
+  </div>
+
   <footer>
     <p>&copy; 2026 Frank Yung-Fong Tang (譚永鋒). All rights reserved.</p>
   </footer>
@@ -1341,15 +1359,10 @@ title: "Redemption",
       if (art.img) {
         heroSection = `
           <div style="margin-bottom:20px; background:#080504; border-radius:12px; overflow:hidden; border:1px solid var(--card-border); position:relative; text-align:center;">
-            <div id="zoomContainer" style="position:relative; cursor:zoom-in; overflow:hidden; display:flex; justify-content:center; align-items:center; min-height:350px; max-height:600px;" onclick="handleHeroClick(event, this)">
-              <img id="mainHeroImg" src="${art.img}" alt="${art.title}" style="max-width:100%; max-height:600px; object-fit:contain; transition:transform 0.15s ease-out; transform-origin:center center;" />
-              
-              <!-- Floating Zoom Control Bar -->
-              <div style="position:absolute; bottom:12px; right:12px; display:flex; align-items:center; gap:8px; background:rgba(20,13,12,0.88); color:var(--accent-gold); padding:6px 14px; border-radius:20px; border:1px solid var(--accent-gold); backdrop-filter:blur(6px); z-index:10;">
-                <button onclick="event.stopPropagation(); changeZoom(-0.5);" style="background:transparent; border:none; color:var(--accent-gold); font-size:1.1rem; cursor:pointer; padding:0 4px;" title="Zoom Out (-)">➖</button>
-                <span id="zoomLevelDisplay" style="font-size:0.82rem; font-weight:600; min-width:45px; text-align:center;">100%</span>
-                <button onclick="event.stopPropagation(); changeZoom(0.5);" style="background:transparent; border:none; color:var(--accent-gold); font-size:1.1rem; cursor:pointer; padding:0 4px;" title="Zoom In (+)">➕</button>
-                <button onclick="event.stopPropagation(); resetZoom(true);" style="background:rgba(212,175,55,0.15); border:1px solid var(--accent-gold); color:var(--accent-gold); font-size:0.75rem; border-radius:12px; padding:2px 8px; cursor:pointer; margin-left:4px;" title="Reset Zoom & Scroll Down">Reset & Scroll ↓</button>
+            <div style="position:relative; cursor:pointer; overflow:hidden; display:flex; justify-content:center; align-items:center; min-height:350px; max-height:550px;" onclick="openZoomInspector('${art.img}', '${art.title}')">
+              <img src="${art.img}" alt="${art.title}" style="max-width:100%; max-height:550px; object-fit:contain;" />
+              <div style="position:absolute; bottom:14px; right:14px; background:rgba(20,13,12,0.88); color:var(--accent-gold); padding:8px 16px; border-radius:24px; font-size:0.84rem; border:1px solid var(--accent-gold); backdrop-filter:blur(6px); font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,0.5);">
+                🔍 Open Fullscreen Detail Inspector
               </div>
             </div>
           </div>
@@ -1417,97 +1430,107 @@ title: "Redemption",
 
       modalBody.innerHTML = heroSection + albumSection + slidesSection + videoSection;
       document.getElementById("modalBackdrop").classList.add("open");
-      resetZoom(false);
 
       if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
         startAlbumAutoPlay();
       }
     }
 
-    let currentZoomLevel = 1.0;
+    // Fullscreen High-Res Zoom Inspector Logic
+    let inspectorZoomLevel = 1.0;
+    let inspectorPanX = 0;
+    let inspectorPanY = 0;
+    let isDraggingInspector = false;
+    let startDragX = 0;
+    let startDragY = 0;
 
-    function handleHeroClick(e, containerEl) {
-      if (currentZoomLevel > 1.0) {
-        resetZoom(true);
-      } else {
-        setZoom(2.5, e);
-      }
-    }
+    function openZoomInspector(imgSrc, title) {
+      const modal = document.getElementById("fullscreenZoomModal");
+      const img = document.getElementById("inspectorImg");
+      if (!modal || !img) return;
 
-    function changeZoom(delta) {
-      let newLevel = currentZoomLevel + delta;
-      if (newLevel < 1.0) newLevel = 1.0;
-      if (newLevel > 5.0) newLevel = 5.0;
-      setZoom(newLevel);
-    }
+      img.src = imgSrc;
+      img.alt = title || "Artwork Detail";
+      inspectorZoomLevel = 1.0;
+      inspectorPanX = 0;
+      inspectorPanY = 0;
+      updateInspectorTransform();
 
-    function setZoom(level, event = null) {
-      currentZoomLevel = Math.round(level * 10) / 10;
-      const containerEl = document.getElementById("zoomContainer");
-      const img = document.getElementById("mainHeroImg");
-      const display = document.getElementById("zoomLevelDisplay");
-      const modalContent = document.querySelector(".modal-content");
+      modal.classList.add("open");
 
-      if (!containerEl || !img) return;
+      const viewport = document.getElementById("inspectorViewport");
+      
+      viewport.onmousedown = (e) => {
+        if (inspectorZoomLevel <= 1.0) return;
+        isDraggingInspector = true;
+        startDragX = e.clientX - inspectorPanX;
+        startDragY = e.clientY - inspectorPanY;
+        viewport.style.cursor = "grabbing";
+      };
 
-      if (display) display.innerText = `${Math.round(currentZoomLevel * 100)}%`;
+      window.onmousemove = (e) => {
+        if (!isDraggingInspector) return;
+        e.preventDefault();
+        inspectorPanX = e.clientX - startDragX;
+        inspectorPanY = e.clientY - startDragY;
+        updateInspectorTransform();
+      };
 
-      if (currentZoomLevel > 1.0) {
-        containerEl.classList.add("is-zoomed");
-        img.style.transform = `scale(${currentZoomLevel})`;
-        containerEl.style.cursor = "zoom-out";
-
-        if (modalContent) modalContent.style.overflowY = "hidden";
-
-        if (event) {
-          const rect = containerEl.getBoundingClientRect();
-          const x = ((event.clientX - rect.left) / rect.width) * 100;
-          const y = ((event.clientY - rect.top) / rect.height) * 100;
-          img.style.transformOrigin = `${x}% ${y}%`;
+      window.onmouseup = () => {
+        if (isDraggingInspector) {
+          isDraggingInspector = false;
+          if (viewport) viewport.style.cursor = inspectorZoomLevel > 1.0 ? "grab" : "zoom-in";
         }
+      };
 
-        containerEl.onmousemove = (e) => {
-          const rect = containerEl.getBoundingClientRect();
-          const x = ((e.clientX - rect.left) / rect.width) * 100;
-          const y = ((e.clientY - rect.top) / rect.height) * 100;
-          img.style.transformOrigin = `${x}% ${y}%`;
-        };
+      viewport.onwheel = (e) => {
+        e.preventDefault();
+        const delta = e.deltaY < 0 ? 0.25 : -0.25;
+        changeInspectorZoom(delta);
+      };
+    }
 
-        containerEl.onwheel = (e) => {
-          e.preventDefault();
-          const zoomDelta = e.deltaY < 0 ? 0.25 : -0.25;
-          changeZoom(zoomDelta);
-        };
-      } else {
-        resetZoom(false);
+    function changeInspectorZoom(delta) {
+      let newLevel = inspectorZoomLevel + delta;
+      if (newLevel < 1.0) newLevel = 1.0;
+      if (newLevel > 6.0) newLevel = 6.0;
+      inspectorZoomLevel = Math.round(newLevel * 100) / 100;
+      if (inspectorZoomLevel === 1.0) {
+        inspectorPanX = 0;
+        inspectorPanY = 0;
+      }
+      updateInspectorTransform();
+    }
+
+    function resetInspectorZoom() {
+      inspectorZoomLevel = 1.0;
+      inspectorPanX = 0;
+      inspectorPanY = 0;
+      updateInspectorTransform();
+    }
+
+    function updateInspectorTransform() {
+      const img = document.getElementById("inspectorImg");
+      const display = document.getElementById("inspectorZoomDisplay");
+      const viewport = document.getElementById("inspectorViewport");
+
+      if (display) display.innerText = `${Math.round(inspectorZoomLevel * 100)}%`;
+
+      if (img) {
+        img.style.transform = `translate(${inspectorPanX}px, ${inspectorPanY}px) scale(${inspectorZoomLevel})`;
+      }
+
+      if (viewport) {
+        viewport.style.cursor = inspectorZoomLevel > 1.0 ? (isDraggingInspector ? "grabbing" : "grab") : "zoom-in";
       }
     }
 
-    function resetZoom(autoScroll = false) {
-      currentZoomLevel = 1.0;
-      const containerEl = document.getElementById("zoomContainer");
-      const img = document.getElementById("mainHeroImg");
-      const display = document.getElementById("zoomLevelDisplay");
-      const modalContent = document.querySelector(".modal-content");
-
-      if (display) display.innerText = "100%";
-
-      if (containerEl && img) {
-        containerEl.classList.remove("is-zoomed");
-        img.style.transform = "scale(1)";
-        img.style.transformOrigin = "center center";
-        containerEl.style.cursor = "zoom-in";
-        containerEl.onmousemove = null;
-        containerEl.onwheel = null;
-      }
-
-      if (modalContent) modalContent.style.overflowY = "auto";
-
-      if (autoScroll && modalContent) {
-        setTimeout(() => {
-          modalContent.scrollTo({ top: 380, behavior: 'smooth' });
-        }, 100);
-      }
+    function closeZoomInspector() {
+      const modal = document.getElementById("fullscreenZoomModal");
+      if (modal) modal.classList.remove("open");
+      isDraggingInspector = false;
+      window.onmousemove = null;
+      window.onmouseup = null;
     }
 
     let currentAlbumPhotos = [];
@@ -1624,7 +1647,10 @@ title: "Redemption",
 
     // Close modal on escape key
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeModal();
+      if (e.key === "Escape") {
+        closeZoomInspector();
+        closeModal();
+      }
     });
 
     // Initial render
