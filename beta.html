@@ -1221,6 +1221,57 @@ title: "Redemption",
       }
     ];
 
+    let currentFilter = "selected";
+
+    // Render Gallery Cards
+    function renderGallery() {
+      const grid = document.getElementById("galleryGrid");
+      grid.innerHTML = "";
+
+      if (currentFilter === "cat_drawings") {
+        const izmirArt = artworksData.find(item => item.id === "izmir");
+        const totalCatCount = (izmirArt ? 1 : 0) + catDrawingsData.length;
+        document.getElementById("itemCountDisplay").innerText = `Showing ${totalCatCount} Cat Artworks (1 Masterpiece Painting + ${catDrawingsData.length} Cat Drawings)`;
+
+        if (izmirArt) {
+          const card = document.createElement("article");
+          card.className = "art-card";
+          const badgeHtml = `<span class="badge">Masterpiece / Selected</span><span class="badge cat">🐱 Feline Masterpiece</span>`;
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openProcessModal('${izmirArt.id}')">
+              <div class="badge-group">${badgeHtml}</div>
+              <img src="${izmirArt.img}" alt="${izmirArt.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${izmirArt.title}</h3>
+              <div class="art-meta">${izmirArt.year} • ${izmirArt.medium} • ${izmirArt.dimensions}</div>
+              ${izmirArt.honors ? `<div class="art-honors">${izmirArt.honors}</div>` : ''}
+            </div>
+          `;
+          grid.appendChild(card);
+        }
+
+        catDrawingsData.forEach(cat => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+          const isLandscape = cat.orientation === "landscape";
+
+          card.innerHTML = `
+            <div class="img-container ${isLandscape ? 'landscape' : ''}" onclick="openCatModal('${cat.img}', '${cat.title}', '${cat.year}', '${cat.size}', '${cat.medium}', '${cat.description}')">
+              <div class="badge-group"><span class="badge cat">🐱 Cat Drawing</span></div>
+              <img src="${cat.img}" alt="${cat.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${cat.title}</h3>
+              <div class="art-meta">${cat.year} • ${cat.medium} • ${cat.size}</div>
+              <div class="art-desc-box">
+                <strong>Description:</strong><br>
+                ${cat.description}
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
         });
         return;
       }
