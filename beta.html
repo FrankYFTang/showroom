@@ -163,12 +163,22 @@
       aspect-ratio: 4/5;
     }
 
+    .img-container.landscape {
+      aspect-ratio: 10/7;
+      background: #080504;
+    }
+
     .img-container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
       transition: transform 0.4s ease;
+    }
+
+    .img-container.landscape img {
+      object-fit: contain;
+      background: #080504;
     }
 
     .art-card:hover .img-container img {
@@ -649,7 +659,7 @@
       }
     ];
 
-    // Data Model: Exact Cat Drawings extracted directly from Google Photos Album captions
+    // Data Model: Exact Cat Drawings with orientation flags (landscape for Treasure Hunters & Pnyx)
     const catDrawingsData = [
       {
         id: "cat_draw_1",
@@ -712,6 +722,7 @@
         size: "11.5 x 7 in.",
         medium: "Micron Pen on paper",
         description: "Pnyx (2026), 11.5x7, Micron Pen on paper",
+        orientation: "landscape",
         img: "https://lh3.googleusercontent.com/pw/AP1GczNnPwYsKGgfocpwYPWxUsLNOFPsH-LL73tuK3VpDByCFqY0djTnywwf-OsZDZZ1VuW7dWqfaS98k3C8ehn3zj2D3fq-N1bRaYraVeKpjNa6UhImYLv7=w1000-h1200-s-no-gm"
       },
       {
@@ -721,6 +732,7 @@
         size: "11 x 10 in.",
         medium: "Ballpoint pen on paper",
         description: "Phidias (2026), 11x10, Ballpoint pen on paper",
+        orientation: "landscape",
         img: "https://lh3.googleusercontent.com/pw/AP1GczOL21swwYhCR3g_drperyUr6Mj9n26czT43354OjnWI6AAjo2q8mlM8GBKEtR_yrRdY_RcvLrCPHEivtdFMvZCTjlAOhS_SUMZyRwMM4eQuTY_ju_bY=w1000-h1200-s-no-gm"
       },
       {
@@ -745,54 +757,60 @@
         id: "cat_draw_11",
         title: "British Treasure Hunters",
         year: "2026",
-        size: "7 x 10 in.",
+        size: "7 x 10 in. (Landscape)",
         medium: "Micron Pen on paper",
         description: "British Treasure Hunters (2026), 7x10, Micron Pen on paper",
+        orientation: "landscape",
         img: "https://lh3.googleusercontent.com/pw/AP1GczOkPBP2_086_qMazwEJUfKk4PyrT95nJHxLXhVLpW1tyTsFD2z9OPM5ftpOER2wCsrC2C7BHfvEfppVpFYALYBswFL0aMWJ8HpL0qPs4FqpdJwxMlwN=w1000-h1200-s-no-gm"
       },
       {
         id: "cat_draw_12",
         title: "Japanese Treasure Hunters",
         year: "2026",
-        size: "7 x 10 in.",
+        size: "7 x 10 in. (Landscape)",
         medium: "Micron Pen on paper",
         description: "Japanese Treasure Hunters (2026), 7x10, Micron Pen on paper",
+        orientation: "landscape",
         img: "https://lh3.googleusercontent.com/pw/AP1GczP1SJwIfUycMnyEGXeGPA5ZOISAZvQTsw_3Hv282slspoqaGEBV-sXfY1t6HcpbjkrRolynaFv1O6KswXJC-4ChTgQmtfQw66V5zesDsm-FCU6c1sr5=w1000-h1200-s-no-gm"
       },
       {
         id: "cat_draw_13",
         title: "Treasure Hunters",
         year: "2026",
-        size: "7 x 10 in.",
+        size: "7 x 10 in. (Landscape)",
         medium: "Micron Pen on paper",
         description: "Treasure Hunters (2026), 7x10, Micron Pen on paper",
+        orientation: "landscape",
         img: "https://lh3.googleusercontent.com/pw/AP1GczP0dFIBRsWg5mRTSmc4ISkNrH02VGmURULv3if3MpmbEfbWMCt1XTz-R1Yr2A-v1Vx4Tchg9NX2DdWxPzjGQf4fhdF8RIND2nqsjpMw3vMvB6X49Rpe=w1000-h1200-s-no-gm"
       },
       {
         id: "cat_draw_14",
         title: "Pirate Treasure Hunters",
         year: "2026",
-        size: "7 x 10 in.",
+        size: "7 x 10 in. (Landscape)",
         medium: "Micron Pen on paper",
         description: "Pirate Treasure Hunters (2026), 7x10, Micron Pen on paper",
+        orientation: "landscape",
         img: "https://lh3.googleusercontent.com/pw/AP1GczM8EZjCi4FUfCtjvrqTJTtmMnm6GxqNYVZF_EjKOKTBYFieFXD3aaTfIMeFE_9QkaVAYiY-CZmNOfXT4BWt3wLWNJheG6QLjhwqXxnYpcYa_--Kses9=w1000-h1200-s-no-gm"
       },
       {
         id: "cat_draw_15",
         title: "Time Travel Treasure Hunters",
         year: "2026",
-        size: "8.5 x 10 in.",
+        size: "8.5 x 10 in. (Landscape)",
         medium: "Micron Pen on paper",
         description: "Time Travel Treasure Hunters (2026), 8.5x10, Micron Pen on paper",
+        orientation: "landscape",
         img: "https://lh3.googleusercontent.com/pw/AP1GczNQaOCaczOCeoklJgGH5hKnRuukqscp8OtBYG3sIghxsKD1klxryYBlpOzxjFYe-asLacLV_u9_abE8UTbn0tA9ThxmKGPj5QGDTjEBAIbDetAdwS_-=w1000-h1200-s-no-gm"
       },
       {
         id: "cat_draw_16",
         title: "Alexander The Cats",
         year: "2026",
-        size: "14 x 11 in.",
+        size: "14 x 11 in. (Landscape)",
         medium: "Micron Pen & Brush Pen on paper",
         description: "Alexander The Cats (2026), 14x11, Micron Pen & Brush Pen on paper",
+        orientation: "landscape",
         img: "https://lh3.googleusercontent.com/pw/AP1GczN3pCL7_SbfBoyTvGDf3W-hDdXuxCZfCR6j0sI1rTyTyLeD9rmtURdXFGDrbNBudULITf9gx2A7maqOAG7fJkkvuCAy-jclY7x9CNaS4Qx8wCjgcf6P=w1000-h1200-s-no-gm"
       }
     ];
@@ -826,9 +844,10 @@
         catDrawingsData.forEach(cat => {
           const card = document.createElement("article");
           card.className = "art-card";
+          const isLandscape = cat.orientation === "landscape";
 
           card.innerHTML = `
-            <div class="img-container" onclick="openCatModal('${cat.img}', '${cat.title}', '${cat.year}', '${cat.size}', '${cat.medium}', '${cat.description}')">
+            <div class="img-container ${isLandscape ? 'landscape' : ''}" onclick="openCatModal('${cat.img}', '${cat.title}', '${cat.year}', '${cat.size}', '${cat.medium}', '${cat.description}')">
               <div class="badge-group"><span class="badge cat">🐱 Cat Drawing</span></div>
               <img src="${cat.img}" alt="${cat.title}" loading="lazy" decoding="async" />
               <button class="img-overlay-btn"><span>🔍 View High-Res</span></button>
