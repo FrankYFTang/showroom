@@ -1238,7 +1238,6 @@ title: "Redemption",
             <div class="img-container ${isLandscape ? 'landscape' : ''}" onclick="openCatModal('${cat.img}', '${cat.title}', '${cat.year}', '${cat.size}', '${cat.medium}', '${cat.description}')">
               <div class="badge-group"><span class="badge cat">🐱 Cat Drawing</span></div>
               <img src="${cat.img}" alt="${cat.title}" loading="lazy" decoding="async" />
-              <button class="img-overlay-btn"><span>🔍 View High-Res</span></button>
             </div>
             <div class="card-body">
               <h3 class="art-title">${cat.title}</h3>
@@ -1246,10 +1245,6 @@ title: "Redemption",
               <div class="art-desc-box">
                 <strong>Description:</strong><br>
                 ${cat.description}
-              </div>
-              <div class="card-actions">
-                <button class="action-btn primary" onclick="openCatModal('${cat.img}', '${cat.title}', '${cat.year}', '${cat.size}', '${cat.medium}', '${cat.description}')">View High-Res</button>
-                <a href="${GOOGLE_PHOTOS_CAT_ALBUM_URL}" target="_blank" class="action-btn">Full Album (Google Photos) ↗</a>
               </div>
             </div>
           `;
@@ -1483,7 +1478,6 @@ title: "Redemption",
             <strong>Full Artwork Description:</strong><br>
             ${desc}
           </div>
-          <a href="${GOOGLE_PHOTOS_CAT_ALBUM_URL}" target="_blank" class="action-btn primary" style="max-width:320px;">Explore Full Google Photos Album ↗</a>
         </div>
       `;
 
