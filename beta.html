@@ -1741,8 +1741,21 @@ title: "Redemption",
       const modalBody = document.getElementById("modalBody");
       modalBody.innerHTML = `
         <div style="display:flex; flex-direction:column; align-items:center; gap:15px;">
-          <div style="max-height:65vh; overflow:hidden; border-radius:8px; background:#000;">
-            <img src="${imgSrc}" alt="${title}" style="max-height:65vh; width:auto; object-fit:contain;" />
+          <div style="width:100%; margin-bottom:10px; background:#080504; border-radius:12px; overflow:hidden; border:1px solid var(--card-border); position:relative; text-align:center;">
+            <div id="heroZoomContainer" style="position:relative; cursor:zoom-in; overflow:hidden; display:flex; justify-content:center; align-items:center; min-height:350px; max-height:550px;" onclick="toggleHeroZoom(event, this)">
+              <img id="mainHeroImg" src="${imgSrc}" alt="${title}" style="max-width:100%; max-height:550px; object-fit:contain; transition:transform 0.15s ease-out; transform-origin:center center; user-select:none;" />
+              
+              <div style="position:absolute; bottom:14px; right:14px; display:flex; align-items:center; gap:10px; z-index:10;">
+                <div style="display:flex; align-items:center; gap:6px; background:rgba(20,13,12,0.88); color:var(--accent-gold); padding:6px 14px; border-radius:20px; border:1px solid var(--accent-gold); backdrop-filter:blur(6px);">
+                  <button onclick="event.stopPropagation(); changeHeroZoom(-0.5);" style="background:transparent; border:none; color:var(--accent-gold); font-size:1.1rem; cursor:pointer;" title="Zoom Out (-)">➖</button>
+                  <span id="heroZoomDisplay" style="font-size:0.82rem; font-weight:600; min-width:45px; text-align:center;">100%</span>
+                  <button onclick="event.stopPropagation(); changeHeroZoom(0.5);" style="background:transparent; border:none; color:var(--accent-gold); font-size:1.1rem; cursor:pointer;" title="Zoom In (+)">➕</button>
+                </div>
+                <button onclick="event.stopPropagation(); openZoomInspector('${imgSrc}', '${title}')" style="background:rgba(20,13,12,0.88); color:var(--accent-gold); padding:7px 14px; border-radius:20px; font-size:0.82rem; border:1px solid var(--accent-gold); cursor:pointer; backdrop-filter:blur(6px); font-weight:600;" title="Open Fullscreen Lightbox">
+                  🔍 Fullscreen Inspector
+                </button>
+              </div>
+            </div>
           </div>
           <div class="art-desc-box" style="width:100%; max-width:600px; text-align:center;">
             <strong>Full Artwork Description:</strong><br>
@@ -1752,6 +1765,7 @@ title: "Redemption",
       `;
 
       document.getElementById("modalBackdrop").classList.add("open");
+      resetHeroZoom();
     }
 
     function openVideoModal(artId) {
