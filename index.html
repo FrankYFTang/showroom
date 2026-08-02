@@ -2310,6 +2310,13 @@ title: "Redemption",
       const modalBody = document.getElementById("modalBody");
       modalBody.innerHTML = `
         <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
+          ${item.description ? `
+            <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6;">
+              <strong style="color:var(--accent-gold);">Collection Description:</strong><br>
+              ${item.description}
+            </div>
+          ` : ''}
+
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
             <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
               📸 Google Photos Album (${item.photos.length} Photos)
@@ -2331,13 +2338,6 @@ title: "Redemption",
               <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
             `).join('')}
           </div>
-
-          ${item.description ? `
-            <div style="width:100%; margin-top:16px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6;">
-              <strong style="color:var(--accent-gold);">Collection Description:</strong><br>
-              ${item.description}
-            </div>
-          ` : ''}
         </div>
       `;
 
@@ -2358,6 +2358,13 @@ title: "Redemption",
       const modalBody = document.getElementById("modalBody");
       modalBody.innerHTML = `
         <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
+          ${item.description ? `
+            <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6;">
+              <strong style="color:var(--accent-gold);">Collection Description:</strong><br>
+              ${item.description}
+            </div>
+          ` : ''}
+
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
             <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
               📸 Google Photos Album (${item.photos.length} Photos)
@@ -2399,6 +2406,13 @@ title: "Redemption",
       const modalBody = document.getElementById("modalBody");
       modalBody.innerHTML = `
         <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
+          ${item.description ? `
+            <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6;">
+              <strong style="color:var(--accent-gold);">Collection Description:</strong><br>
+              ${item.description}
+            </div>
+          ` : ''}
+
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
             <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
               📸 Google Photos Sculpture Album (${item.photos.length} Photos)
