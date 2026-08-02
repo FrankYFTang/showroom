@@ -1598,40 +1598,6 @@ title: "Redemption",
           grid.appendChild(card);
         });
 
-        photographyData.forEach(ph => {
-          const card = document.createElement("article");
-          card.className = "art-card";
-
-          card.innerHTML = `
-            <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
-              <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
-              <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${ph.title}</h3>
-              <div class="art-meta">${ph.year} • ${ph.medium} • 📸 ${ph.photos.length} Photos</div>
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-
-        studiesData.forEach(st => {
-          const card = document.createElement("article");
-          card.className = "art-card";
-
-          card.innerHTML = `
-            <div class="img-container" onclick="openStudiesModal('${st.id}')">
-              <div class="badge-group"><span class="badge study">Study / Academic</span></div>
-              <img src="${st.img}" alt="${st.title}" loading="lazy" decoding="async" />
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${st.title}</h3>
-              <div class="art-meta">${st.year} • ${st.medium} • 📸 ${st.photos.length} Photos</div>
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-
         return;
       }
 
