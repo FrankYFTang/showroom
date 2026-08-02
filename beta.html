@@ -546,7 +546,7 @@
       <button onclick="resetInspectorZoom()" style="background: rgba(212,175,55,0.15); border: 1px solid var(--accent-gold); color: var(--accent-gold); font-size: 0.8rem; border-radius: 14px; padding: 4px 10px; cursor: pointer; margin-left: 6px;" title="Reset Zoom">Reset 100%</button>
     </div>
 
-    <div id="inspectorViewport" style="width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; cursor: zoom-in; position: relative;" onclick="if(inspectorZoomLevel===1.0) changeInspectorZoom(1.5);">
+    <div id="inspectorViewport" style="width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; cursor: zoom-in; position: relative;" onclick="toggleInspectorZoomClick(event)">
       <img id="inspectorImg" src="" alt="Artwork High Res Detail" style="max-width: 90vw; max-height: 90vh; object-fit: contain; transition: transform 0.1s ease-out; transform-origin: center center; user-select: none;" />
     </div>
   </div>
@@ -1441,8 +1441,21 @@ title: "Redemption",
     let inspectorPanX = 0;
     let inspectorPanY = 0;
     let isDraggingInspector = false;
+    let hasDraggedInspector = false;
     let startDragX = 0;
     let startDragY = 0;
+
+    function toggleInspectorZoomClick(e) {
+      if (hasDraggedInspector) {
+        hasDraggedInspector = false;
+        return;
+      }
+      if (inspectorZoomLevel > 1.0) {
+        resetInspectorZoom();
+      } else {
+        changeInspectorZoom(1.5);
+      }
+    }
 
     function openZoomInspector(imgSrc, title) {
       const modal = document.getElementById("fullscreenZoomModal");
@@ -1454,6 +1467,7 @@ title: "Redemption",
       inspectorZoomLevel = 1.0;
       inspectorPanX = 0;
       inspectorPanY = 0;
+      hasDraggedInspector = false;
       updateInspectorTransform();
 
       modal.classList.add("open");
@@ -1463,6 +1477,7 @@ title: "Redemption",
       viewport.onmousedown = (e) => {
         if (inspectorZoomLevel <= 1.0) return;
         isDraggingInspector = true;
+        hasDraggedInspector = false;
         startDragX = e.clientX - inspectorPanX;
         startDragY = e.clientY - inspectorPanY;
         viewport.style.cursor = "grabbing";
@@ -1471,6 +1486,7 @@ title: "Redemption",
       window.onmousemove = (e) => {
         if (!isDraggingInspector) return;
         e.preventDefault();
+        hasDraggedInspector = true;
         inspectorPanX = e.clientX - startDragX;
         inspectorPanY = e.clientY - startDragY;
         updateInspectorTransform();
