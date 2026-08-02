@@ -1303,8 +1303,56 @@ title: "Redemption",
         return;
       }
 
+      if (currentFilter === "all") {
+        const totalCount = artworksData.length + catDrawingsData.length;
+        document.getElementById("itemCountDisplay").innerText = `Showing ${totalCount} Total Artworks (${artworksData.length} Selected Works + ${catDrawingsData.length} Cat Drawings)`;
+
+        artworksData.forEach(art => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+
+          const badgeHtml = `<span class="badge">Masterpiece / Selected</span>`;
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openProcessModal('${art.id}')">
+              <div class="badge-group">${badgeHtml}</div>
+              <img src="${art.img}" alt="${art.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${art.title}</h3>
+              <div class="art-meta">${art.year} • ${art.medium} • ${art.dimensions}</div>
+              ${art.honors ? `<div class="art-honors">${art.honors}</div>` : ''}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        catDrawingsData.forEach(cat => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+          const isLandscape = cat.orientation === "landscape";
+
+          card.innerHTML = `
+            <div class="img-container ${isLandscape ? 'landscape' : ''}" onclick="openCatModal('${cat.img}', '${cat.title}', '${cat.year}', '${cat.size}', '${cat.medium}', '${cat.description}')">
+              <div class="badge-group"><span class="badge cat">🐱 Cat Drawing</span></div>
+              <img src="${cat.img}" alt="${cat.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${cat.title}</h3>
+              <div class="art-meta">${cat.year} • ${cat.medium} • ${cat.size}</div>
+              <div class="art-desc-box">
+                <strong>Description:</strong><br>
+                ${cat.description}
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        return;
+      }
+
       const filtered = artworksData.filter(item => {
-        if (currentFilter === "all") return true;
         if (currentFilter === "selected") return item.category === "selected";
         if (currentFilter === "studies") return item.category === "studies";
         return true;
