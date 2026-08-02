@@ -859,6 +859,7 @@ title: "Double Chins",
         category: "selected",
         honors: "★ Finalist Special Recognition, 2026 Research & Service Leadership Symposium",
         img: "https://lh3.googleusercontent.com/pw/AP1GczMKmu6PKvwG3qbKXGWRSECYkEsyVoyp7XYYMT0EjK3XivC9uq-FCdFfJAIw5rdGkaFr-Lg4nRbEkIqMIJQajS0tqx--5FV9TeDnrY8ucOz03vpieFpiIRKctJr76UQXSknhcu4K-etc8rX6qzJxM_4OPg=w1418-h1815-s-no-gm",
+        slideId: "1HE-oNiJJKyJ3UZcy2uHOv9y-Z7mL_u4BGGvbRo5oGMA",
         presentationUrl: "https://docs.google.com/presentation/d/1HE-oNiJJKyJ3UZcy2uHOv9y-Z7mL_u4BGGvbRo5oGMA/edit?usp=sharing",
         processStages: [
           { name: "Stage 1: Grid & Low-Angle Perspective", desc: "Exploring unconventional close-in facial angles inspired by O'Keeffe.", img: "https://lh3.googleusercontent.com/pw/AP1GczMKmu6PKvwG3qbKXGWRSECYkEsyVoyp7XYYMT0EjK3XivC9uq-FCdFfJAIw5rdGkaFr-Lg4nRbEkIqMIJQajS0tqx--5FV9TeDnrY8ucOz03vpieFpiIRKctJr76UQXSknhcu4K-etc8rX6qzJxM_4OPg=w1418-h1815-s-no-gm" }
@@ -1198,7 +1199,7 @@ title: "Double Chins",
             <div class="card-actions">
               <button class="action-btn primary" onclick="openProcessModal('${art.id}')">Interactive Process</button>
               ${art.videoId ? `<button class="action-btn" onclick="openVideoModal('${art.id}')">Watch Video</button>` : ''}
-              ${art.presentationUrl ? `<a href="${art.presentationUrl}" target="_blank" class="action-btn">Symposium Slides</a>` : ''}
+              ${art.slideId ? `<button class="action-btn" onclick="openSlidesModal('${art.slideId}', '${art.title} — Symposium Presentation')">Symposium Slides</button>` : art.presentationUrl ? `<a href="${art.presentationUrl}" target="_blank" class="action-btn">Symposium Slides</a>` : ''}
             </div>
           </div>
         `;
@@ -1258,6 +1259,20 @@ title: "Double Chins",
         `;
       }
 
+      let slidesSection = "";
+      if (art.slideId) {
+        slidesSection = `
+          <div style="margin-top:25px;">
+            <h4 style="color:var(--accent-gold); font-size:1rem; margin-bottom:10px; font-family:var(--font-heading);">
+              📊 Research Symposium Presentation Slides
+            </h4>
+            <div class="slides-container">
+              <iframe src="https://docs.google.com/presentation/d/${art.slideId}/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+            </div>
+          </div>
+        `;
+      }
+
       let videoSection = "";
       if (art.videoId) {
         videoSection = `
@@ -1270,7 +1285,7 @@ title: "Double Chins",
         `;
       }
 
-      modalBody.innerHTML = albumSection + videoSection;
+      modalBody.innerHTML = albumSection + slidesSection + videoSection;
       document.getElementById("modalBackdrop").classList.add("open");
 
       if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
