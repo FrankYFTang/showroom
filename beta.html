@@ -495,6 +495,7 @@
       <a href="facehead.html" class="nav-btn">VR Interactive Gallery (face.HEAD)</a>
       <a href="https://www.instagram.com/FrankTang.Art" target="_blank" rel="noopener" class="nav-btn">Instagram @FrankTang.Art</a>
       <a href="https://youtube.com/@franktangart" target="_blank" rel="noopener" class="nav-btn">YouTube @FrankTangArt</a>
+      <a href="courseslides.html" class="nav-btn">Course Portfolios & Slides</a>
       <a href="https://github.com/FrankYFTang/FrankYungFongTangArt" target="_blank" rel="noopener" class="nav-btn">GitHub Portfolio & Papers</a>
     </nav>
   </header>
@@ -505,7 +506,6 @@
       <button class="tab-btn active" onclick="filterGallery('selected')">Selected Works</button>
       <button class="tab-btn" onclick="filterGallery('cat_drawings')">🐱 Cat Drawings</button>
       <button class="tab-btn" onclick="filterGallery('studies')">Studies & Experiments</button>
-      <button class="tab-btn" onclick="filterGallery('portfolios')">Course Portfolios & Slides</button>
       <button class="tab-btn" onclick="filterGallery('all')">All Works</button>
     </div>
     <div class="item-count" id="itemCountDisplay">Showing 6 Selected Masterpieces</div>
@@ -1221,105 +1221,6 @@ title: "Redemption",
       }
     ];
 
-    // Data Model: Academic Course Slide Decks
-    const courseSlideDecks = [
-      { id: "art19a", code: "ART 19A", title: "Oil Painting I Final Portfolio", slideId: "1afPyfkVC7B_yR-CTn_WTRYkH1JCzbouOZ-1jhyhZrgY", term: "Fall 2024", desc: "Complete studio progression of oil painting studies, value block-ins, and portrait compositions." },
-      { id: "art19c", code: "ART 19C", title: "Oil Painting II Final Portfolio", slideId: "15ySyIM3QIpoTx598OCNpPNQiw9jl8DPzWTCyDSx_r7Q", term: "Fall 2025", desc: "Advanced oil portraiture exploration, large-scale glazing, and conceptual series development." },
-      { id: "art19b", code: "ART 19B", title: "Acrylic Painting I Final Portfolio", slideId: "1c2q206SQ0QK8YDp2_pw95s9kEGID19DU1KDQ5LInMUc", term: "Winter 2026", desc: "Acrylic layering, quick-drying color dynamics, and multi-media canvas foundations." },
-      { id: "art19g", code: "ART 19G", title: "Outdoor Landscape Painting Portfolio", slideId: "1PK92nFcnF0mp-Osh0Nx_9nLXqLolZHIXXwNVrDfvl_Q", term: "Spring 2026", desc: "Plein air landscape painting in Northern California, light studies, and atmospheric color." },
-      { id: "art4c", code: "ART 4C", title: "Representational Drawing Final Portfolio", slideId: "1-ePzw2FMjtuH8Yz3_OmlCAzGRcdoZTrVhYgjrghya_U", term: "Winter 2025", desc: "Proportion grids, contour studies, charcoal value modeling, and anatomical figure drawing." },
-      { id: "art20", code: "ART 20", title: "Color Theory Final Portfolio", slideId: "1CpInb_zReISycFL6uzxHDiZ7PLJ-q9VMyf4OeLbN0fY", term: "Winter 2025", desc: "Color relativity, chromatic harmony, Munsell value charts, and psychological color application." },
-      { id: "art47a", code: "ART 47A", title: "Watercolor I Final Portfolio", slideId: "1yDzeKBdMLKW72tQFilXZxXcyW9TijE9I_hrt_qTYmAA", term: "Summer 2024", desc: "Transparent washes, wet-on-wet technique, negative space control, and ink accents." },
-      { id: "art47b", code: "ART 47B", title: "Watercolor II Final Portfolio", slideId: "1URitnjb3vZy4i36Cd868cX_mQcsDYy4UFXqMTVBdnG8", term: "Spring 2025", desc: "Advanced watercolor portraiture, gouache highlights, and complex wet-media compositions." },
-      { id: "art5b", code: "ART 5B", title: "3-D Foundations Final Portfolio", slideId: "189yPzX6l5ADpDrrQq2rbmEUicMB9moNvfZOiIaWbTms", term: "Spring 2026", desc: "Spatial form, volumetric sculpture, relief carving, and 3-dimensional material construction." },
-      { id: "art70r", code: "ART 70R", title: "Independent Study Final Portfolio (70R)", slideId: "1iVplw_sx6JCV7fEHqyX9QYuY8KL62LdR5CwQnZfsvsA", term: "Summer 2025", desc: "Self-directed studio research exploring Asian representation and large-scale canvas work." },
-      { id: "art71r", code: "ART 71R", title: "Independent Study Final Portfolio (71R)", slideId: "1KwgZtadxBlPD5g2J_Bb65RVndOU_oEwW-F_xkWcQq9o", term: "Fall 2025", desc: "Advanced independent studio project focusing on texture, found materials, and portraiture." },
-      { id: "gid31", code: "GID 31", title: "Graphic Design Drawing Portfolio", slideId: "1SRhy3gFKXhhKyx8Sp76jx6Do7kuagMQMD_M8etNb8kE", term: "Summer 2026", desc: "Graphic illustration, vector drafting principles, typography integration, and digital drawing." }
-    ];
-
-    let currentFilter = "selected";
-
-    // Render Gallery Cards
-    function renderGallery() {
-      const grid = document.getElementById("galleryGrid");
-      grid.innerHTML = "";
-
-      if (currentFilter === "cat_drawings") {
-        const izmirArt = artworksData.find(item => item.id === "izmir");
-        const totalCatCount = (izmirArt ? 1 : 0) + catDrawingsData.length;
-        document.getElementById("itemCountDisplay").innerText = `Showing ${totalCatCount} Cat Artworks (1 Masterpiece Painting + ${catDrawingsData.length} Cat Drawings)`;
-
-        if (izmirArt) {
-          const card = document.createElement("article");
-          card.className = "art-card";
-          const badgeHtml = `<span class="badge">Masterpiece / Selected</span><span class="badge cat">🐱 Feline Masterpiece</span>`;
-
-          card.innerHTML = `
-            <div class="img-container" onclick="openProcessModal('${izmirArt.id}')">
-              <div class="badge-group">${badgeHtml}</div>
-              <img src="${izmirArt.img}" alt="${izmirArt.title}" loading="lazy" decoding="async" />
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${izmirArt.title}</h3>
-              <div class="art-meta">${izmirArt.year} • ${izmirArt.medium} • ${izmirArt.dimensions}</div>
-              ${izmirArt.honors ? `<div class="art-honors">${izmirArt.honors}</div>` : ''}
-            </div>
-          `;
-          grid.appendChild(card);
-        }
-
-        catDrawingsData.forEach(cat => {
-          const card = document.createElement("article");
-          card.className = "art-card";
-          const isLandscape = cat.orientation === "landscape";
-
-          card.innerHTML = `
-            <div class="img-container ${isLandscape ? 'landscape' : ''}" onclick="openCatModal('${cat.img}', '${cat.title}', '${cat.year}', '${cat.size}', '${cat.medium}', '${cat.description}')">
-              <div class="badge-group"><span class="badge cat">🐱 Cat Drawing</span></div>
-              <img src="${cat.img}" alt="${cat.title}" loading="lazy" decoding="async" />
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${cat.title}</h3>
-              <div class="art-meta">${cat.year} • ${cat.medium} • ${cat.size}</div>
-              <div class="art-desc-box">
-                <strong>Description:</strong><br>
-                ${cat.description}
-              </div>
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-        return;
-      }
-
-      if (currentFilter === "portfolios") {
-        document.getElementById("itemCountDisplay").innerText = `Showing 12 Academic Course Slide Decks`;
-        
-        courseSlideDecks.forEach(deck => {
-          const card = document.createElement("article");
-          card.className = "art-card";
-
-          card.innerHTML = `
-            <div class="img-container" onclick="openSlidesModal('${deck.slideId}', '${deck.code}: ${deck.title}')" style="aspect-ratio: 16/9; background:#180f0e;">
-              <div class="badge-group"><span class="badge slides">Course Portfolio • ${deck.code}</span></div>
-              <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%; padding:20px; text-align:center;">
-                <div style="font-size:2rem; color:var(--accent-gold); margin-bottom:10px;">📊</div>
-                <h4 style="font-family:var(--font-heading); color:#fff; font-size:1.1rem;">${deck.title}</h4>
-                <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">${deck.term}</p>
-              </div>
-              <button class="img-overlay-btn"><span>▶ Interactive Slide Deck</span></button>
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${deck.code}: ${deck.title}</h3>
-              <div class="art-meta">${deck.term} • Foothill College Studio Art</div>
-              <p style="font-size:0.85rem; color:var(--text-main); margin-bottom:15px;">${deck.desc}</p>
-              <div class="card-actions">
-                <button class="action-btn primary" onclick="openSlidesModal('${deck.slideId}', '${deck.code}: ${deck.title}')">View Interactive Slides</button>
-                <a href="https://docs.google.com/presentation/d/${deck.slideId}/edit" target="_blank" class="action-btn">Open in Google Drive ↗</a>
-              </div>
-            </div>
-          `;
-          grid.appendChild(card);
         });
         return;
       }

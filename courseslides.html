@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academic Course Portfolios & Slide Decks — Frank Yung-Fong Tang (譚永鋒)</title>
+  
+  <!-- Google Fonts: Playfair Display for headers, Inter for body text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #120b0a;
+      --card-bg: #1a1211;
+      --card-border: #2a1f1d;
+      --accent-gold: #d4af37;
+      --accent-copper: #c87533;
+      --text-main: #e6dfdd;
+      --text-muted: #a39592;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 30px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .artist-tagline {
+      font-size: 0.95rem;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      color: var(--text-main);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .nav-btn.primary {
+      background: rgba(212, 175, 55, 0.12);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 40px 0 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      color: #ffffff;
+    }
+
+    .item-count {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+    }
+
+    /* Grid Layout */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .art-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .art-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-gold);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .img-container {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: #180f0e;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .badge-group {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 600;
+      background: rgba(200, 117, 51, 0.9);
+      color: #ffffff;
+      backdrop-filter: blur(4px);
+    }
+
+    .badge.slides {
+      background: rgba(212, 175, 55, 0.9);
+      color: #000;
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .art-title {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .art-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .art-desc {
+      font-size: 0.85rem;
+      color: var(--text-main);
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .card-actions {
+      margin-top: auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .action-btn.primary {
+      background: rgba(212, 175, 55, 0.12);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .action-btn:hover {
+      background: var(--accent-gold);
+      color: #000000;
+      border-color: var(--accent-gold);
+    }
+
+    /* Modal Styling */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 1000px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      padding: 30px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .modal-close:hover {
+      color: var(--accent-gold);
+    }
+
+    .slides-container {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 15px;
+      border: 1px solid var(--card-border);
+    }
+
+    .slides-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 20px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--card-border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <h1>Frank Yung-Fong Tang / 譚永鋒</h1>
+    <p class="artist-tagline">Academic Studio Art Portfolios & Slide Decks • Foothill & De Anza Colleges</p>
+    
+    <nav class="nav-links">
+      <a href="beta.html" class="nav-btn primary">← Back to Gallery & Masterpieces</a>
+      <a href="about.html" class="nav-btn">About the Artist & Bio</a>
+      <a href="facehead.html" class="nav-btn">VR Interactive Gallery (face.HEAD)</a>
+      <a href="https://www.instagram.com/FrankTang.Art" target="_blank" rel="noopener" class="nav-btn">Instagram @FrankTang.Art</a>
+      <a href="https://youtube.com/@franktangart" target="_blank" rel="noopener" class="nav-btn">YouTube @FrankTangArt</a>
+      <a href="https://github.com/FrankYFTang/FrankYungFongTangArt" target="_blank" rel="noopener" class="nav-btn">GitHub Portfolio & Papers</a>
+    </nav>
+  </header>
+
+  <!-- Section Header -->
+  <div class="section-header">
+    <h2 class="section-title">📊 Academic Course Final Portfolios</h2>
+    <div class="item-count">12 Interactive Slide Decks</div>
+  </div>
+
+  <!-- Course Portfolios Grid -->
+  <main class="gallery-grid" id="courseGrid">
+    <!-- Injected dynamically via JS -->
+  </main>
+
+  <!-- Slides Modal Viewer -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      
+      <div class="modal-header">
+        <h2 id="modalTitle" style="font-family: var(--font-heading); color: #fff;">Course Title</h2>
+        <p id="modalSub" style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">Term & Department</p>
+      </div>
+
+      <div id="modalBody">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Frank Yung-Fong Tang (譚永鋒). All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Data Model: 12 Academic Course Slide Decks
+    const courseSlideDecks = [
+      { id: "art19a", code: "ART 19A", title: "Oil Painting I Final Portfolio", slideId: "1afPyfkVC7B_yR-CTn_WTRYkH1JCzbouOZ-1jhyhZrgY", term: "Fall 2024", desc: "Complete studio progression of oil painting studies, value block-ins, and portrait compositions." },
+      { id: "art19c", code: "ART 19C", title: "Oil Painting II Final Portfolio", slideId: "15ySyIM3QIpoTx598OCNpPNQiw9jl8DPzWTCyDSx_r7Q", term: "Fall 2025", desc: "Advanced oil portraiture exploration, large-scale glazing, and conceptual series development." },
+      { id: "art19b", code: "ART 19B", title: "Acrylic Painting I Final Portfolio", slideId: "1c2q206SQ0QK8YDp2_pw95s9kEGID19DU1KDQ5LInMUc", term: "Winter 2026", desc: "Acrylic layering, quick-drying color dynamics, and multi-media canvas foundations." },
+      { id: "art19g", code: "ART 19G", title: "Outdoor Landscape Painting Portfolio", slideId: "1PK92nFcnF0mp-Osh0Nx_9nLXqLolZHIXXwNVrDfvl_Q", term: "Spring 2026", desc: "Plein air landscape painting in Northern California, light studies, and atmospheric color." },
+      { id: "art4c", code: "ART 4C", title: "Representational Drawing Final Portfolio", slideId: "1-ePzw2FMjtuH8Yz3_OmlCAzGRcdoZTrVhYgjrghya_U", term: "Winter 2025", desc: "Proportion grids, contour studies, charcoal value modeling, and anatomical figure drawing." },
+      { id: "art20", code: "ART 20", title: "Color Theory Final Portfolio", slideId: "1CpInb_zReISycFL6uzxHDiZ7PLJ-q9VMyf4OeLbN0fY", term: "Winter 2025", desc: "Color relativity, chromatic harmony, Munsell value charts, and psychological color application." },
+      { id: "art47a", code: "ART 47A", title: "Watercolor I Final Portfolio", slideId: "1yDzeKBdMLKW72tQFilXZxXcyW9TijE9I_hrt_qTYmAA", term: "Summer 2024", desc: "Transparent washes, wet-on-wet technique, negative space control, and ink accents." },
+      { id: "art47b", code: "ART 47B", title: "Watercolor II Final Portfolio", slideId: "1URitnjb3vZy4i36Cd868cX_mQcsDYy4UFXqMTVBdnG8", term: "Spring 2025", desc: "Advanced watercolor portraiture, gouache highlights, and complex wet-media compositions." },
+      { id: "art5b", code: "ART 5B", title: "3-D Foundations Final Portfolio", slideId: "189yPzX6l5ADpDrrQq2rbmEUicMB9moNvfZOiIaWbTms", term: "Spring 2026", desc: "Spatial form, volumetric sculpture, relief carving, and 3-dimensional material construction." },
+      { id: "art70r", code: "ART 70R", title: "Independent Study Final Portfolio (70R)", slideId: "1iVplw_sx6JCV7fEHqyX9QYuY8KL62LdR5CwQnZfsvsA", term: "Summer 2025", desc: "Self-directed studio research exploring Asian representation and large-scale canvas work." },
+      { id: "art71r", code: "ART 71R", title: "Independent Study Final Portfolio (71R)", slideId: "1KwgZtadxBlPD5g2J_Bb65RVndOU_oEwW-F_xkWcQq9o", term: "Fall 2025", desc: "Advanced independent studio project focusing on texture, found materials, and portraiture." },
+      { id: "gid31", code: "GID 31", title: "Graphic Design Drawing Portfolio", slideId: "1SRhy3gFKXhhKyx8Sp76jx6Do7kuagMQMD_M8etNb8kE", term: "Summer 2026", desc: "Graphic illustration, vector drafting principles, typography integration, and digital drawing." }
+    ];
+
+    function renderCoursePortfolios() {
+      const grid = document.getElementById("courseGrid");
+      grid.innerHTML = "";
+
+      courseSlideDecks.forEach(deck => {
+        const card = document.createElement("article");
+        card.className = "art-card";
+
+        card.innerHTML = `
+          <div class="img-container" onclick="openSlidesModal('${deck.slideId}', '${deck.code}: ${deck.title}')">
+            <div class="badge-group"><span class="badge slides">Course Portfolio • ${deck.code}</span></div>
+            <div style="font-size:2.5rem; color:var(--accent-gold); margin-bottom:10px;">📊</div>
+            <h4 style="font-family:var(--font-heading); color:#fff; font-size:1.15rem;">${deck.title}</h4>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">${deck.term}</p>
+          </div>
+          <div class="card-body">
+            <h3 class="art-title">${deck.code}: ${deck.title}</h3>
+            <div class="art-meta">${deck.term} • Foothill College Studio Art</div>
+            <p class="art-desc">${deck.desc}</p>
+            <div class="card-actions">
+              <button class="action-btn primary" onclick="openSlidesModal('${deck.slideId}', '${deck.code}: ${deck.title}')">View Interactive Slides</button>
+              <a href="https://docs.google.com/presentation/d/${deck.slideId}/edit" target="_blank" rel="noopener" class="action-btn">Open in Drive ↗</a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openSlidesModal(slideId, title) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalSub").innerText = "Interactive Course Portfolio Presentation";
+
+      const modalBody = document.getElementById("modalBody");
+      modalBody.innerHTML = `
+        <div class="slides-container">
+          <iframe src="https://docs.google.com/presentation/d/${slideId}/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; flex-wrap:wrap; gap:10px;">
+          <span style="font-size:0.85rem; color:var(--text-muted);">Tip: Click inside the slide viewer or use arrow keys to flip through slides.</span>
+          <a href="https://docs.google.com/presentation/d/${slideId}/edit" target="_blank" rel="noopener" class="action-btn" style="max-width:200px;">Open in Google Drive ↗</a>
+        </div>
+      `;
+
+      document.getElementById("modalBackdrop").classList.add("open");
+    }
+
+    function closeModal() {
+      document.getElementById("modalBackdrop").classList.remove("open");
+      document.getElementById("modalBody").innerHTML = "";
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    renderCoursePortfolios();
+  </script>
+</body>
+</html>
