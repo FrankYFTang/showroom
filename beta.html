@@ -1041,7 +1041,7 @@ title: "Redemption",
         year: "2023",
         medium: "Chalk Pastel",
         dimensions: "15 x 12 in.",
-        category: "studies",
+        category: "selected",
         honors: "★ Drawing Award, 2024 De Anza Student Art Show",
         img: "https://lh3.googleusercontent.com/pw/AP1GczPqBo9Wr4x9upYl9JBEntNurPDQ0dtwrgdRo_DdqIsIvR36stSPSCamkD6MGTqvn1-0wAK9f4Gu-2ZrW7rVcuxAkyXhxfP-1KIixAEhB-lSJSosQMFOJrfiOi_Kugdvwt-5KuuiplQiAcP8mS11VQrcXg=w1433-h1757-s-no-gm",
         videoId: "eFzOv2fIO-w",
@@ -1056,7 +1056,7 @@ title: "Redemption",
         year: "2023",
         medium: "Watercolor and Ink Pen",
         dimensions: "10¾ x 7¾ in.",
-        category: "studies",
+        category: "selected",
         honors: "2024 De Anza Art Show • Published in 2024 Red Wheelbarrow",
         img: "https://lh3.googleusercontent.com/pw/AP1GczPwN_Fy3oqXCb9vpwtC46-gLr8iqIWcZOTwlPnQMeyiBREoxcSTrhaO8wibneqxE5RiDrqe9lY74Azcu2TCj6oWrqKCT9IusM2GvZ8ci7pTMJAhlkBr426wGteW4_Jsv8vLODqkdcHHGDs94ToW8hyJ_g=w1302-h1757-s-no-gm",
         processStages: [
@@ -1310,8 +1310,16 @@ title: "Redemption",
         return true;
       });
 
-      document.getElementById("itemCountDisplay").innerText = 
-        `Showing ${filtered.length} ${currentFilter === "selected" ? "Selected Masterpieces" : currentFilter === "studies" ? "Studies & Experiments" : "Total Artworks"}`;
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.02); border: 1px dashed var(--card-border); border-radius: 12px; color: var(--text-muted);">
+            <div style="font-size: 2rem; margin-bottom: 10px;">🧪</div>
+            <h4 style="font-family: var(--font-heading); color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 6px;">No Works Currently in Studies & Experiments</h4>
+            <p style="font-size: 0.9rem;">All major studies and academic artworks have been elevated to the Selected Works collection.</p>
+          </div>
+        `;
+        return;
+      }
 
       filtered.forEach(art => {
         const card = document.createElement("article");
