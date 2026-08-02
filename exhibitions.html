@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Museum & Gallery Exhibitions — Frank Yung-Fong Tang (譚永鋒)</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #120b0a;
+      --card-bg: #1a1211;
+      --card-border: #2a1f1d;
+      --accent-gold: #d4af37;
+      --accent-copper: #c87533;
+      --text-main: #e6dfdd;
+      --text-muted: #a39592;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 30px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .artist-tagline {
+      font-size: 0.95rem;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      color: var(--text-main);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .nav-btn.primary {
+      background: rgba(212, 175, 55, 0.12);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 40px 0 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      color: #ffffff;
+    }
+
+    .item-count {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+    }
+
+    /* Grid Layout */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .art-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .art-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-gold);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .img-container {
+      position: relative;
+      aspect-ratio: 4/3;
+      background: #180f0e;
+      overflow: hidden;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .art-card:hover .img-container img {
+      transform: scale(1.04);
+    }
+
+    .badge-group {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 600;
+      background: rgba(212, 175, 55, 0.9);
+      color: #000;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .art-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .art-meta {
+      font-size: 0.88rem;
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .art-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Modal Styling */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 1100px;
+      max-height: 92vh;
+      overflow-y: auto;
+      position: relative;
+      padding: 30px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .modal-close:hover {
+      color: var(--accent-gold);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 20px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--card-border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <h1>Frank Yung-Fong Tang / 譚永鋒</h1>
+    <p class="artist-tagline">Museum & Gallery Exhibitions • Juried Student Art Shows</p>
+    
+    <nav class="nav-links">
+      <a href="index.html" class="nav-btn primary">← Back to Gallery & Masterpieces</a>
+      <a href="about.html" class="nav-btn">About the Artist & Bio</a>
+      <a href="courseslides.html" class="nav-btn">Course Portfolios & Slides</a>
+      <a href="facehead.html" class="nav-btn">VR Interactive Gallery (face.HEAD)</a>
+      <a href="https://www.instagram.com/FrankTang.Art" target="_blank" rel="noopener" class="nav-btn">Instagram @FrankTang.Art</a>
+      <a href="https://youtube.com/@franktangart" target="_blank" rel="noopener" class="nav-btn">YouTube @FrankTangArt</a>
+    </nav>
+  </header>
+
+  <!-- Section Header -->
+  <div class="section-header">
+    <h2 class="section-title">Museum & Juried Exhibitions</h2>
+    <div class="item-count">4 Exhibitions with Process & Exhibition Photo Albums</div>
+  </div>
+
+  <!-- Exhibitions Grid -->
+  <main class="gallery-grid" id="exhibitionGrid">
+    <!-- Injected dynamically via JS -->
+  </main>
+
+  <!-- Exhibition Photo Album Modal Viewer -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      
+      <div class="modal-header">
+        <h2 id="modalTitle" style="font-family: var(--font-heading); color: #fff;">Exhibition Title</h2>
+        <p id="modalSub" style="font-size: 0.88rem; color: var(--accent-gold); margin-top: 4px;">Venue & Dates</p>
+      </div>
+
+      <div id="modalBody">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Frank Yung-Fong Tang (譚永鋒). All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Data Model: 4 Museum & Juried Exhibitions
+    const exhibitionsData = [
+    {
+        "id": "exhibit_2026_de_anza",
+        "title": "2026 De Anza Student Art Show",
+        "venue": "Euphrat Museum of Art, Cupertino, CA",
+        "dates": "May 5 \u2013 June 6, 2026",
+        "monthYear": "May 2026",
+        "cover": "https://lh3.googleusercontent.com/pw/AP1GczM-rcNi9EYFThom5yIOq1zuJ81ekGSsTo_6VseSCwiYinldbt9MQnPi2dg77LRQeLg3McD6py9bzps-3qFWuhe54PDbbmXNU_8P1Uj2hc22w7EiQ-ov=w1200",
+        "photos": [
+            "https://lh3.googleusercontent.com/pw/AP1GczM-rcNi9EYFThom5yIOq1zuJ81ekGSsTo_6VseSCwiYinldbt9MQnPi2dg77LRQeLg3McD6py9bzps-3qFWuhe54PDbbmXNU_8P1Uj2hc22w7EiQ-ov=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOt7UT2cUrzIwiiRBghxI2OtcQ4FUXmzm9Y-psyX3bEEOPTJB75qjoxnnIELhCAP05ilGjOxN2fbhjJ3Sj4Laf66HLy9czWz9TIJN1BvrLCTiFiZhsM=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOv-RKYJd3SLqYqTgYru36tvMRRsU-4tlDBAtTKpBOEB2IwkWw4GoyKsiYictndcKPCcov3oUeT4NPiKnjRdYnqtoA5yFTYrGn1G54gbGQWPtY5lWdA=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMTCe3xkOgkMHhDWwCLuEXPETthunSCW5Q4oH9BtBcj_giuVPoMeLObXuGvdGXIHAYTMPtL3T41Eqj78h6sanWjsKlAn9Wlc8nIAgBNtUEsnw-p31Ui=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMkf8Pha977KCm1_QgQDSbyq8x3tdGq-jnflQrcyvSsXHDBBvMhriaSHtOm0fjtM_uVJUWUikaryotjNe9Ha0lBNzvEeotzz2j888Apw1fPpUCT2hYb=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPwiyY1NG-zw7ZkNplaHGavN4Rg6ubFQilpCEfyDX2inJJHt3cgt5r_32Ew8zIv7qCgyQA-3zbsdTKCsmJAD8EQE3XbxxLxF377JuqWsZH7N4oZVHfZ=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPYhexfitVYtmxz_xmbgBBPzvyUjrfF1r1itjMrWqMvQg-fCM4uUPnFUjDMWSFPgonT43QtkEhsJcVSKfMvIVtWpFLG-PC4RRi-q7jic-PV7GYH2zkd=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczP7QQfOg4YNqP0wm8m0Zilt_j8lhBGtOskyRRfufto7tqKjaFDA6uZkkb0PznfZaobVAQqhesIIGafemWHIwvxPuj56zRC9RWLaJObGJn3Am0ef5fpR=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOLaaVK7hyxuSvGvFyduWOktZa-2g3mIH11hfOQ3yVhammJG5yFoIRdS5dULuC2smqljtR401ow_S8tIaEU1In0mx1jsA-sGzbNK70vE_S8-_R69syi=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNVNbmrKtu2Tw0LQZQ7NVFDa1VRRVeRzsmYUz-QhLQiDfJYb5fuXCw7vSkvnu0EQmj66P_FRz61ZeVFAFe1osXDsoxh4CqO2ZscUHMJmN3fz16ntrbH=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczN4v2h16LFal-OH25hgOr-XM4af32BcdBpxs0DLP2OHlnQGcmdUNEWFpOLgMsK6uKTdEXEpXMLBJeEKKpmJX6UEEtUwZOw_S1Gh_wULdxphT4HJPAFx=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMCe2k-WLzRv2HWDQLYBpcwzmSVgoUhoyxlPqu83xyghDfaRx3b9gFVyE3PMMtzemIx4RTUi6_5Iu_VkAJVezv557fxlggy1_9HDvi1rovaJRQEhI-h=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczN8t0S8ECAeQJ1O1WtLyPFo1vmbt7tO_nhxkSJWkuA_vw71PwFcXBOzu_kXX96hHrqRTusKMSdOiNEJX5oi9b5l5GHssImcHUQ9sq-pQlcF_lYF4eFh=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMIr5zUH7VxYbE1nF5OTnIbdX-TSGBg0BPniLna2UydjKUwWPq1f0eoRCk8v89qL69VIAagaTogmFNaNVGRn4ogdUSxhYZsxoaaON7xYt_MzqVK_svM=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczP5O6054I-buPmXG5Zkx-R6xr4_m1LiBV176KCHplfB3Xj40Qruuf9GZYhwjpxrzBTTRVDueNLqtaQl5Kj8Sk9aTYCmCCgTWQ5zF6BKMtjH5PPlcyCi=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMUqOk0uJfUeWw_EgR1jvHX_XvmhkqbKPhSi3Zqtn-Qi4uv2X54uv82Q7jYRAn4aSaZc6U1epHllBrgU2_vO2NZT_3wyJNZa-ZEr92Ed4xiXLQu7MVN=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOl70pDOUakL8XcukFOTWoeflJLcva7o0T-Zfsu4iPn99B1PoPw1Ktosw9gueYwRhKbAsSfbKBasBc8tZO5ce84CmqqMHxO9p685enk2lr7ZFGqXDeF=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOfEnuyRFYOAbQkmDa9Xfe1qKKKliZ0JKvM6ThNOgRbFbcnDi_7FUZpXVfGkXqixfScCarKq84MxaLadovs8VhYiR1XdWGlAxSXfGvPX06xwBqwOk6i=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNF7GCbGOREZRRJ8bjZ5a4FCkhYJdEF73irqSOMjHnqBuSKCMlLPLGV2mwBJjqtqRhW9Ro_Nushlpbbm20IozXs9p2dnSEB90qndVF5K4Ru6zpLgdIw=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczP0-nX1f4oyj9NxrKqL5b1ldYeLJY6OAb-Gwb9uDtzP0E2WUPjOhwNmn5Q5wAwFqolIoZYjVM2kd7QOnJmBpLs1QQ3zFKnEhdZHS7HvT8WQ_Bo1CebW=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPEaFDFqMMX9IoKbFVYjUDmhmQ3EpP2weUPLRyBGJ1nyygtDhJ6KZ5mQ1LrCTG0nGhXGQ6iQNApXvxB7pLWVZFIxfeJ1YZ3_zSby34M-qBWbIV8ubOs=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOcUSHq84YRoLUpeNVwKSDIevQjzXtzJp5YQGmlF4YGEu415xTb82WyN3BoljLiLJje6RLwvVj7Y1mTS9-_ANrAKQDz44ifeCvAZZcjlN6rWZEaDArj=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNl5txxkmfCJhQzjGlxOG8M6flFqWewJQgIegVzUYDEvDQWbCdRjQHAglImFAhsJW3Cg4maw0S6DsZvGtNlLaRlqKPsi9lIton0UWUNvir6O0ZeJk0N=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczP4VIGkUhzLk5VFwUWIbHBTGxULKi6CKqIrxRGpTxijqW2k_RSaRmWpH4LCKFE2vM5Ck9yY_mg_ijwCaAHvlyoJC7LD-74_AvBfqsRetpFFdnf-SQKv=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczN8SIMzs9mWDEawIyu7gPLOb5hyqVOkIUTK-TQifIBNfMMdX3R_DtfwawneOs-Z1rMy37hBBJzlHDcxeEoABzVLHXIgxnYYHrsUNrtN_Y6GudYIBDjE=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczM58w40YujqsVXmgLkVAxX6HDvK69JM2gk58jc8jAAkrBSaZDwGMghhWOdnylgpKPlOpAsQNt7gzD63xSXWoC6werq0Gfz3hjSjhMQnH_lNAHp8h6Sx=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMbdWY1BHLaVKp-LISBCMRuOfgDaCu2NiC8c68RQ7k9VM4_uHKyZ_7P1I0rEJfLP1LgmLL4v7Qhb2-kBA2mgm2oWUL3ohmhoggAQrmHWQJWLQNopO9f=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPLFUaSfaujUdZVCP13VP8UXMXcqZhwTzqElfD7wuyXTGGVc1FpVs-Kp7WPzo65B_xtG2aA5bnCl55C5zjNCjob-ZPVCf2MIB63r7JYiom6SpRRZ6Eq=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNsMMHoH02b_PAR2-MhhQ-kFbepLAnIQFNHIkS9JA-lFcP9zDn5HyKY1k3nEjOCSyCfoGPuRwoyj4AMaZJnc_bH8rBZSAjL6gnbqppPNoEaeeqAQU3n=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOzEmhbiWX75jJDACjPp_QLPJHdx6nOINcQ55lGtKeEzesBl3MG6N3SxNO6XmFnsiWO_hk2k6b0F-e26tmpb9m2dybR7Mjn9YWRgKJg7nfk5ZIbEehY=w1200"
+        ]
+    },
+    {
+        "id": "exhibit_2025_foothill",
+        "title": "2025 Foothill College Student Art Exhibition",
+        "venue": "Foothill College Library, Los Altos Hills, CA",
+        "dates": "June 4 \u2013 25, 2025",
+        "monthYear": "June 2025",
+        "cover": "https://lh3.googleusercontent.com/pw/AP1GczOSNiIRsEa8-6MzLS8bmYsRVs4SKShBPL8C96MoOTx_4V6r3bYB34p3vFmxEQTp0PAPYxv1XQcmZWLxwUp8gGxiV2i0IlTUt5hd58f4APatp6chub9C=w1200",
+        "photos": [
+            "https://lh3.googleusercontent.com/pw/AP1GczOSNiIRsEa8-6MzLS8bmYsRVs4SKShBPL8C96MoOTx_4V6r3bYB34p3vFmxEQTp0PAPYxv1XQcmZWLxwUp8gGxiV2i0IlTUt5hd58f4APatp6chub9C=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOtIHQbiI6RoqN-F_1QuTuTMsqyD3OCeY_rzAXETWJcp9kyUrgInv5Osvc_ouICJgUz-O8AU8XbPZdWxiIOmdPxyYfimRRGX4oIJDaMq38_Rc5aJEiN=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczN5GNDKNe5lkg9V60mSYz2cdNQqFAB10AOTkOa2OZThZNw6NUAfl4KRX08BgPCZMRqKxHnaqZvAAzv1khMNtEivBF_ulcpKH8Ev5VsyUOiAMZCPw7PP=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOF1dzN11UMYC-RV8uJk0L_I29b8oGcanenZuclZ31VKzb2A3A0Pog-qqLuAj79jDDfW7RFLJynDx8A5XfRwvwo3roxI1y_Nn4JSmhOLbIQmEG0mhnI=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNZ0UnoO4foGzsNpUvWH3zs3Eld569LnOeesjrFgFq2GYyh2hcPa-iMSYpwRDuCAMLvHzZhC_jxDrBWHvC3R7hgdyVh_Q-_GJckeHbxPbUBfypc1cmL=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPnT0YxaghVyv7f9VkN0CLWuF3GSR6JcKM0jYwJn9ZsO6YbQxmu96H3lnyuZj-MrXTaDzw2Lapk_1AQHl-QNXk7NVWRPS09IptWxthDo5R8h9fdSgbi=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPtKrcG25iJCVyNmpY7fE_eoCgbUE92LVXXaKIZU7R4x_aBhBCV8u45qVaS2XsrNp8qhOUGhuXYf5_Q6jCu9SxPxoTR5c5tPXZcni_fyN4S1zsEQU4-=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNZxTzfnYkrVTcAmi_b_157b5xVomBE2a4GyrzN0JT4FZMssoeRrSR8Z9rFFTVaniTv7YbxHoiIF2UZyVubMjsBdpbL6qSApOX33hpObrBlsxDZmj_M=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPeOempO1c05Bd8N_3L_iIdOh1Vay1LiuL2xTynORAI8jHAex3d74GNe22aYewJlR0eM15WXBA7D8FfYelqeG0gXo8D8YSO0Yaa6g_uobWd5Ct84yiU=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMUGLZgpiRYS4nmd5D18XBfG9FHIvT7mIZbwbS3XOKTvgISKi7lH2ShHYGTHPfAkZeRYZRQDaHzrgBIWiSoI8rY3udfy-UyXCnCRYJBzvuiJwnWKJnO=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczP-nisroNgr-AdioVwR1CPV92NLYpZJmn1cYvN99LoWETlk-zKbqH5VfWOtIpeLBBjFLx2IJ5aShpEdAB6-ThoSdImH8-fKtTfs4WtwIM-wzDJx8PTe=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNjsx1sz9ewFljpcMuQbCB8zb-cgzOaQxY7jIi5CqQJ2jcX8KITW9eldFt67rAdVh-u_SaRKwSB_tO2IK0RAzgIFFldLGfuiBWRgSy61H5JtvFZD-C6=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOlifVU1oF2z3aZGyRu0qksxQ8QiDjmPUETIImW-Ouz0LFgkssbQFTxfxH8XwnDSq_k_dQPwPE70WOJhL2HW2MSmKCYWUzR_nNS27AoKrPVVmOx11or=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOY2IoL0X3PFpPQRbj2J4699SJIWGPlP5JjOnp5n7lkW6kxQAaTebwsVBBZ7sJe_3ka-TaDkPReAVgtTLWODSWT2N2hdA7dbjVCfbPiocfAqRC61PzP=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczM-g8VnSIJIAk4UlcDV8n1QMJFB51ShGSN9-hA3ZFwWRRwV70V1csvY4hy6nmtyD5pbpbwnkXQ13OfmCpTGARNBR6DllJ5IibWKTjZ2YxwAcN36MDdJ=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMbHMwmsesHEfxy1O2-RG-m22DRFLvTVcnhzOFmtCYRXW9Ye_apXKrrZHkPxkgZxMFU_hapzoIA_mBcQ7lQLdQwf6X77t9T13h79X_YvG0Zvmm4DRt1=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczP-CirjgLvjUauqxFVVtwc0noO3dCnYudIsgWHUMiBWKo_etMx5tw66DKQ6WD5R60jx1XkfcHOtoHu0MXl9VWTJAu0REq8SRJ6UqFwd234UgR65eiGI=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPvUZ4nYuXdfSSeMPr4MVVJTZB4Lopk3ztTk6jeH-sUW_2InU999Hzhsmmo0nHVIXXmwFQz3XMFbMBI6a7su5fSB0lNfGyUlT_5DBn_o2D4luc23Ms0=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPxQPjJTxR30Ep7PbT21AQBghk4DH7aXDkpGcc9gPwJpr9FyE431J20M2qtk35EMy-jx2sJ6SgVthMoDNDQPIc4trUiORqvBVsizEo4jeVz_YsDgx2i=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNes1OrybEqgfZJAiLvlP30s8c1uiy8FpTvf2pP17z85ZR2Hv2loMVdeiAJNTdP26uGssqeCTyRziN7LbAiDdweyE6DVUQk6wvIZeI7xzK2YLb-pmMg=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMPCD-0M5rgpCSndFXjWcOIKQX81OAxLXwDlMhIZdeYSBOf17X_uKAegl7JoqGQFZBZAjffrHcubIpaMd_Z41rC7bU8x42wd3ugYBLfqXK6fzs6A9rw=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMk1wJbbrpZXnlpoaYjhDVRMvXQCkkus66HACoYiXDbeWtAC-l0g2ZKmI2BDikQqzPe4O4ZWKKlVy8OdtRHM0JcgpThRPQcRdgxBeCzmb5q3xukr5EP=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOu3oU6bxNi2cfSgHRDPrvkv_H33gVYlNL4e6zlY1SHpjCS_4xj_YLsckIRmxMFxt3oD4BFQt9pjEZ6sBe8Y0Bgy170_F0Th4L-GLZMZTcC6wF3xmVl=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOxmcSzRawNp_twUnYsRRCfH8OvTNu0NhmLWoiOlMxRT1mUxS5eciP4BgW99ShL-rGYf_OONDet4xtRWZE3V3vPXYNYOt2SAufDtTFyPp2OSo0q4tgI=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPSIse32y5AAAvtGyBFqsncsal75Ps-4HydSh_YUqQBqyFxFwjMl68X0YYKZ7kArVAAKTflmU3A5BW5HnSCOTQdEwFEuhoqIMcN29wKP2TRftgoR8fM=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPik56KnSP59b-AaCRj2yR7skz-JQWmv5yLMdTvK8C-ShftTFPSxvIxq_1Vby4_FJbAm0Yyvz8dkdD7aVaL00kEbX-28w7oD_74xvJ1Kj6u1raVAywc=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczP5c-3BnFzlsm55jQec9_I7Cs12CwVrTNY9KeGq5zKuPSSfvNUSzyUoX97Ykv-DDCE9hpFHtEA6nk96dDrLWn5-b_rVTLRlt4n8vYt0rQK7FQKvyP9d=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczN0uaPPbJgZlKeVyCvkfHMOB8SQVFpYGXfI52uz_AxpFO3AjE9ezd5smEnItrgOTq26hPl0FCWgqVYg3Tjf3vdol29GZvxh2pq6KvnPzX-KMEl3MqfH=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMzjug2cfMt7Q4MtuuSKZChs6S76g72RaRXZFGIwfa-joEw0ieZKuB0Vr5MdK0PrUt8n5DlFOk9iLB932wf_32AUuQ2Lk9IbTUA28S6YJQyLCLcm4fb=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNJkDpTtEv4y_34bszBWD4A8Ut-FuhNsizcQa0VZ2Rv6C1Q86jzR8YN1VKeYZ2E-jPG0epiCXYMPi9KBM7kFGOXPo8x8hjq1xcHIcL8AiQaF8CvyqIb=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPFZ41wf16LZ3QtuJ0k2SLDt7Ddsbtk1zn_PyKYNYlpq0gmyAWK-KaXy2d8b2eWwCq7KN2BUyiQKkln9_TcrBNhb1HVKijnXuR4jeRxRqW0jNPd0Cwr=w1200"
+        ]
+    },
+    {
+        "id": "exhibit_2025_de_anza",
+        "title": "2025 De Anza Student Art Show",
+        "venue": "Euphrat Museum of Art, Cupertino, CA",
+        "dates": "May 13 \u2013 June 5, 2025",
+        "monthYear": "May 2025",
+        "cover": "https://lh3.googleusercontent.com/pw/AP1GczPa9tILLGpM0IkQm01uiGcYQPql0MlRIZZ1_xz_Eo_Ugek57UCTzW2zoWGYuVAEXGd9onkJMTqkOhjF9EBdmf-VqCTisQiub-7Dw7OZvtU6ibes9b3I=w1200",
+        "photos": [
+            "https://lh3.googleusercontent.com/pw/AP1GczPa9tILLGpM0IkQm01uiGcYQPql0MlRIZZ1_xz_Eo_Ugek57UCTzW2zoWGYuVAEXGd9onkJMTqkOhjF9EBdmf-VqCTisQiub-7Dw7OZvtU6ibes9b3I=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNTs0__A3_9psMqAkudOv529RN_-zjZcSZxCUFRvMgDof4L8pdaub85eEszOTOjaFoUBdutRj8pwCNPemgDKuTW0kGly_12XTfO6Zk3OykMl-tIlybx=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPbDUX5mYQHWcx2FByb6KTt408722iv220vHRjuVa5B9rhazqnaq_JIK5MQrzd80Snmks_iCbtxag3NC-97iAAkFVAON9ji_WUS7rgbwNBxm6YxBmv8=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPH-YOpbh1X2cIqDoEnNblMRARcgWpujvpplmCf9H4d-g_QgM9j4FvhMMLYJEMFv8gvEA4x6amu5ZKRt57GesddG-I0H9-FxOiliPoco6FlNo2ogm1u=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMcKry28ifXaQNSislQR7rbB5mq6YjhdOdehla_2RlwIB1CHlvzAD1GSIsqQOt52aR5WT9W30SZG6Fvxue1MGtXANDwe39XQy6lR619goFK32MovP8z=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOgXbk6sSs1Y9pHwCqc8J3CMizDfOaTp29ShRzp0goxQUueXXefCU1g_yiwMyIr33w8CSkN5PAPpgN1Sefjs_IQuUZ7YPvRULR08HbbpRSD5ErPudtL=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMKwiV2V5QvEaZWFcMQ3He3JF1FYR_t_Mcf59z-a1dcB4Kl6EkP1COqz6HqIqZumEkNKngiWybqsC2-RpVNmgdMt7msjA0zo-GKjP05QZ2YzQVFuKLx=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczM1NeB8tWfdo09ZjcdCzOEcCM6US9F4WfaQhyMiRKkr4KD_kmJsbl451sZukk0txGHeXB-_2DvtSDOdM8oiuyNQu1yJosC6uQ2pLyIjYNdd9u-huUgY=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczN_pOGDSrfLXFx0D4A6b50Ey0unWGpUCoOYqv14bIodYzRfMwvGjnajHUlw0L3P7jz40H1atWDoQoekDEfT-6hk89ZD8g5n7F8Pss96E7lzNuCyPgb0=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOlW2_PXHMcc7ufWQT8_EuNDfzK_vF1DGp_bsydcwchgOjvGGki_NadhbdiAK6n-qZ3Yj2JQymLvsTXpU19qzHNxasNWBl4DH0ojKLtOcPghm43sVw2=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNL-g-RV2J3hmuGkJJkj70lnNpO6rmTPV8jWfeGmhybDIAs90fcc5TjKcoRI4NNajGo7nFaRHuWXZSBMtYxtGjh5yK_9EtMTHXRm5FndUc_qfdApazU=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPVp7qu5MhGQhibr63BLDT9mWOASKFfYcVz906OoC6IkbX7pztfb34ZHrXdrOLK00q36E9YkOMTVsXEG56AgreGaX4DxMxR7tTRqLvDqgh7ZXonrKWo=w1200"
+        ]
+    },
+    {
+        "id": "exhibit_2024_de_anza",
+        "title": "2024 De Anza Student Art Show",
+        "venue": "Euphrat Museum of Art, Cupertino, CA",
+        "dates": "May 7 \u2013 June 6, 2024",
+        "monthYear": "May 2024",
+        "cover": "https://lh3.googleusercontent.com/pw/AP1GczM0Qo257iK2U93O30e5zcTEC9y7Wi8QBt212XfFVf56jt5RBkfs5eAbbjbQMOu_KegIxva2u7QABx9QSbp82kmVmWwrggNo0ga7vG2ymSMwQz0KgfEd=w1200",
+        "photos": [
+            "https://lh3.googleusercontent.com/pw/AP1GczM0Qo257iK2U93O30e5zcTEC9y7Wi8QBt212XfFVf56jt5RBkfs5eAbbjbQMOu_KegIxva2u7QABx9QSbp82kmVmWwrggNo0ga7vG2ymSMwQz0KgfEd=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMRCO8WSTEQlxWBEHra3oVKsN4txUq9R7yfeardSxbng4w3KgLbL-vfu7Vq8i1DRE3azArTY_PVuSSQnMCkdebpQ50hxMvEubZGWX5K6o_Lg5WSin4K=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczO__jYokE4_7Y3rO2eIsp-nomMUxzcI6YYCSQMHUWgar-ddWZeGDZ3POn1UYhj4epOslWlbBp9MqZ4e9FwtmC8e1UWbJdmIuWAlQTwfLnNfH6n12O5s=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczM-VU5FTsmZPe5aBorwo2qpAxLwY3FyToVoREQZ9h1-mR9G7YmNO5kIqnOr2EqaqYkdrLK41VvMohZhy4l5IeYsUNk6O5jU_-ONKwdPlMxYrXa_Nnqc=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMEpic3HZf92MVPlDdODnI_mgVydkTtGACPfDLYF03OqyQVmDEcdn7TcU3NcS0Gyh__fyTbbThITN1JbR9tG3kvXWtuXQGWIAzPNfHcMxLiJgU3VV-x=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNvobgOy5RXefiS2eEh7JXGmGfXOHqzZmCSmJ7I59wpq25NTvvi9D1QfA7hi2nAoWqg8eP9cQ3KJKSBWAnl1eJMx4nbX4_8cTTdCUe1lsgEwmPu-1n4=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNymqksPCJyxkfXuVtw9f2Sa6EDu7yqXEbv3p2_XMK-bHMAfe8ZWQqaEzVl1mW1SyDgqMaRlX_HjjyItOVf7mqlUEzmuaOEu_ZJ96pwvUM1KaGUkA1Q=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczMh0Ie9LqQYk7ltRzPqIHxvp09FuFhB4DPqD0UY0GWQs6agzpTzGyNdbv0WVhTRhPCd13TB0LMChAc5nHnZl57va-BQQCvZ7LrvSfFDxFTw9YxK78oS=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOBuJKH1psatlCeYNaSPOTx62SlfE3lJDZye_QMmwBxTwb_Io8qBSRhpOeKQYqGvwSGH4E4IY8AjgL0ZF08yg5AbbFl3XxK2_plUmybW4scTBJSS0UQ=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOLGO_GGvskfSQJrGX0avJbQAwp2apHrSJpl-r5R6Ktf0xAVeZAOmTfWkZtIyfzmGJPL9fWVI6UUbFXcUUMdN6qouPxqci1gDyzd5gVvgOTgPO-9YY1=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczNnyvJxI_iIJpDQox6hunNT4Undaljx7a58NmBYHX6SDfR8Ahz0GVGYSMqPduZhAL85aStdcMEQAUIlS_8fRISuK9mhft2M3z7Bcw2uKKGdDRdG9ONr=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczOrqRe1-gBetlF-qA-cFAefVkEl9MAinlJ65sIebe8ZW_dSorc7xy0ZAvoOQuxuGf69Sw4eHiBKtmIlncFFytbVYkpPqXjYMUwOu0julyQX18uysstO=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPvs6vkyuOWzUiDLHhrmnYONdsScc8uxd5LWOmnUhb1VShftGwMzt-m010ZL2Hxfpg_jYJOiDgqPlecRI_r5JdIaMB0PhILuUmhDxBIGP8xhAsRJRS6=w1200",
+            "https://lh3.googleusercontent.com/pw/AP1GczPTXKJuc02_bY8jlj_7WkmhWC35A78LbTSvE-uX03oQ3eOJn0QHpdWJOEcFT1qX1kkAro176X78fSLEsj-nH1J85ku6RUVC63oR7Dt-0pHDTWRslwhj=w1200"
+        ]
+    }
+];
+
+    let currentAlbumPhotos = [];
+    let currentAlbumIndex = 0;
+
+    function renderExhibitions() {
+      const grid = document.getElementById("exhibitionGrid");
+      grid.innerHTML = "";
+
+      exhibitionsData.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "art-card";
+        card.onclick = () => openExhibitionModal(item.id);
+
+        card.innerHTML = `
+          <div class="img-container">
+            <div class="badge-group"><span class="badge">${item.monthYear}</span></div>
+            <img src="${item.cover}" alt="${item.title}" loading="lazy" decoding="async" />
+          </div>
+          <div class="card-body">
+            <h3 class="art-title">${item.title}</h3>
+            <div class="art-meta">📍 ${item.venue}</div>
+            <div class="art-desc">🗓️ ${item.dates} • 📸 ${item.photos.length} Exhibition Photos</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openExhibitionModal(exhibitId) {
+      const item = exhibitionsData.find(ex => ex.id === exhibitId);
+      if (!item) return;
+
+      document.getElementById("modalTitle").innerText = item.title;
+      document.getElementById("modalSub").innerText = `${item.venue} (${item.dates})`;
+
+      currentAlbumPhotos = item.photos;
+      currentAlbumIndex = 0;
+
+      const modalBody = document.getElementById("modalBody");
+      modalBody.innerHTML = `
+        <div style="margin-top:15px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+            <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
+              📸 Google Photos Exhibition Album (${item.photos.length} Photos)
+            </h4>
+            <div style="font-size:0.85rem; color:var(--text-muted);" id="albumCounter">Photo 1 of ${item.photos.length}</div>
+          </div>
+
+          <!-- Main Viewport -->
+          <div style="position:relative; width:100%; height:520px; background:#000; border-radius:8px; overflow:hidden; display:flex; justify-content:center; align-items:center;">
+            <img id="albumMainImg" src="${item.photos[0]}" style="max-width:100%; max-height:100%; object-fit:contain; transition:opacity 0.2s ease;" />
+            
+            <button onclick="stepAlbum(-1)" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center;" title="Previous Photo">❮</button>
+            <button onclick="stepAlbum(1)" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center;" title="Next Photo">❯</button>
+          </div>
+
+          <!-- Filmstrip Reel -->
+          <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
+            ${item.photos.map((url, idx) => `
+              <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      document.getElementById("modalBackdrop").classList.add("open");
+    }
+
+    function selectAlbumPhoto(idx) {
+      if (idx < 0 || idx >= currentAlbumPhotos.length) return;
+      currentAlbumIndex = idx;
+      
+      const mainImg = document.getElementById("albumMainImg");
+      if (mainImg) {
+        mainImg.style.opacity = '0.3';
+        setTimeout(() => {
+          mainImg.src = currentAlbumPhotos[idx];
+          mainImg.style.opacity = '1';
+        }, 120);
+      }
+
+      document.getElementById("albumCounter").innerText = `Photo ${idx + 1} of ${currentAlbumPhotos.length}`;
+
+      currentAlbumPhotos.forEach((_, i) => {
+        const thumb = document.getElementById(`albumThumb_${i}`);
+        if (thumb) {
+          thumb.style.borderColor = (i === idx) ? 'var(--accent-gold)' : 'var(--card-border)';
+          thumb.style.opacity = (i === idx) ? '1' : '0.5';
+        }
+      });
+
+      const activeThumb = document.getElementById(`albumThumb_${idx}`);
+      if (activeThumb) {
+        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+
+    function stepAlbum(delta) {
+      let nextIdx = currentAlbumIndex + delta;
+      if (nextIdx < 0) nextIdx = currentAlbumPhotos.length - 1;
+      if (nextIdx >= currentAlbumPhotos.length) nextIdx = 0;
+      selectAlbumPhoto(nextIdx);
+    }
+
+    function closeModal() {
+      document.getElementById("modalBackdrop").classList.remove("open");
+      document.getElementById("modalBody").innerHTML = "";
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+      if (document.getElementById("modalBackdrop").classList.contains("open")) {
+        if (e.key === "ArrowLeft") stepAlbum(-1);
+        if (e.key === "ArrowRight") stepAlbum(1);
+      }
+    });
+
+    renderExhibitions();
+  </script>
+</body>
+</html>
