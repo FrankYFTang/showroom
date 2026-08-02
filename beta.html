@@ -1303,23 +1303,15 @@ title: "Redemption",
           ? `<span class="badge">Masterpiece / Selected</span>`
           : `<span class="badge study">Study / Academic</span>`;
 
-        const hasVideo = art.videoId ? `<span>▶ Video Available</span>` : `<span>🔍 View Details & Process</span>`;
-
         card.innerHTML = `
           <div class="img-container" onclick="openProcessModal('${art.id}')">
             <div class="badge-group">${badgeHtml}</div>
             <img src="${art.img}" alt="${art.title}" loading="lazy" decoding="async" />
-            <button class="img-overlay-btn">${hasVideo}</button>
           </div>
           <div class="card-body">
             <h3 class="art-title">${art.title}</h3>
             <div class="art-meta">${art.year} • ${art.medium} • ${art.dimensions}</div>
             ${art.honors ? `<div class="art-honors">${art.honors}</div>` : ''}
-            <div class="card-actions">
-              <button class="action-btn primary" onclick="openProcessModal('${art.id}')">Interactive Process</button>
-              ${art.videoId ? `<button class="action-btn" onclick="openVideoModal('${art.id}')">Watch Video</button>` : ''}
-              ${art.slideId ? `<button class="action-btn" onclick="openSlidesModal('${art.slideId}', '${art.title} — Symposium Presentation')">Symposium Slides</button>` : art.presentationUrl ? `<a href="${art.presentationUrl}" target="_blank" class="action-btn">Symposium Slides</a>` : ''}
-            </div>
           </div>
         `;
 
