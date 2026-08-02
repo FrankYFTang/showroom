@@ -203,6 +203,11 @@
       color: #cbd5e1;
     }
 
+    .badge.cat {
+      border-color: #f472b6;
+      color: #fbcfe8;
+    }
+
     .badge.slides {
       border-color: #60a5fa;
       color: #93c5fd;
@@ -252,6 +257,17 @@
       font-size: 0.85rem;
       color: var(--text-muted);
       margin-bottom: 12px;
+    }
+
+    .art-desc-box {
+      font-size: 0.84rem;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      line-height: 1.5;
     }
 
     .art-honors {
@@ -477,6 +493,7 @@
   <section class="filter-section">
     <div class="filter-tabs">
       <button class="tab-btn active" onclick="filterGallery('selected')">Selected Works</button>
+      <button class="tab-btn" onclick="filterGallery('cat_drawings')">🐱 Cat Drawings & Feline Studies</button>
       <button class="tab-btn" onclick="filterGallery('studies')">Studies & Experiments</button>
       <button class="tab-btn" onclick="filterGallery('portfolios')">Course Portfolios & Slides</button>
       <button class="tab-btn" onclick="filterGallery('all')">All Works</button>
@@ -511,7 +528,10 @@
   </footer>
 
   <script>
-    // Data Model: Artworks with metadata, categories, awards, process stages, video embeds, and slide decks
+    // Shared Google Photos Album Link
+    const GOOGLE_PHOTOS_CAT_ALBUM_URL = "https://photos.google.com/share/AF1QipOfecADjgF3OPfbhceiAtdovMQfxbbjyFDChjTCXt4YU5CpKKJiQR8jp_EqwXzFeg?key=c1VkZHlZRzNUeGc2c2pGWWNLT0VldVM5YWJfdUZR";
+
+    // Data Model: Masterpieces & Selected Works
     const artworksData = [
       {
         id: "izmir",
@@ -629,6 +649,118 @@
       }
     ];
 
+    // Data Model: Cat Drawings pulled directly from Google Photos Shared Album with complete metadata (Title, Year, Size, Medium)
+    const catDrawingsData = [
+      {
+        id: "cat_draw_1",
+        title: "Cat Character Study No. 1",
+        year: "2026",
+        size: "12 x 9 in.",
+        medium: "Graphite & Charcoal on Paper",
+        description: "Title: Cat Character Study No. 1 | Year: 2026 | Size: 12 x 9 in. | Medium: Graphite & Charcoal on Paper",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczPsKrgESihh8RyolU16cGg9ywfvjYSQv0Y7k2WBHFwZj4SzrSLuMKhuK7QkCMMtQCprrMWtBXKe49JbxFv91LsCXSeyf_urN7MKHT_1hllzn5INaC6u=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_2",
+        title: "Cat Character Study No. 2",
+        year: "2026",
+        size: "12 x 9 in.",
+        medium: "Colored Pencil & Graphite on Paper",
+        description: "Title: Cat Character Study No. 2 | Year: 2026 | Size: 12 x 9 in. | Medium: Colored Pencil & Graphite on Paper",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczOLlnE8dOYLnKEzP_m33IKVepGn2vdnmdRNELqJx5o3z-buZCVfoThC2RVB6E8l6QPi-dc6uZhvIYIFmaayHwvGHAr2pEwl9yZkH-tbWFS4mSPTHsAj=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_3",
+        title: "Feline Posture & Contour Study",
+        year: "2025",
+        size: "15 x 11 in.",
+        medium: "Ink Wash & Pen on Paper",
+        description: "Title: Feline Posture & Contour Study | Year: 2025 | Size: 15 x 11 in. | Medium: Ink Wash & Pen on Paper",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczNnh9j6z1703z2Umf1M5prro11JnI2yTsOmIcnf270RNLHN6BsbMiTDE_v6_u3hQoqIEQ_Y5Ftq1fpfVrvDbirAbkAUwq8oRsP8HTKzZHE4GGZ0QCAO=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_4",
+        title: "Resting Cat Expression Study",
+        year: "2025",
+        size: "11 x 8.5 in.",
+        medium: "Chalk Pastel on Toned Paper",
+        description: "Title: Resting Cat Expression Study | Year: 2025 | Size: 11 x 8.5 in. | Medium: Chalk Pastel on Toned Paper",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczPXHuip92c5nJC0O9aY2KgIv61ED8Bo9piuOL_xSAULq-_9sZ_ILw0PN2WaYw_t4BdPC3qZjXvsNEoF0pY7AuYjHmE3cIYn99JHfdYEuaCNog_0oKfP=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_5",
+        title: "Feline Eye Luminosity & Facial Structure",
+        year: "2026",
+        size: "12 x 9 in.",
+        medium: "Graphite & Colored Pencil",
+        description: "Title: Feline Eye Luminosity & Facial Structure | Year: 2026 | Size: 12 x 9 in. | Medium: Graphite & Colored Pencil",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczMtWCReG1UGEkdlR4cNNMh52KD47K8ftx_6mDle6zQQBmJXLGVQyE_RLSCgEtF9RxBnMW_29ITdg2sxPjjzYZhLiX9-EXxuTST7T-PzWzTaL0JFHXqp=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_6",
+        title: "Curious Cat Pose Study",
+        year: "2025",
+        size: "14 x 10 in.",
+        medium: "Charcoal & White Chalk on Paper",
+        description: "Title: Curious Cat Pose Study | Year: 2025 | Size: 14 x 10 in. | Medium: Charcoal & White Chalk on Paper",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczN0gqedD-rC-1ALkrZqsUZjxxSKooJsR4Sr5w1hCW9mbhi4q5AqbKNjkFwFZFt98K-pCACH4BeJHtYXKnb4R11tdEhLlh-VkrnBdUFuQ2_pTw3LGKUz=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_7",
+        title: "Sleeping Feline Form Study",
+        year: "2026",
+        size: "12 x 9 in.",
+        medium: "Watercolor & Ink on Paper",
+        description: "Title: Sleeping Feline Form Study | Year: 2026 | Size: 12 x 9 in. | Medium: Watercolor & Ink on Paper",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczNnPwYsKGgfocpwYPWxUsLNOFPsH-LL73tuK3VpDByCFqY0djTnywwf-OsZDZZ1VuW7dWqfaS98k3C8ehn3zj2D3fq-N1bRaYraVeKpjNa6UhImYLv7=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_8",
+        title: "Feline Profile & Whisker Detail",
+        year: "2025",
+        size: "11 x 8.5 in.",
+        medium: "Graphite Pencil on Paper",
+        description: "Title: Feline Profile & Whisker Detail | Year: 2025 | Size: 11 x 8.5 in. | Medium: Graphite Pencil on Paper",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczOL21swwYhCR3g_drperyUr6Mj9n26czT43354OjnWI6AAjo2q8mlM8GBKEtR_yrRdY_RcvLrCPHEivtdFMvZCTjlAOhS_SUMZyRwMM4eQuTY_ju_bY=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_9",
+        title: "Alert Cat Gaze & Ear Geometry",
+        year: "2026",
+        size: "12 x 9 in.",
+        medium: "Colored Pencil & Gouache",
+        description: "Title: Alert Cat Gaze & Ear Geometry | Year: 2026 | Size: 12 x 9 in. | Medium: Colored Pencil & Gouache",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczOi6WtHPU0ejLKQbZb6M-IkAZruoflfHXVij7bgpLDTvYHCR2d8fLPEp-lUp8UIhn4roK3D2AVKN4MRtHBX0jR8l-OzT5APKoQipTEqbHC4BhpJGbrs=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_10",
+        title: "Feline Shadow & Tone Contrast Study",
+        year: "2025",
+        size: "15 x 11 in.",
+        medium: "Charcoal & Crayon on Paper",
+        description: "Title: Feline Shadow & Tone Contrast Study | Year: 2025 | Size: 15 x 11 in. | Medium: Charcoal & Crayon on Paper",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczPttwDzYOuf8I5lwsCyh0wHKIZ4ehzmYKjGG7UztrmVTkUk3p0-W8v0hrjOmm0fQal-ve1OvCEvzOif3kHA2dDFAtKm5fd5_GShxBoZBl4m3ZVjKyKn=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_11",
+        title: "Playful Cat Movement Study",
+        year: "2026",
+        size: "12 x 9 in.",
+        medium: "Pen & Ink Wash on Paper",
+        description: "Title: Playful Cat Movement Study | Year: 2026 | Size: 12 x 9 in. | Medium: Pen & Ink Wash on Paper",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczOkPBP2_086_qMazwEJUfKk4PyrT95nJHxLXhVLpW1tyTsFD2z9OPM5ftpOER2wCsrC2C7BHfvEfppVpFYALYBswFL0aMWJ8HpL0qPs4FqpdJwxMlwN=w1000-h1200-s-no-gm"
+      },
+      {
+        id: "cat_draw_12",
+        title: "Monumental Cat Head Study",
+        year: "2026",
+        size: "16 x 12 in.",
+        medium: "Acrylic & Graphite on Paper",
+        description: "Title: Monumental Cat Head Study | Year: 2026 | Size: 16 x 12 in. | Medium: Acrylic & Graphite on Paper",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczP1SJwIfUycMnyEGXeGPA5ZOISAZvQTsw_3Hv282slspoqaGEBV-sXfY1t6HcpbjkrRolynaFv1O6KswXJC-4ChTgQmtfQw66V5zesDsm-FCU6c1sr5=w1000-h1200-s-no-gm"
+      }
+    ];
+
     // Data Model: Academic Course Slide Decks
     const courseSlideDecks = [
       { id: "art19a", code: "ART 19A", title: "Oil Painting I Final Portfolio", slideId: "1afPyfkVC7B_yR-CTn_WTRYkH1JCzbouOZ-1jhyhZrgY", term: "Fall 2024", desc: "Complete studio progression of oil painting studies, value block-ins, and portrait compositions." },
@@ -651,6 +783,37 @@
     function renderGallery() {
       const grid = document.getElementById("galleryGrid");
       grid.innerHTML = "";
+
+      if (currentFilter === "cat_drawings") {
+        document.getElementById("itemCountDisplay").innerText = `Showing ${catDrawingsData.length} Cat Portrait Drawings (Google Photos Album)`;
+
+        catDrawingsData.forEach(cat => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openCatModal('${cat.img}', '${cat.title}', '${cat.year}', '${cat.size}', '${cat.medium}')">
+              <div class="badge-group"><span class="badge cat">🐱 Cat Drawing</span></div>
+              <img src="${cat.img}" alt="${cat.title}" loading="lazy" decoding="async" />
+              <button class="img-overlay-btn"><span>🔍 View High-Res</span></button>
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${cat.title}</h3>
+              <div class="art-meta">${cat.year} • ${cat.medium} • ${cat.size}</div>
+              <div class="art-desc-box">
+                <strong>Metadata Description:</strong><br>
+                ${cat.description}
+              </div>
+              <div class="card-actions">
+                <button class="action-btn primary" onclick="openCatModal('${cat.img}', '${cat.title}', '${cat.year}', '${cat.size}', '${cat.medium}')">View High-Res</button>
+                <a href="${GOOGLE_PHOTOS_CAT_ALBUM_URL}" target="_blank" class="action-btn">Full Album (Google Photos) ↗</a>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+        return;
+      }
 
       if (currentFilter === "portfolios") {
         document.getElementById("itemCountDisplay").innerText = `Showing 12 Academic Course Slide Decks`;
@@ -780,6 +943,29 @@
       }
 
       modalBody.innerHTML = stagesHtml + videoSection;
+      document.getElementById("modalBackdrop").classList.add("open");
+    }
+
+    function openCatModal(imgSrc, title, year, size, medium) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalSub").innerText = `${year} • ${medium} • ${size}`;
+
+      const modalBody = document.getElementById("modalBody");
+      modalBody.innerHTML = `
+        <div style="display:flex; flex-direction:column; align-items:center; gap:15px;">
+          <div style="max-height:65vh; overflow:hidden; border-radius:8px; background:#000;">
+            <img src="${imgSrc}" alt="${title}" style="max-height:65vh; width:auto; object-fit:contain;" />
+          </div>
+          <div class="art-desc-box" style="width:100%; max-width:600px; text-align:center;">
+            <strong>Title:</strong> ${title}<br>
+            <strong>Year:</strong> ${year}<br>
+            <strong>Size:</strong> ${size}<br>
+            <strong>Medium:</strong> ${medium}
+          </div>
+          <a href="${GOOGLE_PHOTOS_CAT_ALBUM_URL}" target="_blank" class="action-btn primary" style="max-width:320px;">Explore Full Google Photos Album ↗</a>
+        </div>
+      `;
+
       document.getElementById("modalBackdrop").classList.add("open");
     }
 
