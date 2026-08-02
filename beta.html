@@ -1245,7 +1245,28 @@ title: "Redemption",
       grid.innerHTML = "";
 
       if (currentFilter === "cat_drawings") {
-        document.getElementById("itemCountDisplay").innerText = `Showing ${catDrawingsData.length} Cat Portrait Drawings (Google Photos Album)`;
+        const izmirArt = artworksData.find(item => item.id === "izmir");
+        const totalCatCount = (izmirArt ? 1 : 0) + catDrawingsData.length;
+        document.getElementById("itemCountDisplay").innerText = `Showing ${totalCatCount} Cat Artworks (1 Masterpiece Painting + ${catDrawingsData.length} Cat Drawings)`;
+
+        if (izmirArt) {
+          const card = document.createElement("article");
+          card.className = "art-card";
+          const badgeHtml = `<span class="badge">Masterpiece / Selected</span><span class="badge cat">🐱 Feline Masterpiece</span>`;
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openProcessModal('${izmirArt.id}')">
+              <div class="badge-group">${badgeHtml}</div>
+              <img src="${izmirArt.img}" alt="${izmirArt.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${izmirArt.title}</h3>
+              <div class="art-meta">${izmirArt.year} • ${izmirArt.medium} • ${izmirArt.dimensions}</div>
+              ${izmirArt.honors ? `<div class="art-honors">${izmirArt.honors}</div>` : ''}
+            </div>
+          `;
+          grid.appendChild(card);
+        }
 
         catDrawingsData.forEach(cat => {
           const card = document.createElement("article");
