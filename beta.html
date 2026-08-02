@@ -1533,6 +1533,7 @@ title: "Redemption",
         title: "Self-Portraits",
         year: "2026",
         medium: "Studies & Experiments",
+        description: "There is one person in the world who is the best subject to paint. This person is always cooperative, highly available, never complacent, never asked to paint him better looking. Accept any challenge, willing to post from any angles, in any condition, under any lighting. And free! That person is myself. I am the best subject to paint.",
         img: "https://lh3.googleusercontent.com/pw/AP1GczMPYXiHv8ak6O5qLIt6W1UF2nOtROLGwIIg2DbhFmiej-N39r2BRk6SMxY-a9dIb3oKmYa8J3FZgFFuQtJE77ejZ7OtEwZsA0ZhPLz9eWfwjoRu1NbK=w1200",
         photos: [
       "https://lh3.googleusercontent.com/pw/AP1GczMPYXiHv8ak6O5qLIt6W1UF2nOtROLGwIIg2DbhFmiej-N39r2BRk6SMxY-a9dIb3oKmYa8J3FZgFFuQtJE77ejZ7OtEwZsA0ZhPLz9eWfwjoRu1NbK=w1200",
@@ -1683,6 +1684,7 @@ title: "Redemption",
             <div class="card-body">
               <h3 class="art-title">${st.title}</h3>
               <div class="art-meta">${st.year} • ${st.medium} • 📸 ${st.photos.length} Photos</div>
+              ${st.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${st.description}</p>` : ''}
             </div>
           `;
           grid.appendChild(card);
@@ -1780,6 +1782,7 @@ title: "Redemption",
             <div class="card-body">
               <h3 class="art-title">${st.title}</h3>
               <div class="art-meta">${st.year} • ${st.medium} • 📸 ${st.photos.length} Photos</div>
+              ${st.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${st.description}</p>` : ''}
             </div>
           `;
           grid.appendChild(card);
@@ -1827,6 +1830,7 @@ title: "Redemption",
             <div class="card-body">
               <h3 class="art-title">${st.title}</h3>
               <div class="art-meta">${st.year} • ${st.medium} • 📸 ${st.photos.length} Photos</div>
+              ${st.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${st.description}</p>` : ''}
             </div>
           `;
           grid.appendChild(card);
