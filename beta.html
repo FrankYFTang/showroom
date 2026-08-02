@@ -1341,10 +1341,15 @@ title: "Redemption",
       if (art.img) {
         heroSection = `
           <div style="margin-bottom:20px; background:#080504; border-radius:12px; overflow:hidden; border:1px solid var(--card-border); position:relative; text-align:center;">
-            <div id="zoomContainer" style="position:relative; cursor:zoom-in; overflow:hidden; display:flex; justify-content:center; align-items:center; min-height:350px; max-height:600px;" onclick="toggleZoomImage(this)">
-              <img id="mainHeroImg" src="${art.img}" alt="${art.title}" style="max-width:100%; max-height:600px; object-fit:contain; transition:transform 0.2s ease-out; transform-origin:center center;" />
-              <div class="zoom-badge" style="position:absolute; bottom:12px; right:12px; background:rgba(20,13,12,0.85); color:var(--accent-gold); padding:6px 14px; border-radius:20px; font-size:0.8rem; border:1px solid var(--accent-gold); pointer-events:none; backdrop-filter:blur(4px); font-weight:500;">
-                🔍 Click Image to Zoom Detail
+            <div id="zoomContainer" style="position:relative; cursor:zoom-in; overflow:hidden; display:flex; justify-content:center; align-items:center; min-height:350px; max-height:600px;" onclick="handleHeroClick(event, this)">
+              <img id="mainHeroImg" src="${art.img}" alt="${art.title}" style="max-width:100%; max-height:600px; object-fit:contain; transition:transform 0.15s ease-out; transform-origin:center center;" />
+              
+              <!-- Floating Zoom Control Bar -->
+              <div style="position:absolute; bottom:12px; right:12px; display:flex; align-items:center; gap:8px; background:rgba(20,13,12,0.88); color:var(--accent-gold); padding:6px 14px; border-radius:20px; border:1px solid var(--accent-gold); backdrop-filter:blur(6px); z-index:10;">
+                <button onclick="event.stopPropagation(); changeZoom(-0.5);" style="background:transparent; border:none; color:var(--accent-gold); font-size:1.1rem; cursor:pointer; padding:0 4px;" title="Zoom Out (-)">➖</button>
+                <span id="zoomLevelDisplay" style="font-size:0.82rem; font-weight:600; min-width:45px; text-align:center;">100%</span>
+                <button onclick="event.stopPropagation(); changeZoom(0.5);" style="background:transparent; border:none; color:var(--accent-gold); font-size:1.1rem; cursor:pointer; padding:0 4px;" title="Zoom In (+)">➕</button>
+                <button onclick="event.stopPropagation(); resetZoom(true);" style="background:rgba(212,175,55,0.15); border:1px solid var(--accent-gold); color:var(--accent-gold); font-size:0.75rem; border-radius:12px; padding:2px 8px; cursor:pointer; margin-left:4px;" title="Reset Zoom & Scroll Down">Reset & Scroll ↓</button>
               </div>
             </div>
           </div>
@@ -1412,36 +1417,96 @@ title: "Redemption",
 
       modalBody.innerHTML = heroSection + albumSection + slidesSection + videoSection;
       document.getElementById("modalBackdrop").classList.add("open");
+      resetZoom(false);
 
       if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
         startAlbumAutoPlay();
       }
     }
 
-    function toggleZoomImage(containerEl) {
-      const img = containerEl.querySelector('img');
-      const badge = containerEl.querySelector('.zoom-badge');
-      if (!img) return;
+    let currentZoomLevel = 1.0;
 
-      if (containerEl.classList.contains('is-zoomed')) {
-        containerEl.classList.remove('is-zoomed');
-        img.style.transform = 'scale(1)';
-        img.style.transformOrigin = 'center center';
-        containerEl.style.cursor = 'zoom-in';
-        if (badge) badge.innerText = '🔍 Click Image to Zoom Detail';
-        containerEl.onmousemove = null;
+    function handleHeroClick(e, containerEl) {
+      if (currentZoomLevel > 1.0) {
+        resetZoom(true);
       } else {
-        containerEl.classList.add('is-zoomed');
-        img.style.transform = 'scale(2.5)';
-        containerEl.style.cursor = 'zoom-out';
-        if (badge) badge.innerText = '🔍 Click to Reset Zoom';
-        
+        setZoom(2.5, e);
+      }
+    }
+
+    function changeZoom(delta) {
+      let newLevel = currentZoomLevel + delta;
+      if (newLevel < 1.0) newLevel = 1.0;
+      if (newLevel > 5.0) newLevel = 5.0;
+      setZoom(newLevel);
+    }
+
+    function setZoom(level, event = null) {
+      currentZoomLevel = Math.round(level * 10) / 10;
+      const containerEl = document.getElementById("zoomContainer");
+      const img = document.getElementById("mainHeroImg");
+      const display = document.getElementById("zoomLevelDisplay");
+      const modalContent = document.querySelector(".modal-content");
+
+      if (!containerEl || !img) return;
+
+      if (display) display.innerText = `${Math.round(currentZoomLevel * 100)}%`;
+
+      if (currentZoomLevel > 1.0) {
+        containerEl.classList.add("is-zoomed");
+        img.style.transform = `scale(${currentZoomLevel})`;
+        containerEl.style.cursor = "zoom-out";
+
+        if (modalContent) modalContent.style.overflowY = "hidden";
+
+        if (event) {
+          const rect = containerEl.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) * 100;
+          const y = ((event.clientY - rect.top) / rect.height) * 100;
+          img.style.transformOrigin = `${x}% ${y}%`;
+        }
+
         containerEl.onmousemove = (e) => {
           const rect = containerEl.getBoundingClientRect();
           const x = ((e.clientX - rect.left) / rect.width) * 100;
           const y = ((e.clientY - rect.top) / rect.height) * 100;
           img.style.transformOrigin = `${x}% ${y}%`;
         };
+
+        containerEl.onwheel = (e) => {
+          e.preventDefault();
+          const zoomDelta = e.deltaY < 0 ? 0.25 : -0.25;
+          changeZoom(zoomDelta);
+        };
+      } else {
+        resetZoom(false);
+      }
+    }
+
+    function resetZoom(autoScroll = false) {
+      currentZoomLevel = 1.0;
+      const containerEl = document.getElementById("zoomContainer");
+      const img = document.getElementById("mainHeroImg");
+      const display = document.getElementById("zoomLevelDisplay");
+      const modalContent = document.querySelector(".modal-content");
+
+      if (display) display.innerText = "100%";
+
+      if (containerEl && img) {
+        containerEl.classList.remove("is-zoomed");
+        img.style.transform = "scale(1)";
+        img.style.transformOrigin = "center center";
+        containerEl.style.cursor = "zoom-in";
+        containerEl.onmousemove = null;
+        containerEl.onwheel = null;
+      }
+
+      if (modalContent) modalContent.style.overflowY = "auto";
+
+      if (autoScroll && modalContent) {
+        setTimeout(() => {
+          modalContent.scrollTo({ top: 380, behavior: 'smooth' });
+        }, 100);
       }
     }
 
