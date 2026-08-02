@@ -1337,6 +1337,20 @@ title: "Redemption",
 
       const modalBody = document.getElementById("modalBody");
 
+      let heroSection = "";
+      if (art.img) {
+        heroSection = `
+          <div style="margin-bottom:20px; background:#080504; border-radius:12px; overflow:hidden; border:1px solid var(--card-border); position:relative; text-align:center;">
+            <div id="zoomContainer" style="position:relative; cursor:zoom-in; overflow:hidden; display:flex; justify-content:center; align-items:center; min-height:350px; max-height:600px;" onclick="toggleZoomImage(this)">
+              <img id="mainHeroImg" src="${art.img}" alt="${art.title}" style="max-width:100%; max-height:600px; object-fit:contain; transition:transform 0.2s ease-out; transform-origin:center center;" />
+              <div class="zoom-badge" style="position:absolute; bottom:12px; right:12px; background:rgba(20,13,12,0.85); color:var(--accent-gold); padding:6px 14px; border-radius:20px; font-size:0.8rem; border:1px solid var(--accent-gold); pointer-events:none; backdrop-filter:blur(4px); font-weight:500;">
+                🔍 Click Image to Zoom Detail
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
       let albumSection = "";
       if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
         currentAlbumPhotos = art.processAlbumPhotos;
@@ -1396,11 +1410,38 @@ title: "Redemption",
         `;
       }
 
-      modalBody.innerHTML = albumSection + slidesSection + videoSection;
+      modalBody.innerHTML = heroSection + albumSection + slidesSection + videoSection;
       document.getElementById("modalBackdrop").classList.add("open");
 
       if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
         startAlbumAutoPlay();
+      }
+    }
+
+    function toggleZoomImage(containerEl) {
+      const img = containerEl.querySelector('img');
+      const badge = containerEl.querySelector('.zoom-badge');
+      if (!img) return;
+
+      if (containerEl.classList.contains('is-zoomed')) {
+        containerEl.classList.remove('is-zoomed');
+        img.style.transform = 'scale(1)';
+        img.style.transformOrigin = 'center center';
+        containerEl.style.cursor = 'zoom-in';
+        if (badge) badge.innerText = '🔍 Click Image to Zoom Detail';
+        containerEl.onmousemove = null;
+      } else {
+        containerEl.classList.add('is-zoomed');
+        img.style.transform = 'scale(2.5)';
+        containerEl.style.cursor = 'zoom-out';
+        if (badge) badge.innerText = '🔍 Click to Reset Zoom';
+        
+        containerEl.onmousemove = (e) => {
+          const rect = containerEl.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          img.style.transformOrigin = `${x}% ${y}%`;
+        };
       }
     }
 
