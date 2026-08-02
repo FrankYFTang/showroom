@@ -505,6 +505,7 @@
     <div class="filter-tabs">
       <button class="tab-btn active" onclick="filterGallery('selected')">Selected Works</button>
       <button class="tab-btn" onclick="filterGallery('cat_drawings')">🐱 Cat Drawings</button>
+      <button class="tab-btn" onclick="filterGallery('paper_sculptures')">Paper Sculptures</button>
       <button class="tab-btn" onclick="filterGallery('studies')">Studies & Experiments</button>
       <button class="tab-btn" onclick="filterGallery('all')">All Works</button>
     </div>
@@ -1249,6 +1250,192 @@ title: "Redemption",
       }
     ];
 
+    // Data Model: Paper Sculptures
+    const paperSculpturesData = [
+      {
+            "id": "paper_sculpture_1",
+            "title": "Jeconiah",
+            "year": "2026",
+            "medium": "paper",
+            "img": "https://lh3.googleusercontent.com/pw/AP1GczOfN9eAUuS_BQDoCG5y3QL1jgRD59YgiikwlVB8ojGx6VgSrqede88UZfnD5CMXrU4SrAKY1CLPnHw4OfYQbSqzWF5NYNPsrY01Mn7ymMde6qdM5y5S=w1200",
+            "photos": [
+                  "https://lh3.googleusercontent.com/pw/AP1GczOfN9eAUuS_BQDoCG5y3QL1jgRD59YgiikwlVB8ojGx6VgSrqede88UZfnD5CMXrU4SrAKY1CLPnHw4OfYQbSqzWF5NYNPsrY01Mn7ymMde6qdM5y5S=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPq5H5hJhAYqB71kcECNe7UtKtYTrRn5Rroknhf_0S1IfdtAGhNBG0U3laPspKJOTT-tTyu_q8qmyng7MktHwAd6zG8_PBRojcwPau5A9eKPQu5bTto=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPsFxMsHnL9BdG7onN9h6uh23CtTWuQ3O0PRx1IWdxqSTIG0IlgJh8AOI6z9LmBYgqLSlUBZM4Mk4ZPmRbS-SFwQCsPNMLw02MGH_P1mj9I1oDNsYWq=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNrecpvQiovu_CRVTvMZ2AFwVebXAMGJBKfoz5mO7p-bfAEYut_DwOj29vrjV-uJrOpcre80n6-MrcyAvQuMYvU8Dv4jB_uLcaJ_Sg4R2GAqwA8Sx1m=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczO_lFD6-D6l88NXc771fNr3tOF36co5k399UvdqPjE1KCtYTRpLhL-P2j126UsXOuut15TFufmOIOD-HwoVLfTum8ZEqw7X2IL0B8MC0QVuaeiW81_s=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczP2i6KV3DIOS1uJPHwbe2hQFW3BzNQHeIenQlkN7oNw3jpWw2QHe4UBwiwM0LwqKjgkj6QWmTBrV66-TU2ILybpq_Os2Jck64Dm-k4UU78dkGrHzP77=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOXxsdADOIXp2os1U_KKgBdWwpYVp4DiFv_RiSCWt4BjPKvB3LaqHQxCyfRaSFYDMuMzPJEt0l04sSctGH_VVBNRs-fj1viD689krENBbDY0ReiEPv7=w1200"
+            ]
+      },
+      {
+            "id": "paper_sculpture_2",
+            "title": "Shealtiel",
+            "year": "2026",
+            "medium": "paper",
+            "img": "https://lh3.googleusercontent.com/pw/AP1GczPSKlQdxHUBhEygLMFLHQFx3itN-9rLUo7lGweXMJh-C4hAKXM0WLjaEhbalKW4GKaHjDWZj9YaAZ4T3toZuFoFn42lPrmpBYCm8wn4kuJkSr5c1P8x=w1200",
+            "photos": [
+                  "https://lh3.googleusercontent.com/pw/AP1GczPSKlQdxHUBhEygLMFLHQFx3itN-9rLUo7lGweXMJh-C4hAKXM0WLjaEhbalKW4GKaHjDWZj9YaAZ4T3toZuFoFn42lPrmpBYCm8wn4kuJkSr5c1P8x=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPVFlqc3XNAEfT_VmouvcdHGPN1J7zjLHei4MSA54VKPWU5xVVVwI1n90pMHoScgwjLL41DhxtWzG2uXlgJxBhDt9PZu1qQ8iGT8ldqpvVjmjG4RSah=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczM5m7Ar39QDjlMn3dk9gXtpnNtW-MnHMUxCv0M0luQeO8KFJ6TqpCpOzWB2o1QeKnf3MD53eqSWaNAt3uh79Fo27LX-I6INKFmJiGhj_LXPaq-uzXGT=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNgWziVMGq0r50PRGwQy6rcsc8Hqc2YIsu8UPEqOraXrCwBKV_lksjUbKlisxyXG9d8Te2m4Jfga_bHVeAXVbReXNBXJNq5gTZesbvxrMY9lvKt8U0i=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMHUPLPymbKPPNWWSJJH9lZPynHDMAs_ua178Hy1s6oZbRjsrcp-zBLxMx7uNdHIDKG6TzfOiPE7eIMesKPPHpmnWRDwPETV1Np4vuGvz5je_e3B6cM=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczN9gXf7BW8ctr04gjSy7-NqGnbqV6iabVLMCG0wJLq1ABs_as4SWmvf0Lbp0d0gZju-JKHjG_BbvFOAssenCakwsAehjS-E3zW2OA5mVX32hQj_m77C=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOp6oIdDPBMX-ZQanDgSd4UpMhXlDKMJxrDbjOtr7oMBqZiq4S8QPZwbcYwD1T6Ouj0QLKqka5i0hpEayjfU-r-LqaMojnxspZlViJGi-0ekuOxA_1C=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNzsysOZuxG-QAXyo4O6o78X9A9R5MLLpln02CmNFhINWOQLEwPl2nzZ6FEfC4fUNJDc7GuQaA3bB6n5oUKI9HJK-4QX2GQ36dL00x21NtETZMDJTuf=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOYnm18M5ClcvPsnf37U4C4ZxShvCmEYpLzf1idsCklXGsgpp_yYE-slrl4U0pQoASzlHvB7gkL3ZeGyTYXq_ymdu3JuvVJN_jT5-Ve-tORmA24BUSu=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNVkcyNA5REwKbE4ln6kRfm5cLl4P2mfIBxGGzETeK0hiZX3SKz2miPSXpFR3SGiA3ZosnP-uO8NaqdKwKO9IGEosYbuO04VQHF3vFNaH-qAOhJUZw_=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczP2RT3vMVFUaxgiZl-aE1GCsE8U6BKU3pYdYiL8Adb2J-ovX1kkV2WrGSo_lduPMqqE3f55FNptuVwNXKdKYo4O_F0i_jY8SVaNQBTkWLgfrSLG7uXt=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNH2zByA4uIwXD76FDruNHolA3UY5X4eBZ2IVBhW6tSeNOa8_T63AVzWVuQ3gI-tfcHs3JnvaaBDHI1PVCSCmEcyxbs1nG5zZIJVfqGCVWLAailcYgP=w1200"
+            ]
+      },
+      {
+            "id": "paper_sculpture_3",
+            "title": "Eliakim",
+            "year": "2026",
+            "medium": "paper",
+            "img": "https://lh3.googleusercontent.com/pw/AP1GczPAMmjFE4Kuk35iZ9ZkZ5GBFk72xIzAG7fWERdlleb-LCApVAE2R79V33ZwTn5S731-Njm_IPS-D2ChrqCU1BWieMH7PWDh81_5znlxw7jd-d0usLeI=w1200",
+            "photos": [
+                  "https://lh3.googleusercontent.com/pw/AP1GczPAMmjFE4Kuk35iZ9ZkZ5GBFk72xIzAG7fWERdlleb-LCApVAE2R79V33ZwTn5S731-Njm_IPS-D2ChrqCU1BWieMH7PWDh81_5znlxw7jd-d0usLeI=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPC4mC8BbLU82jOXqMPDAtk4A-89BcJMnNAOgFscPSC71Opi7HYcqBBU-NKzB8WePRo0Xh51diTMM3BOMNrZue-rhUMRL0mpzGuT0I1Yoa1u2YktlRy=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMvaOCzu9Eq2Vkt7BQ82L9leGwemqhdoh7cVBQnFZCoTJq3ael54GZY_2vgcg8KSF1rFsbQIWNXAe-wWKGozTsHv857gr7X-__w1MTcBCohUMYzwxaQ=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPHXIdonpCSKN__qYqrbp0-H0pU3NZKJbR2bEPQSDQ_2nkmDkAKrIsM9SMdKebKVbvVjaQgJ2ajNiAcuEYVtUO3Ay2DGa9TlRJejWEg3rPpJgabVNYc=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNYKDz-y3ntG620wEoq9cc3vQQYeZDJ_MDhxtvM2ITv_dDIQz7_O0FcHnDVsnNLbb8QOhuoGsrg3QNE9vz5a16Ydm05EUXBCTlFr1RE7AEaXe4uosJq=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOxgfsGW4eHDux8EmjElEhvn72wqC0MpkUmYJCdffikkAse0tqoZML_LAlOzEj1IZJyS8716UHujVhghwMo6J3i_4yspKAFuMslUDXopapF5QA6M-80=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOcCUYQofqyufxLG8lKfpWG9UKKrRYan0bVYmhdk2p4bfA4rBlQzZmg0-qSajWKVlznMgCVcDMfKZ5FKmYlMXq3dLS0IUxSlTNihMCK-PjRGkIs0DWN=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOLqI0JaPePa0Xc7B3tzvFS1EkJpH-XyNudlVQdvSA-dAJprmxxCu5odWKeYhp-iWLs01qrOIY5jLqZJCfATXYGqsMpUiEw1ffa379dcQdaj3cLXOm_=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczP_auxN6wQ9Yi-DzkSFyGwS5oTSixRyLQ1Twr6jRo8gq31b26Ed90r6SS8Vl_2Q30jDkVJQnoIvj28LUoqS903m14-YKz53PWOoffbxBDumUJV5iuT3=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczP3yFLGzafUfq3Ls2HvDkrV2YRk9RV7S9865-GCUHekWc2CtuOjDiFvX64h2v9ueNxOmBCcvoC_u-NUvCxjAeVKwuHjjYSViD7Ds1qLq7sQehupRBG9=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPPwks7CojN3IRaaSDptWoC8WdjYIm1mn2dhe1ywRZK0t607nTiwWMKLRvr3hEydRCKNEhU12owLy06GiD_27I4bioeDa9I_3wh4gkaTB6Ihu2aRnmu=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOB8ksa9O3GlSSPc6QiQ6TEXg4rpiOTdwxR5CCi1rOK5QGCFUsxemfk8HP2HDQlk2QxYDhNraqpsq7LeuS5L7OOxx5MYaGdXSk41Odf3PFmvz2cWxAK=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOlXmZZAg0Izc6xXdg5tOydCEwiuiNXdb1ISacWcONxrnKyHO57ldnjSiRnjHwD5pwWlaXqkzR4YZCT3X-ldQijXf4N4XgrPHc9ROw_Ss1LdXQ7MB3-=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOf-S02e2Q170FfDXWYfAh5pAlMJxFXXt6ThimP1rr6tfVuEr7lnyyF_tBP82O1KfBscLWwB195WD_rt0s4M_EgjnpWZk5TxXPqnzFZYY-wWzQpaQ9t=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMA9PmNei1JWCu0tChGywbs9hXWVkxKa6kv2yovFQq4Xd9PeAdnjjYLoSwtovtQhtSZ-LXR6osKafsBu-D8BD3ZOsJteifmC5XE6OagqR-VaL2uz7pq=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPDfLtDKGPYhpY9-tDh5QHWlRoTDY2_H4nKCoU6L0oq-jSdcI4I51dzp8vyPQ1jJTWB78q7NNboAV_swoGWO_v1ApWVVtKDo2SXKnUiv3HbgCoA4vHO=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPveYJnt2cve7Q7cYTRak6Jo994_ZGfCPV0lje3nXu_HaIOXW40gBQg_qzbnvqOmsMxiuzfFxK1b4a7EwtBW9i0Oi0uCKpPdy0EgK3xm33zXG04Lh2P=w1200"
+            ]
+      },
+      {
+            "id": "paper_sculpture_4",
+            "title": "Zerubbabel",
+            "year": "2026",
+            "medium": "paper",
+            "img": "https://lh3.googleusercontent.com/pw/AP1GczM5y8phSEhhdWNAd96bcl9Xcr7y1v4OjMrCmsUQWMLICQWpzZC0q28zdLJF1DTdES5cAEkD1XzKppC5dDNlRu1TflpSst4BrcrQEmjkHA3aJI7T8h8O=w1200",
+            "photos": [
+                  "https://lh3.googleusercontent.com/pw/AP1GczM5y8phSEhhdWNAd96bcl9Xcr7y1v4OjMrCmsUQWMLICQWpzZC0q28zdLJF1DTdES5cAEkD1XzKppC5dDNlRu1TflpSst4BrcrQEmjkHA3aJI7T8h8O=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczN4ozEwumCG4ltmLFdbFUtDUnbVkzpfkPhSS151OuUwMT5vhoaUQrj_Bahb7oWy4hheqxdqpZAgkdK_G3JeR-iVvIRY0HvUBou8paFo-9FjvxkEBZG6=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNtbBY1ow0S3H9nMjq7RtZVoWLO2WPnMCnCgOrpXtnTTOQJiD0avwGPZ-9qw-luw9A9KdVQ6lJIaDgaOAGVrYL_vURFRlU27jvk5_jIcGmpcCC8iEIi=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPq7cCjeO8AR2juemDE80DsKyP8KCcNinJCb7tIagfR_EDzmSPrAzCOpFBNy-3joataYfkrfmM8oCfmvFb5CLMgixa06hukVu3EGEBBRNEQsJynMWCk=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOkFdAcvzH6i2nZ0QPN7O25AN32j4cAefFHILKzR-EVaeER6RzVq6ALZzjvSV4WsKrkcAW4TiwLvkJd3nbx2YX4-c3Deg2mJoA0VtTZugdbgrjvIWCt=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNxHdeni-jRMTv6DyXArME5KaNqXU7vy0ZGDeWr0Z_vqsa-bNKrwaG8kzFqr3QVt3VGwJbyo-B-Y9YZZVi9f3vKsb9WddTWNVebl2urT-Vch_7yh7kV=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPQmrxbAwtvJfX_nt8wvcDXZtjOxyiQ-9wltp2rXvwHrnMd1rKRkA0vIPS146GGakjVHJBSKBF4Th381JQanMD5ipJEityoyb_LartBZ_jKZGuPS9vF=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczM3H8PoXnX8xT_vgg0ypLhepEih_cpHCCVkTPrnU3aDoOwHHeor2c866eqEokBGMnUB9DBdAtsiarhH5f2qxXZ-EaEQSMQtdCefgkJw6pyh_BQqFOQj=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczP_JOhUWgDsanxovzR6aHtnBjaJhsrE-p-6wrSz0KLdVoEce_ZXHCEc77Q1ymYdZkQQoWBcVD5Rk0fXl6XzhdUujw0nbzyLrCmV_aDkVZyxxhXblKhF=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPkdAS75tCSvt4v9FOroDfQ-iEciSf-2QKbPUvnLbl25Y4mr6VgCl-9tBVl8YPBDtaf23dkvdQcHKkenYvaHr8gIcR8F78d9RVPN-OsA_4VbQHv1K8K=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOLoUg0h0pfD_sCOtEZCJP_nkUAKVtAlqtwT9YdU_WjwH6xHTPdMS9DSqBYuotxZ4b7inh1ITZfegXVH9r56-lHp_SmYK_xdnq5iS7m8dlF1sgkwhA6=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOPHTlXOnJLmMl8KHj_egXkZzeUJkOI6qY9SeXO5VEBk_MDnHrLTwA0FF9CmQV_DgLMnwkG_UoM9RuSLJphPHPiXLWSZc3dEfPrchrsj7wY24cQnMB_=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMcDEoUBq32cloLGBOJcIe6l68sqPqMEXu-Nc12sM4chxalXNlEdMUI2dD_8c1Gh0WdcLoBdv0GO8ehx4tvNjA5sR0KYLdwJ8SzcdG33WQTReGMwYv9=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMex21okQSq_Qqv-mB8u39iyoVo8j-3jVIr5L1bN4wsHaI94RD9KSAt4aEm3Cidp6_0VxqytFQFG4U4yzJ0kJXwk6T9mf45neIgXZVX2hQT5hwAfsU2=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczO4SU9FjfAAueQ1TOp7nWCXTfXQx7VAOrZElTPJwN-FYNwf-HeCmyuGwCd_6QyOMS07O8a1CEFfGzlx41AmAuwX5B2Tc4_UlsBDMwFPPmGeGnWpwoNn=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOMx5Ko0LXJBgcGubnLCZP7bPqZmf18WaEO7XVdPL8M44EjgjRHBVkkjuYpWl90tnXu9l4KNSjXR3Q2Fl7Gi-FzDz1whEWSR-Q8RMLSkmSzRT55cgwC=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPYuGX7l32UDycnq4FRRMcMsf447qUyvTb5L6q1KW7pMuQi-DCYy_SamDx3c3o3GcahdpdsevdzhjEYOHjs7aFRTUABR1Vde_pf8tQDD7DrFN8Yl8iE=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczN_XrXedoW00tLgLzagd5gIoTpcr8amLdKuVl7vVRJ5ld37eKH-pic_uRdNcPovFhvqhlqD_NDFResAup4lImDCtH0XQ6S118QtryShP6wJApMQetA1=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczN16LOR17ZP3CYrwFdQjy1jgckF7uk2DAQzdZrcQtYSs6BpujHaVa9oFmRh88Qx0O_iE0nG7tGQW-Q9ONsOH36bodhWnm2B0IRhvYqgW1nCSa9svUOp=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPNyyeXO0lXB0z7NwaeqXjmGVTz5Fn3J5iIEQI3mWWY5LrI4M5jAjsIabHWYmHQvnKYhg3Vi7gsHh_7IgoxFbSjUL-3z8R9zFnM8TDSxoFCvJadR-9z=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOsFYlJpGbgpPjnnPPkdyHHjR8zP34hZ-HzKqtp3uEe01gxO0XeCEsOE6ghA5zYEGtJIwcdDfDEgvTOQkR7JmthR0WuJ_ZZk7iw7T4CkD9wFs79aBke=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPYPANrqEm8T-beI6sqLjTO1Ql2mXksxMUwJM5_eGWJXeiLEaYVWlTm27Sz8xIojGT6I_gHNJ-PJTZnSZ_8g18JPI1RNJg6Nkg_QSifK1cjirIZtYwj=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczO5iS-E8UfVSI9wvJkZU5kDiyTnPlQh4-I8m0Yah7m40Fwfk879bgWL0sjD_4kaiT7v41_mcR1Pvylr5YD0c_urYlIljRNzfjKU_J4jc5EI49bCINJJ=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNVUYYxK9Dy6y6bBB_J6ksTBLtQelqoWzMOky8XmWm4vvAa_wB6tAADP4dwcLGGV41ZcqWz-njXl1_1MMmY9DnqDqL67LbWGQqenXOccabmeJxvUw5M=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOdVJdTwi1tA3ALLQKfAdMqv1zGatgb3DbWjt5iE8MsP7JKYEZd5szD8-VHuJgjP2Uo5_WoGoNPrOhtUI4xilnasNZDecAIqYXl70Sw5k5drYuW0DUU=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczM-_vAzbaIxcTUVDBllgc49Bo5uQXJfqTaurDfYiGeNqL3hs1buNavpa8DkCh7sOsuSDPzcW8RcJOakNuMrjXb7lczJUJdqvhxtfFg5bwWBMcxiSCX1=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPw9DZ7Gk7LITllO2OgDetb3CUlWvfLUV58BqNnw74zel_jURdjEvEE-jGXwXqjpNprhe2G2ZT3yMUiQpyLLM_sdSer-cQTO0VtZnjncmKfpu68gx4d=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNLnamcDbMmgSYHWkoM3ZFOUE2Uf1c7hNtCLDSqhlngy6pHe4k5s7rmhIfR_6vFnkHbWEnlnCIvKo01Oy6FFXO7uzQK6VBueCLXlkFUAGU0VdIwxMeu=w1200"
+            ]
+      },
+      {
+            "id": "paper_sculpture_5",
+            "title": "Abihud",
+            "year": "2026",
+            "medium": "paper",
+            "img": "https://lh3.googleusercontent.com/pw/AP1GczPmOqFbwy-R0rHaVjKgU2OOUBGazL3AimXG502YzJi-Sfy0hzHF5NoMtV2iffB-AV6IeWeojMVl2GhMeIcXfiQ2WhOCrQCCa1qWavM_03bNbcTVEigR=w1200",
+            "photos": [
+                  "https://lh3.googleusercontent.com/pw/AP1GczPmOqFbwy-R0rHaVjKgU2OOUBGazL3AimXG502YzJi-Sfy0hzHF5NoMtV2iffB-AV6IeWeojMVl2GhMeIcXfiQ2WhOCrQCCa1qWavM_03bNbcTVEigR=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMRvRJVMb4VBBQmMNRE478YkzAGyLMcpvmQPcE8SjS8zZOPWc7GEkLFUIVnO65aZUFgPx22fS_upXm1xwT4dUKeh_pnQNV_tPQ12R5p4-qxkHyPw-9x=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPOlpwCwdGevnn1tQPii5FhFxlplhFdx5CvwFWM8HXLhLioXUmb75RPst71qNsTEG8SeCZpzKScu4EkfxMAbCgHpL2HBhxJxYdeGgctGUIZOYLQQ3Ip=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczO3FTtu1wOR6gl5NoWvg_6dhJqSM0HRLa4aKUi51TKzl8ahB5IWu9XJXTExBLlTNuwrvxnCHrH8uXAca7aNaokTaWoVgbgx39NoPgWd5TIdOpQSsK2L=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOpqLbbiKI1okxJMDO0BzCwByY0uH6JR6M-Z33Kc71lgfi_4UYhQzzSYFx7Dw51NoE7MiOFItCcKtKV03n-3vv-oxlHGLcesCrHStIbzulCsUwQMl_j=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczN0KHFRQF3gcpE4OePu_gE035RvX01xzR97lGe553An6H7RKzh-5DAL2eqKVeZsyVzCvfnb4SfBR0TS5jNLX5YiztzUhcGd7Jpsg6vWdI0rIbC8WCoK=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOB005m4y98XclU1Ui2iqo1wTYBVG7AepAcy6VtyN9Kv_Fco5zyc_bVh8drLtUDmhz8WNe8f_LelJhxDAWf8yGdqBHzttVJoPWYi7UvTRN_kxdAgTrZ=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMyYNetP4bjabmCNQAexSnepml5DEvWOBPZJdWmawaAmXNkA3noqDj-qLscEvFJ6ZKizJ4o4vArG2BY1yZsnhu9dHVMvcn_BHUAZL96gyTxD1CcPazW=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczO2lPskduZk9Dd5F9nMC7A71Sntj54n5THeVbMkkJK4Inl14SR-N0f46cugewZrYOnf3-8t_smT_ke9V7YYKBBFQRc1VqYdDWWBq1nDyLoo4BgOr9ma=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPUwNUfU2Q2TrKdjWSwkltbAe8l0VRT_we5ePGo6DjXO-Gp3b8L5rb_pn1J4jM3ALIaoGL33xj7efVUEVnOKcAj4IiiUGEQNyRYLI9He4NaFWk8UKOh=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczP6HHxXVl9Ry0EH4Nk3dMxs12afGsdNXSTgpZadmqUH4H89sqrScTT49MPtd1187ffgyoABg9fYj2dwLf4TVRu_OQgoqMKEkKjEhuTtg8yel5D-eDDF=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOdrADVXNI2MRpasfoG2tb9TqunKIiotN1QpAQ-tWYQS1dtz1r8B6hv4YDMz2-ee5CGsWGl_go3Bt8MMmcPVHNloFyF6q8218VM_v-P-WyXftTq9JqQ=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOOCb9EOekJ93gruGS_jImbPssArBmdMOCCvZUfrYyOYCsadQl74_H_iOvC-TQzxcJ0hFrPLiM76impXQ1_RxuIEDiWEZk2kNyP4wpZgT69EbswsJGl=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMZmBQDWZxjS4Ad8pbjKCEkDvSJcacJMkO9KJpeKRqWC3ebWKTCc3X33UOXuw3NV64XZd9xJ3X1aOKzAEmmY8KG9o2twRcTe2j_rWXIY8N2kcpK7c9a=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczOa88rJTcKX6dVc6SZ6VKUc9JNmcaz-Sw1Xx7qXBENLMWugvrfBvnCI3yNj_JcQ0q8cHkVFbLrbIgMeAVUpWYbriCExI-BSloWki_cm0DC_XGvCV-Ua=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPKVaMDjr43YkFWGe-reoMyWdJj-lXEau_GJaePFiiWt34XeNnZp2yAUF5coOpnqpudW8n7T-_jmMkPiWJmEL2v_wQs8XpjH6Xk-9afYvl4L4C9BQJ7=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMu-V5P4kwozZRUdGeaF1RLkgOGT5C5LsPduLH54cNwWiUC_jlpuFCtEL2omEzjEBFl-ftEI79aKCPxNrx8Cvv-mtmwNSTvDoQoNvA9i_g8jUyeNLi8=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNec7YrINJVSxmJ8slfLZCaOQH6JF6fsBgzz7CFU0Xl4lLHqpiDh_zNSoiUMrbz_ZYriG1BvUYlpHU6kmdp0tS2_fPno0uBSvEQl8tpKgS-dLiLXdbN=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPxCGRN9XXEMA59PeFLhosLihyY6NIV2eyumpuWaRJEE5pniI_cHDrP7fR95Zzsq0Wb1lCt54eWABTOU1GJRYk1gW77Oy5GfXGYOwIX1L8hh0vkPWTB=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPiM3XiEH73yzp5Qp111JlU21eFogxtWVQ9LF4-VJOkdhNKEkY_Ap1wVSik_1xtKs2sfH7XHwwRScVI7-ydM1Pc0h4OeonMu81wuf9m2wml56-U_5TR=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNcxsU56Mifyk_gD4UjJdsPWuPbCNU4gBf_bJkEiZ-OdHzkqJL901s3Z8E4W_WIm0EeJYArsGY13rseH8_SwFcaWyGSGY8Y7oHga70t-ouEu4NN6C9i=w1200"
+            ]
+      },
+      {
+            "id": "paper_sculpture_6",
+            "title": "Azor",
+            "year": "2026",
+            "medium": "paper",
+            "img": "https://lh3.googleusercontent.com/pw/AP1GczNZYtj5v_wXR1tc71CO_-VcbCBA59RHcYQiyOSL0XqY2ZcPvNy79j314rk__vQ7aQTNW2d8UjxjpzZOVIZ4HXQa4mK0tFUY6Z8zzNsN1YHBVMVLkGlt=w1200",
+            "photos": [
+                  "https://lh3.googleusercontent.com/pw/AP1GczNZYtj5v_wXR1tc71CO_-VcbCBA59RHcYQiyOSL0XqY2ZcPvNy79j314rk__vQ7aQTNW2d8UjxjpzZOVIZ4HXQa4mK0tFUY6Z8zzNsN1YHBVMVLkGlt=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczM3wI4F_bkfVD8jhN_ERl4EHdcCHWgs7zYlMMNHDiCOFm8Hm29Pu4SeP_-gbIfLvQ4vN42m6QSxGVT5T4AeUzCNXLXPhdxAYfKsc13DfaMhTWxQtpc3=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNpSN4-robbUL8G1sTlkr4RQJ58kKZgM3r356uX0sM0utpIuLqVnRRH-o73Mgb0lHsNNRJ4QB0lBqTXSQh-5O-cAmXoKMzD904d7eLS2O-75p7wm-da=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPsliATItNE1XbbRWnUrDQ1bWOE4XlcIklnr2TGXNXDq6i2Ajhi7ZS-aApZt5QHopkXD-RK5t0POVtdeRYql2SlX7xyPlJm_idYWhGbsB4CjjSVfUZ0=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczM99aqimOTDkqQDbX87YEZacHwBmtbBdXQtHULSiLuDVl9N57QRepDz6vhg5VaAMXK6nfWWRvxV0R-Ii20KcUxCzs_uotCbdYhpsdqeMkyb2Q7hMdBq=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMq3bJJjzexNCfonwPjZ-Q9r49HJWXfLNDM--LU_ZKtqWZJBiiggCSihnYYAMdTuJNrZpZHhd6JZWMBsBk3JUDPtP4k8jmwgrsAONBCVHWCJCe4ghfF=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMoKRFJF1PYpeZ1SeX4u8DAioce4WDwohXxfBHU4NqGNOfDwnHvYkShxM8xCS8L_2rQ3M84ynD85oXW_Jurd0VZzVkr3wDyUyjCEbq3dyxbA9Kd3LBV=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMVV6bD-zLriB5vZvVApji7JNOLMf78cV8f-EnXlsIb37M98ofIv-5gafuNUUfepRjK4X0kG4gnrt8X9CxEm79Vb20J4w_1aU4OlG7bsQB7aUpXDHfa=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPmgPN12SGxk5AVHQVxMagsCWcHbPzbKp-o2ZLR18k-RW2gDcS41AxviN1cAstliyVv3iLOv4atCZW3qXyUjpesQ78jvAuYV7suWAcXlDMQuq0yg9XK=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPqw0ZWgY6tn5JuQwA0rXduIKhncFD9qhPUlfCoLnAWQhkW6yc6EJE4Qw-xRo6ndEB9V2oBW-c-eZIlDCDlIYuEnSXOQdB-feN4rEj0mbWe61dK8rnC=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMe_ZakQFXhTYcF5zraoNYjTLga3iuXkY5NJYTQr7rXn568_xUtgKJqL4RDpAkysbRm9MbEmpnszChhK_Q7_SCHU8-sVddhRpigRcz2sZb6PY4dV3Lj=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPbpXK_H9Fy8gCLkrhJAJsLfAkA1vcSEe6XuwbYBjltWKj2XINZZ8ccHfpgF8PZhrDrjvwfIsdHOX77_YR7YUSSvKhwcczJ9Sq9o1BkBBgBEnYRA2hr=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMnJnbybHx_rDCcBKml6gr3COBxnky7zEjOEaYtPzLkA95TTT29oYhg1RBxNFTheFGG2plNP7UTnqO3CHTu_yIR7H84Y6mXtoLKnEjvWuldoQ5Kp4P2=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczNdX-xyEx3uWPZHQiFWvJVyC3NBxPQ_LeFtI_4DKW_eQ6jIAgbgniB7ZIwv5cwiUxfhYUoY1Z5ughcNoDisbx0tjcX63MV8Mxhunbzf0WbIPh-nfnCD=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMy7kM4EL1ZXaAO6TdzJp2powXCzNUmxPD8M2Qrw635ZYdnX3YB8InsSuhmT_4t-aj26aXTTN4QtCk0BPHFc8_GMyyi8ZBF5IyTcn3Eeb0F6VanF33W=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPuVzJ9GkjRQhDq4YXS-zPkBBrW-LBGzIX4vZm3gin0TaFxC0i96F2NFiTZTkLOEZPoJUKZz_xD9_eluYlW_jSGhbrchgoxh1oXu9snrP9oIVcg_uDZ=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMR2nPMasIpHnjxIgYzcTJF17SN1mmQxbYPQNkyRrZAO5Kh5749Ml9jPbH2GkLBBX10pnjJN-FauKADVK-hiRjI_XHZNSDg2qWOhaKcpVWfc5_GcfuE=w1200"
+            ]
+      },
+      {
+            "id": "paper_sculpture_7",
+            "title": "Azor (Study II)",
+            "year": "2026",
+            "medium": "paper",
+            "img": "https://lh3.googleusercontent.com/pw/AP1GczN6GQ_ilghgSua-M918yEahHasSLhc_bJqcMRNGuokIaaAMehIzz_pSzYdDMu_72QKWdK-ML1KkJ9UD21asEEByZCH_u1D5QNVqqlrAcln6HncQCItn=w1200",
+            "photos": [
+                  "https://lh3.googleusercontent.com/pw/AP1GczN6GQ_ilghgSua-M918yEahHasSLhc_bJqcMRNGuokIaaAMehIzz_pSzYdDMu_72QKWdK-ML1KkJ9UD21asEEByZCH_u1D5QNVqqlrAcln6HncQCItn=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMfZiu5ohwPBh5ftrvB3T0wTrpCNa4uJcKB6ogGkZz10Dk8zyFWv6OR8PtHr4EAcYUZ2W3RZBS9TXHYrflpgqs2OFtOXqR49ny9bUbfge6sV90MGLeR=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczP6kXTu2eY_sUBKQOU28msb2Te1qoQXFrC6RjLzsBrWVKkTMzJkTh0h7x8CKFVY1s5A0SoN-7JmLiAdLFbxjRzbO9K9o5bJ-ESp78d_-dVF86MOu-7o=w1200"
+            ]
+      },
+      {
+            "id": "paper_sculpture_8",
+            "title": "Sapporo",
+            "year": "2026",
+            "medium": "paper",
+            "img": "https://lh3.googleusercontent.com/pw/AP1GczNGMb_KYbPciybykYqy-I9rDG1WcLBvBecxyhZjN1aDKQNh87SuUQzik6ueFnLF42G6qoybzLF3f8YUxZUTlR4JVTT6fhRjsUD2OZ0YYkAuKaxMf8_W=w1200",
+            "photos": [
+                  "https://lh3.googleusercontent.com/pw/AP1GczNGMb_KYbPciybykYqy-I9rDG1WcLBvBecxyhZjN1aDKQNh87SuUQzik6ueFnLF42G6qoybzLF3f8YUxZUTlR4JVTT6fhRjsUD2OZ0YYkAuKaxMf8_W=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMkS-8IiyUUMmM04tVsoPm7tPkwx1ADkn0Jg1ORxipt7vFkp-aqLk1MQ4zh9fOXhfC0vzrM9Ck5HS5NbmHKO3vTYFOC7HCARU2FXQbKT4wOZmk6WB-I=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczMfK0Pthm0pIPOXqcIcRJCL5UK-5IKLQFlKOhl--RZBJLnMsEqFweJELUhfunrZk7FVDP5iQtYrAW1Sc4iKwstwRe7898xecojKqaiOHT_b1JpzytKA=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPq_oP_o-vTYzdGE-hJFc3rQIh-_A6MI0wopMriAXJykWXyNwRDZqnAFzwqWN8tDWIHemnC7F8Z2g3i0l7QsuF2zR3VLlG0iZjlLuTpW371jIP3LamB=w1200",
+                  "https://lh3.googleusercontent.com/pw/AP1GczPQ04gVdz-j2h_64UayYrfNFG4HBOkj9VxlRpv50HZEOcFvZfc2HRntPCqv8yIAfvyszsiEOSFuzArRUiGLNZyRGZoVuHOdTLGYVPqNVHdyrGWXsd_4=w1200"
+            ]
+      }
+];
+
     let currentFilter = "selected";
 
     // Render Gallery Cards
@@ -1301,9 +1488,32 @@ title: "Redemption",
         return;
       }
 
+      if (currentFilter === "paper_sculptures") {
+        document.getElementById("itemCountDisplay").innerText = `Showing ${paperSculpturesData.length} Paper Sculptures`;
+
+        paperSculpturesData.forEach(sc => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openSculptureModal('${sc.id}')">
+              <div class="badge-group"><span class="badge paper">Paper Sculpture</span></div>
+              <img src="${sc.img}" alt="${sc.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${sc.title}</h3>
+              <div class="art-meta">${sc.year} • ${sc.medium} • 📸 ${sc.photos.length} Photos</div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        return;
+      }
+
       if (currentFilter === "all") {
-        const totalCount = artworksData.length + catDrawingsData.length;
-        document.getElementById("itemCountDisplay").innerText = `Showing ${totalCount} Total Artworks (${artworksData.length} Selected Works + ${catDrawingsData.length} Cat Drawings)`;
+        const totalCount = artworksData.length + catDrawingsData.length + paperSculpturesData.length;
+        document.getElementById("itemCountDisplay").innerText = `Showing ${totalCount} Total Artworks (${artworksData.length} Selected Works + ${catDrawingsData.length} Cat Drawings + ${paperSculpturesData.length} Paper Sculptures)`;
 
         artworksData.forEach(art => {
           const card = document.createElement("article");
@@ -1338,6 +1548,23 @@ title: "Redemption",
             <div class="card-body">
               <h3 class="art-title">${cat.title}</h3>
               <div class="art-meta">${cat.year} • ${cat.medium} • ${cat.size}</div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        paperSculpturesData.forEach(sc => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openSculptureModal('${sc.id}')">
+              <div class="badge-group"><span class="badge paper">Paper Sculpture</span></div>
+              <img src="${sc.img}" alt="${sc.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${sc.title}</h3>
+              <div class="art-meta">${sc.year} • ${sc.medium} • 📸 ${sc.photos.length} Photos</div>
             </div>
           `;
           grid.appendChild(card);
@@ -1817,6 +2044,48 @@ title: "Redemption",
       document.getElementById("modalBackdrop").classList.add("open");
       resetHeroZoom();
     }
+
+    function openSculptureModal(sculptureId) {
+      stopAlbumAutoPlay();
+      const item = paperSculpturesData.find(sc => sc.id === sculptureId);
+      if (!item) return;
+
+      document.getElementById("modalTitle").innerText = item.title;
+      document.getElementById("modalSub").innerText = `${item.year} • ${item.medium} • ${item.photos.length} Album Photos`;
+
+      currentAlbumPhotos = item.photos;
+      currentAlbumIndex = 0;
+
+      const modalBody = document.getElementById("modalBody");
+      modalBody.innerHTML = `
+        <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+            <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
+              📸 Google Photos Sculpture Album (${item.photos.length} Photos)
+            </h4>
+            <div style="font-size:0.85rem; color:var(--text-muted);" id="albumCounter">Photo 1 of ${item.photos.length}</div>
+          </div>
+
+          <!-- Main Viewport -->
+          <div style="position:relative; width:100%; height:500px; background:#000; border-radius:8px; overflow:hidden; display:flex; justify-content:center; align-items:center;">
+            <img id="albumMainImg" src="${item.photos[0]}" style="max-width:100%; max-height:100%; object-fit:contain; transition:opacity 0.2s ease;" />
+            
+            <button onclick="stepAlbum(-1)" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center;" title="Previous Photo">❮</button>
+            <button onclick="stepAlbum(1)" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center;" title="Next Photo">❯</button>
+          </div>
+
+          <!-- Filmstrip Reel -->
+          <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
+            ${item.photos.map((url, idx) => `
+              <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      document.getElementById("modalBackdrop").classList.add("open");
+    }
+
 
     function openVideoModal(artId) {
       openProcessModal(artId);
