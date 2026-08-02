@@ -1034,41 +1034,6 @@
       document.getElementById("modalSub").innerText = `${art.year} • ${art.medium} • ${art.dimensions}`;
 
       const modalBody = document.getElementById("modalBody");
-      
-      let stagesHtml = "";
-      if (art.processStages && art.processStages.length > 0) {
-        stagesHtml = `
-          <div class="process-viewer">
-            <div class="main-stage-preview">
-              <img id="mainStageImg" src="${art.processStages[0].img}" alt="${art.processStages[0].name}" />
-            </div>
-            <div class="stage-thumbnails">
-              <h4 style="color:var(--accent-gold); font-size:0.9rem; margin-bottom:5px;">Process Stages</h4>
-              ${art.processStages.map((stage, idx) => `
-                <div class="stage-thumb-item ${idx === 0 ? 'active' : ''}" onclick="selectStage('${art.id}', ${idx}, this)">
-                  <img src="${stage.img}" alt="${stage.name}" />
-                  <div class="stage-info">
-                    <strong>${stage.name}</strong>
-                    <span style="color:var(--text-muted); font-size:0.75rem;">${stage.desc}</span>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-      }
-
-      let videoSection = "";
-      if (art.videoId) {
-        videoSection = `
-          <div style="margin-top: 20px;">
-            <h4 style="color:#fff; font-size:1rem; margin-bottom:10px;">Process Video (${art.videoTitle})</h4>
-            <div class="video-container">
-              <iframe src="https://www.youtube.com/embed/${art.videoId}?autoplay=1" title="${art.videoTitle}" allowfullscreen></iframe>
-            </div>
-          </div>
-        `;
-      }
 
       let albumSection = "";
       if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
@@ -1076,7 +1041,7 @@
         currentAlbumIndex = 0;
 
         albumSection = `
-          <div style="margin-top:25px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
+          <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
               <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
                 📸 Interactive Google Photos Process Album (${art.processAlbumPhotos.length} Photos)
@@ -1103,7 +1068,19 @@
         `;
       }
 
-      modalBody.innerHTML = stagesHtml + albumSection + videoSection;
+      let videoSection = "";
+      if (art.videoId) {
+        videoSection = `
+          <div style="margin-top: 25px;">
+            <h4 style="color:#fff; font-size:1rem; margin-bottom:10px;">Process Video (${art.videoTitle})</h4>
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/${art.videoId}?autoplay=1" title="${art.videoTitle}" allowfullscreen></iframe>
+            </div>
+          </div>
+        `;
+      }
+
+      modalBody.innerHTML = albumSection + videoSection;
       document.getElementById("modalBackdrop").classList.add("open");
     }
 
