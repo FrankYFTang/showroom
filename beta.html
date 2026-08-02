@@ -1359,10 +1359,18 @@ title: "Redemption",
       if (art.img) {
         heroSection = `
           <div style="margin-bottom:20px; background:#080504; border-radius:12px; overflow:hidden; border:1px solid var(--card-border); position:relative; text-align:center;">
-            <div style="position:relative; cursor:pointer; overflow:hidden; display:flex; justify-content:center; align-items:center; min-height:350px; max-height:550px;" onclick="openZoomInspector('${art.img}', '${art.title}')">
-              <img src="${art.img}" alt="${art.title}" style="max-width:100%; max-height:550px; object-fit:contain;" />
-              <div style="position:absolute; bottom:14px; right:14px; background:rgba(20,13,12,0.88); color:var(--accent-gold); padding:8px 16px; border-radius:24px; font-size:0.84rem; border:1px solid var(--accent-gold); backdrop-filter:blur(6px); font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,0.5);">
-                🔍 Open Fullscreen Detail Inspector
+            <div id="heroZoomContainer" style="position:relative; cursor:zoom-in; overflow:hidden; display:flex; justify-content:center; align-items:center; min-height:350px; max-height:550px;" onclick="toggleHeroZoom(event, this)">
+              <img id="mainHeroImg" src="${art.img}" alt="${art.title}" style="max-width:100%; max-height:550px; object-fit:contain; transition:transform 0.15s ease-out; transform-origin:center center; user-select:none;" />
+              
+              <div style="position:absolute; bottom:14px; right:14px; display:flex; align-items:center; gap:10px; z-index:10;">
+                <div style="display:flex; align-items:center; gap:6px; background:rgba(20,13,12,0.88); color:var(--accent-gold); padding:6px 14px; border-radius:20px; border:1px solid var(--accent-gold); backdrop-filter:blur(6px);">
+                  <button onclick="event.stopPropagation(); changeHeroZoom(-0.5);" style="background:transparent; border:none; color:var(--accent-gold); font-size:1.1rem; cursor:pointer;" title="Zoom Out (-)">➖</button>
+                  <span id="heroZoomDisplay" style="font-size:0.82rem; font-weight:600; min-width:45px; text-align:center;">100%</span>
+                  <button onclick="event.stopPropagation(); changeHeroZoom(0.5);" style="background:transparent; border:none; color:var(--accent-gold); font-size:1.1rem; cursor:pointer;" title="Zoom In (+)">➕</button>
+                </div>
+                <button onclick="event.stopPropagation(); openZoomInspector('${art.img}', '${art.title}')" style="background:rgba(20,13,12,0.88); color:var(--accent-gold); padding:7px 14px; border-radius:20px; font-size:0.82rem; border:1px solid var(--accent-gold); cursor:pointer; backdrop-filter:blur(6px); font-weight:600;" title="Open Fullscreen Lightbox">
+                  🔍 Fullscreen Inspector
+                </button>
               </div>
             </div>
           </div>
@@ -1434,6 +1442,134 @@ title: "Redemption",
       if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
         startAlbumAutoPlay();
       }
+      resetHeroZoom();
+    }
+
+    // In-Place Detail View Hero Zoom & Drag/Pan Logic
+    let heroZoomLevel = 1.0;
+    let heroPanX = 0;
+    let heroPanY = 0;
+    let isDraggingHero = false;
+    let hasDraggedHero = false;
+    let startHeroDragX = 0;
+    let startHeroDragY = 0;
+
+    function toggleHeroZoom(e, containerEl) {
+      if (hasDraggedHero) {
+        hasDraggedHero = false;
+        return;
+      }
+      if (heroZoomLevel > 1.0) {
+        resetHeroZoom();
+      } else {
+        const rect = containerEl.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
+        setHeroZoom(2.5, clickX, clickY, rect.width, rect.height);
+      }
+    }
+
+    function changeHeroZoom(delta) {
+      let newLevel = heroZoomLevel + delta;
+      if (newLevel < 1.0) newLevel = 1.0;
+      if (newLevel > 5.0) newLevel = 5.0;
+      setHeroZoom(newLevel);
+    }
+
+    function setHeroZoom(level, clickX = null, clickY = null, width = null, height = null) {
+      heroZoomLevel = Math.round(level * 10) / 10;
+      const display = document.getElementById("heroZoomDisplay");
+      const containerEl = document.getElementById("heroZoomContainer");
+      if (display) display.innerText = `${Math.round(heroZoomLevel * 100)}%`;
+
+      if (heroZoomLevel <= 1.0) {
+        resetHeroZoom();
+        return;
+      }
+
+      if (clickX !== null && width !== null) {
+        heroPanX = (width / 2 - clickX) * (heroZoomLevel - 1);
+        heroPanY = (height / 2 - clickY) * (heroZoomLevel - 1);
+      }
+
+      updateHeroTransform();
+      setupHeroDragAndWheel();
+    }
+
+    function updateHeroTransform() {
+      const img = document.getElementById("mainHeroImg");
+      const containerEl = document.getElementById("heroZoomContainer");
+
+      if (img) {
+        img.style.transform = `translate(${heroPanX}px, ${heroPanY}px) scale(${heroZoomLevel})`;
+      }
+
+      if (containerEl) {
+        containerEl.style.cursor = heroZoomLevel > 1.0 ? (isDraggingHero ? "grabbing" : "grab") : "zoom-in";
+      }
+    }
+
+    function resetHeroZoom() {
+      heroZoomLevel = 1.0;
+      heroPanX = 0;
+      heroPanY = 0;
+      isDraggingHero = false;
+      hasDraggedHero = false;
+
+      const img = document.getElementById("mainHeroImg");
+      const display = document.getElementById("heroZoomDisplay");
+      const containerEl = document.getElementById("heroZoomContainer");
+
+      if (display) display.innerText = "100%";
+      if (img) img.style.transform = "scale(1)";
+      if (containerEl) {
+        containerEl.style.cursor = "zoom-in";
+        containerEl.onmousedown = null;
+        containerEl.onwheel = null;
+      }
+    }
+
+    function setupHeroDragAndWheel() {
+      const containerEl = document.getElementById("heroZoomContainer");
+      if (!containerEl) return;
+
+      containerEl.onmousedown = (e) => {
+        if (heroZoomLevel <= 1.0) return;
+        isDraggingHero = true;
+        hasDraggedHero = false;
+        startHeroDragX = e.clientX - heroPanX;
+        startHeroDragY = e.clientY - heroPanY;
+        containerEl.style.cursor = "grabbing";
+      };
+
+      containerEl.onmousemove = (e) => {
+        if (!isDraggingHero) return;
+        e.preventDefault();
+        hasDraggedHero = true;
+        heroPanX = e.clientX - startHeroDragX;
+        heroPanY = e.clientY - startHeroDragY;
+        updateHeroTransform();
+      };
+
+      containerEl.onmouseup = () => {
+        if (isDraggingHero) {
+          isDraggingHero = false;
+          if (containerEl) containerEl.style.cursor = heroZoomLevel > 1.0 ? "grab" : "zoom-in";
+        }
+      };
+
+      containerEl.onmouseleave = () => {
+        if (isDraggingHero) {
+          isDraggingHero = false;
+          if (containerEl) containerEl.style.cursor = heroZoomLevel > 1.0 ? "grab" : "zoom-in";
+        }
+      };
+
+      containerEl.onwheel = (e) => {
+        e.preventDefault();
+        const delta = e.deltaY < 0 ? 0.25 : -0.25;
+        changeHeroZoom(delta);
+      };
     }
 
     // Fullscreen High-Res Zoom Inspector Logic
@@ -1555,9 +1691,6 @@ title: "Redemption",
 
     function startAlbumAutoPlay() {
       stopAlbumAutoPlay();
-      albumAutoPlayTimer = setInterval(() => {
-        stepAlbum(1, false);
-      }, 4000);
     }
 
     function stopAlbumAutoPlay() {
