@@ -34,7 +34,6 @@ const objects = [];
 
 let raycaster;
 let isMobileActive = false;
-let targetLocation = null;
 let isMuted = false;
 let savedVolumes = [];
 
@@ -145,11 +144,6 @@ function initTouchControls() {
     let touchLookId = null;
     let lastTouchX = 0;
     let lastTouchY = 0;
-    
-    // Double tap detection state
-    let lastTapTime = 0;
-    let lastTapX = 0;
-    let lastTapY = 0;
 
     camera.rotation.order = 'YXZ';
 
@@ -157,7 +151,6 @@ function initTouchControls() {
         // Multi-Touch (2+ fingers) -> Move Forward gesture
         if (e.touches.length >= 2) {
             moveForward = true;
-            targetLocation = null; // Override double-tap target
         }
 
         for (let i = 0; i < e.changedTouches.length; i++) {
@@ -203,27 +196,7 @@ function initTouchControls() {
         }
     };
 
-    window.addEventListener('touchend', (e) => {
-        endTouchLook(e);
-
-        // Double Tap Detection to Move Toward Location
-        const currentTime = performance.now();
-        const touch = e.changedTouches[0];
-        
-        if (touch && !touch.target.closest('.touch-control-ui') && !touch.target.closest('#instructions')) {
-            const tapDist = Math.hypot(touch.clientX - lastTapX, touch.clientY - lastTapY);
-            const tapInterval = currentTime - lastTapTime;
-
-            if (tapInterval < 300 && tapDist < 50) {
-                handleDoubleTapMove(touch.clientX, touch.clientY);
-            }
-
-            lastTapTime = currentTime;
-            lastTapX = touch.clientX;
-            lastTapY = touch.clientY;
-        }
-    }, { passive: true });
-
+    window.addEventListener('touchend', endTouchLook, { passive: true });
     window.addEventListener('touchcancel', endTouchLook, { passive: true });
 
     // Touch D-Pad & Action Buttons Binding Helper
@@ -235,7 +208,6 @@ function initTouchControls() {
             e.preventDefault();
             e.stopPropagation();
             btn.classList.add('active');
-            targetLocation = null; // Clear auto-navigation
             startCb();
         };
 
@@ -320,33 +292,6 @@ function adjustAudioVolume(factor) {
         const newVol = Math.max(0.0, Math.min(1.0, current * factor + (factor > 1.0 ? 0.05 : -0.05)));
         audio.setVolume(newVol);
     });
-}
-
-function handleDoubleTapMove(clientX, clientY) {
-    const mouse = new THREE.Vector2(
-        (clientX / window.innerWidth) * 2 - 1,
-        -(clientY / window.innerHeight) * 2 + 1
-    );
-
-    const tapRaycaster = new THREE.Raycaster();
-    tapRaycaster.setFromCamera(mouse, camera);
-
-    const intersects = tapRaycaster.intersectObjects(scene.children, true);
-
-    if (intersects.length > 0) {
-        const point = intersects[0].point;
-        
-        // Clamp destination to gallery floor boundaries
-        const minX = wallDepth * scale;
-        const maxX = (20 - wallDepth) * scale;
-        const minZ = -12 * scale;
-        const maxZ = (20 - wallDepth) * scale;
-
-        const targetX = Math.max(minX, Math.min(maxX, point.x));
-        const targetZ = Math.max(minZ, Math.min(maxZ, point.z));
-
-        targetLocation = new THREE.Vector3(targetX, cameraY * scale, targetZ);
-    }
 }
 
 function initKeyEvents() {
@@ -972,22 +917,7 @@ function onWindowResize() {
 function animate() {
 	const time = performance.now();
 
-	if ( controls.isLocked === true || isMobileActive === true ) {
-		// Smooth double-tap destination movement
-		if (targetLocation && !moveForward && !moveBackward && !moveLeft && !moveRight) {
-			const currentPos = controls.object.position;
-			const dx = targetLocation.x - currentPos.x;
-			const dz = targetLocation.z - currentPos.z;
-			const dist = Math.hypot(dx, dz);
-
-			if (dist > 1.5) {
-				const step = Math.min(dist, 140.0 * delta);
-				currentPos.x += (dx / dist) * step;
-				currentPos.z += (dz / dist) * step;
-			} else {
-				targetLocation = null;
-			}
-		}
+if ( controls.isLocked === true || isMobileActive === true ) {
 		raycaster.ray.origin.copy( controls.object.position );
 		raycaster.ray.origin.y -= cameraY*scale;
 
