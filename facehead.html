@@ -55,6 +55,22 @@
         -webkit-user-select: none;
         touch-action: manipulation;
       }
+      .mobile-top-bar {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        right: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .audio-controls-group {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
       .dpad-container {
         position: absolute;
         bottom: 25px;
@@ -95,7 +111,7 @@
         background: rgba(30, 30, 30, 0.65);
         border: 1px solid rgba(255, 255, 255, 0.35);
         color: #fff;
-        padding: 12px 18px;
+        padding: 10px 16px;
         border-radius: 20px;
         font-size: 0.85rem;
         font-weight: 600;
@@ -104,16 +120,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
       }
       .action-btn:active, .action-btn.active {
         background: rgba(212, 175, 55, 0.85);
         border-color: #d4af37;
         color: #000;
-      }
-      .mobile-top-bar {
-        position: absolute;
-        top: 15px;
-        right: 15px;
       }
     </style>
     <script type="importmap">
@@ -131,6 +143,12 @@
     <!-- Touch Controls Overlay for Mobile & Tablet -->
     <div id="mobileControls">
       <div class="mobile-top-bar">
+        <!-- Audio Volume Controls -->
+        <div class="audio-controls-group touch-control-ui">
+          <button id="btnMute" class="action-btn">🔊 Sound On</button>
+          <button id="btnVolDown" class="action-btn">🔉 -</button>
+          <button id="btnVolUp" class="action-btn">🔊 +</button>
+        </div>
         <button id="mobilePauseBtn" class="action-btn touch-control-ui">⏸ Instructions</button>
       </div>
 
@@ -158,19 +176,21 @@
     <div id="blocker">
       <div id="instructions">
         <div class="btn-start">Tap / Click to Start</div>
-        <p style="line-height: 1.8; max-width: 520px;">
+        <p style="line-height: 1.8; max-width: 540px;">
           <strong>Desktop Controls:</strong><br>
           • Move: 'W','A','S','D' or Arrow keys<br>
           • Look around: Move mouse<br>
           • Jump: [SPACE] | Shift Up/Down: 'U' / 'M'<br>
           • Audio Volume: '[' and ']' keys<br><br>
-          <strong>Mobile & Tablet Controls:</strong><br>
-          • Look around: Touch & Drag on screen<br>
-          • Move: Touch D-Pad (▲ ▼ ◀ ▶)<br>
-          • Jump & Height: Touch Action Buttons (🚀 🔼 🔽)
+          <strong>Mobile & Tablet Gestures & Touch UI:</strong><br>
+          • Look around: Touch & Drag screen<br>
+          • Move Forward: <strong>Multi-Touch (2 fingers)</strong> or ▲ D-Pad<br>
+          • Move to Point: <strong>Double-Tap location</strong> on floor/wall<br>
+          • Audio Sound: <strong>🔊 Sound On / 🔇 Mute / Volume +/- buttons</strong><br>
+          • Height & Jump: Action Buttons (🚀 Jump 🔼 Up 🔽 Down)
         </p>
         <p style="margin-top: 15px; opacity: 0.85; font-size: 13px;">
-          ✨ Fully optimized for Desktop, Mobile & Tablet Devices.
+          ✨ Fully optimized with Multi-Touch Gestures, Double-Tap Navigation & Audio Controls.
         </p>
       </div>
     </div>
