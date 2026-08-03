@@ -146,6 +146,7 @@ function initTouchControls() {
     let touchLookId = null;
     let lastTouchX = 0;
     let lastTouchY = 0;
+    let lastPinchDist = null;
 
     let lastTapTime = 0;
     let lastTapX = 0;
@@ -154,11 +155,15 @@ function initTouchControls() {
     camera.rotation.order = 'YXZ';
 
     window.addEventListener('touchstart', (e) => {
-        // Multi-Touch (2+ fingers) -> Move Forward gesture
-        if (e.touches.length >= 2) {
-            moveForward = true;
+        // Multi-Touch (2 fingers) -> Pinch (Backward) / Spread (Forward) initial distance
+        if (e.touches.length === 2) {
+            const t1 = e.touches[0];
+            const t2 = e.touches[1];
+            lastPinchDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
             isFocusingArtwork = false;
             isViewingArtwork = false;
+        } else {
+            lastPinchDist = null;
         }
 
         for (let i = 0; i < e.changedTouches.length; i++) {
@@ -174,6 +179,33 @@ function initTouchControls() {
     }, { passive: false });
 
     window.addEventListener('touchmove', (e) => {
+        // 2-Finger Spread (Forward) & Pinch (Backward) Gesture Movement
+        if (e.touches.length === 2) {
+            const t1 = e.touches[0];
+            const t2 = e.touches[1];
+            const currentDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+
+            if (lastPinchDist !== null) {
+                const deltaDist = currentDist - lastPinchDist;
+
+                if (deltaDist > 2.0) {
+                    // Moving APART (spreading) -> Move Forward
+                    moveForward = true;
+                    moveBackward = false;
+                    isFocusingArtwork = false;
+                    isViewingArtwork = false;
+                } else if (deltaDist < -2.0) {
+                    // Moving CLOSER (pinching) -> Move Backward
+                    moveBackward = true;
+                    moveForward = false;
+                    isFocusingArtwork = false;
+                    isViewingArtwork = false;
+                }
+            }
+            lastPinchDist = currentDist;
+        }
+
+        // 1-Finger Drag to Look Around
         for (let i = 0; i < e.changedTouches.length; i++) {
             const touch = e.changedTouches[i];
             if (touch.identifier === touchLookId) {
@@ -188,19 +220,24 @@ function initTouchControls() {
 
                 lastTouchX = touch.clientX;
                 lastTouchY = touch.clientY;
-                
-                // Cancel artwork focus animation if user drags view
+
                 if (Math.hypot(dx, dy) > 3) {
                     isFocusingArtwork = false;
-            isViewingArtwork = false;
+                    isViewingArtwork = false;
                 }
             }
         }
     }, { passive: false });
 
     const endTouchLook = (e) => {
-        if (e.touches.length < 2 && !document.getElementById('btnUp')?.classList.contains('active')) {
-            moveForward = false;
+        if (e.touches.length < 2) {
+            lastPinchDist = null;
+            if (!document.getElementById('btnUp')?.classList.contains('active')) {
+                moveForward = false;
+            }
+            if (!document.getElementById('btnDown')?.classList.contains('active')) {
+                moveBackward = false;
+            }
         }
 
         for (let i = 0; i < e.changedTouches.length; i++) {
@@ -216,7 +253,7 @@ function initTouchControls() {
         // Double Tap Detection to Focus Artwork (90% screen view)
         const currentTime = performance.now();
         const touch = e.changedTouches[0];
-        
+
         if (touch && !touch.target.closest('.touch-control-ui') && !touch.target.closest('#instructions')) {
             const tapDist = Math.hypot(touch.clientX - lastTapX, touch.clientY - lastTapY);
             const tapInterval = currentTime - lastTapTime;
@@ -248,7 +285,7 @@ function initTouchControls() {
             e.stopPropagation();
             btn.classList.add('active');
             isFocusingArtwork = false;
-            isViewingArtwork = false; // Cancel auto-focus
+            isViewingArtwork = false;
             startCb();
         };
 
@@ -272,7 +309,6 @@ function initTouchControls() {
     bindBtn('btnDown', () => { moveBackward = true; }, () => { moveBackward = false; });
     bindBtn('btnLeft', () => { moveLeft = true; }, () => { moveLeft = false; });
     bindBtn('btnRight', () => { moveRight = true; }, () => { moveRight = false; });
-
 
     bindBtn('btnJump', () => {
         if (canJump === true) velocity.y = wallHeight * jumpNumOfWall * scale;
