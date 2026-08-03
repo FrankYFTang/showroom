@@ -47,14 +47,14 @@
 
     h1 {
       font-family: var(--font-heading);
-      font-size: 2.5rem;
+      font-size: 2.4rem;
       color: #ffffff;
       letter-spacing: 0.5px;
       margin-bottom: 8px;
     }
 
     .artist-tagline {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--accent-gold);
       text-transform: uppercase;
       letter-spacing: 1.5px;
@@ -68,12 +68,23 @@
       margin: 30px 0 20px;
       flex-wrap: wrap;
       gap: 15px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 15px;
     }
 
     .section-title {
       font-family: var(--font-heading);
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       color: #ffffff;
+    }
+
+    .item-count {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 5px 12px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
     }
 
     .filter-bar {
@@ -88,7 +99,7 @@
       color: var(--text-muted);
       border: 1px solid var(--card-border);
       padding: 6px 14px;
-      border-radius: 6px;
+      border-radius: 20px;
       font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -100,128 +111,257 @@
       background: rgba(212, 175, 55, 0.08);
     }
 
-    .type-badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 4px;
-      text-transform: lowercase;
-      letter-spacing: 0.5px;
-    }
-
-    .type-badge.doc {
-      background: rgba(66, 133, 244, 0.15);
-      color: #609af8;
-      border: 1px solid rgba(66, 133, 244, 0.3);
-    }
-
-    .type-badge.pdf {
-      background: rgba(234, 67, 53, 0.15);
-      color: #f27267;
-      border: 1px solid rgba(234, 67, 53, 0.3);
-    }
-
-    .type-badge.slide {
-      background: rgba(251, 188, 4, 0.15);
-      color: #fccf4d;
-      border: 1px solid rgba(251, 188, 4, 0.3);
-    }
-
-    .cards-grid {
+    /* Smaller Card Grid (Matching other gallery pages) */
+    .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 25px;
       margin-bottom: 60px;
-    }
-
-    @media (max-width: 768px) {
-      .cards-grid {
-        grid-template-columns: 1fr;
-      }
     }
 
     .essay-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: border-color 0.2s ease;
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
     .essay-card:hover {
+      transform: translateY(-4px);
       border-color: var(--accent-gold);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
-    .card-header {
-      padding: 20px;
-      border-bottom: 1px solid var(--card-border);
-    }
-
-    .card-top-row {
+    .cover-container {
+      position: relative;
+      aspect-ratio: 16/10;
+      background: #180f0e;
+      overflow: hidden;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.35s ease;
+    }
+
+    .essay-card:hover .cover-img {
+      transform: scale(1.04);
+    }
+
+    .fallback-cover {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      background: linear-gradient(135deg, #1f1412 0%, #0d0807 100%);
+      text-align: center;
+    }
+
+    .fallback-icon {
+      font-size: 2.2rem;
       margin-bottom: 8px;
-      gap: 10px;
+      opacity: 0.8;
+    }
+
+    .fallback-title {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .type-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      backdrop-filter: blur(4px);
+    }
+
+    .type-badge.doc {
+      background: rgba(66, 133, 244, 0.9);
+      color: #ffffff;
+    }
+
+    .type-badge.pdf {
+      background: rgba(234, 67, 53, 0.9);
+      color: #ffffff;
+    }
+
+    .type-badge.slide {
+      background: rgba(251, 188, 4, 0.9);
+      color: #000000;
+    }
+
+    .card-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
     }
 
     .essay-title {
       font-family: var(--font-heading);
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       color: #ffffff;
-      line-height: 1.35;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    .meta-line {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-
-    .course-tag {
+    .course-meta {
+      font-size: 0.82rem;
       color: var(--accent-copper);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .date-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: auto;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .view-prompt {
+      color: var(--accent-gold);
       font-weight: 500;
     }
 
-    .date-tag {
-      opacity: 0.8;
-      margin-left: 8px;
+    /* Modal Overlay Viewer */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
     }
 
-    .card-body {
-      position: relative;
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
       width: 100%;
-      height: 480px;
-      background: #0d0807;
+      max-width: 1100px;
+      max-height: 94vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
     }
 
-    .card-body iframe {
+    .modal-header {
+      padding: 20px 25px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .modal-title {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      color: #ffffff;
+      line-height: 1.3;
+
+    }
+
+    .modal-subtitle {
+      font-size: 0.85rem;
+      color: var(--accent-copper);
+      margin-top: 4px;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.8rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .modal-close:hover {
+      color: var(--accent-gold);
+    }
+
+    .modal-iframe-container {
+      width: 100%;
+      height: 72vh;
+      background: #0b0706;
+    }
+
+    .modal-iframe-container iframe {
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    .card-footer {
-      padding: 12px 20px;
-      background: rgba(0,0,0,0.2);
+    .modal-footer {
+      padding: 12px 25px;
+      background: rgba(0,0,0,0.3);
       border-top: 1px solid var(--card-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .ext-link {
+    .ext-btn {
       color: var(--accent-gold);
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       transition: opacity 0.2s;
     }
 
-    .ext-link:hover {
+    .ext-btn:hover {
       opacity: 0.8;
       text-decoration: underline;
     }
@@ -238,9 +378,12 @@
   <!-- Main Section -->
   <main>
     <div class="section-header">
-      <h2 class="section-title">Art History & Humanities Papers</h2>
+      <div>
+        <h2 class="section-title">Art History & Humanities Papers</h2>
+      </div>
       
       <div class="filter-bar">
+        <span class="item-count" id="countTag">0 Essays</span>
         <button class="filter-btn active" onclick="filterType('all')">All</button>
         <button class="filter-btn" onclick="filterType('doc')">📄 doc</button>
         <button class="filter-btn" onclick="filterType('pdf')">📑 pdf</button>
@@ -248,10 +391,30 @@
       </div>
     </div>
 
-    <div class="cards-grid" id="cardsGrid">
-      <!-- Cards will be populated dynamically -->
+    <div class="gallery-grid" id="cardsGrid">
+      <!-- Cards rendered via JS -->
     </div>
   </main>
+
+  <!-- Modal In-Place Viewer Overlay -->
+  <div class="modal-backdrop" id="essayModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="modalTitle">Paper Title</h3>
+          <p class="modal-subtitle" id="modalSubtitle">Course • Date</p>
+        </div>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-iframe-container" id="modalIframeContainer">
+        <!-- iframe dynamically injected when opened -->
+      </div>
+      <div class="modal-footer">
+        <span style="font-size: 0.8rem; color: var(--text-muted);" id="modalQuarter">Quarter</span>
+        <a href="#" target="_blank" rel="noopener" class="ext-btn" id="modalExtLink">Open Original Document ↗</a>
+      </div>
+    </div>
+  </div>
 
   <script>
     const essaysData = [
@@ -262,7 +425,8 @@
     "date": "Summer 2022",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ART2F Extra Credit 2 - Artistic Style of Salman Toor update (2).pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ART2F Extra Credit 2 - Artistic Style of Salman Toor update (2).pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS2F Final papers Salman Toor",
@@ -271,7 +435,8 @@
     "date": "Summer 2022",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS2F Final papers Salman Toor.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS2F Final papers Salman Toor.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS3F Extra Credit 1 Assignment Group Exhibit",
@@ -280,7 +445,8 @@
     "date": "Summer 2022",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS3F Extra Credit 1 Assignment Group Exhibit.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS3F Extra Credit 1 Assignment Group Exhibit.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Artistic Style of Salman Toor",
@@ -289,7 +455,8 @@
     "date": "Aug 5, 2022",
     "url": "https://github.com/FrankYFTang/FrankYungFongTangArt/blob/main/ARTS2F/ART2F%20Extra%20Credit%202%20-%20Artistic%20Style%20of%20Salman%20Toor%20update%20(2",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ART2F%20Extra%20Credit%202%20-%20Artistic%20Style%20of%20Salman%20Toor%20update%20(2&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Comparison of Shape Usages in the \u201cCollective Resilience: Asian American Artists Honoring Our Community\u2019s Strength and Unity\u201d Exhibition",
@@ -298,7 +465,8 @@
     "date": "Aug 5, 2022",
     "url": "https://github.com/FrankYFTang/FrankYungFongTangArt/blob/main/ARTS2F/Extra%20Credit%203%20Assignment-%20Analysis%20of%20Formal%20Element%20in%20Three%20Arts%20(3",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/Extra%20Credit%203%20Assignment-%20Analysis%20of%20Formal%20Element%20in%20Three%20Arts%20(3&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Extra Credit 3 Assignment  Analysis of Formal Element in Three Arts (3)",
@@ -307,7 +475,8 @@
     "date": "Summer 2022",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/Extra Credit 3 Assignment- Analysis of Formal Element in Three Arts (3).pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/Extra Credit 3 Assignment- Analysis of Formal Element in Three Arts (3).pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Review of Paintings in \u201cSalman Toor: How Will I Know\u201d Exhibit",
@@ -316,7 +485,8 @@
     "date": "Aug 5, 2022",
     "url": "https://github.com/FrankYFTang/FrankYungFongTangArt/blob/main/ARTS2F/ARTS2F%20Final%20papers%20Salman%20Toor.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS2F%20Final%20papers%20Salman%20Toor.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "The \u201cBay Area Walls\u201d Group Exhibition at SFMOMA",
@@ -325,7 +495,8 @@
     "date": "Aug 5, 2022",
     "url": "https://github.com/FrankYFTang/FrankYungFongTangArt/blob/main/ARTS2F/ARTS3F%20Extra%20Credit%201%20Assignment%20Group%20Exhibit.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS3F%20Extra%20Credit%201%20Assignment%20Group%20Exhibit.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Slides",
@@ -334,7 +505,8 @@
     "date": "Aug 5, 2022",
     "url": "https://docs.google.com/presentation/d/1J7Qdm6dm2smtzydl7BSw6KTXRY7At5IDe9-tdqQlD38",
     "embed_url": "https://docs.google.com/presentation/d/1J7Qdm6dm2smtzydl7BSw6KTXRY7At5IDe9-tdqQlD38/embed?start=false&loop=false&delayms=3000",
-    "type": "slide"
+    "type": "slide",
+    "cover_image": "https://drive.google.com/thumbnail?id=1J7Qdm6dm2smtzydl7BSw6KTXRY7At5IDe9-tdqQlD38&sz=w800"
   },
   {
     "title": "The Composition and Usage of Irworobongdo, Five Peaks Screen",
@@ -343,7 +515,8 @@
     "date": "Aug 5, 2022",
     "url": "https://github.com/FrankYFTang/FrankYungFongTangArt/blob/main/ARTS2G/The_Composition_and_Usage_of_Irworobongdo_Five_Peaks_Screen_in_Korean_Culture.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2G/The_Composition_and_Usage_of_Irworobongdo_Five_Peaks_Screen_in_Korean_Culture.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "*Ginevra de\u2019 Benci* (c.1474/1478) by LEONARDO DA VINCI, November 23, 2022, Frank Yung-fong Tang",
@@ -352,7 +525,8 @@
     "date": "Dec 16, 2022",
     "url": "https://drive.google.com/file/d/1xtDMSKU9OOAw8v4i56w2LlgTHXClmB5L/view",
     "embed_url": "https://drive.google.com/file/d/1xtDMSKU9OOAw8v4i56w2LlgTHXClmB5L/preview",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": "https://drive.google.com/thumbnail?id=1xtDMSKU9OOAw8v4i56w2LlgTHXClmB5L&sz=w800"
   },
   {
     "title": "A Letter To Anita Lily Pollitzer From Georgia O\u2019Keeffe, October 25, 2022, Frank Yung-fong Tang",
@@ -361,7 +535,8 @@
     "date": "Dec 16, 2022",
     "url": "https://drive.google.com/file/d/1XeZqhUDDUSgmiJOg_4FftAJ3f8XL0IBv/view?usp=sharing",
     "embed_url": "https://drive.google.com/file/d/1XeZqhUDDUSgmiJOg_4FftAJ3f8XL0IBv/preview",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": "https://drive.google.com/thumbnail?id=1XeZqhUDDUSgmiJOg_4FftAJ3f8XL0IBv&sz=w800"
   },
   {
     "title": "Journal 2- Lee Krasner, The Seasons, oil and house paint on canvas, 1957",
@@ -370,7 +545,8 @@
     "date": "Dec 16, 2022",
     "url": "https://drive.google.com/file/d/1owtnrfFJ4dRGvb8YaQUdYjATHN4sMWjg/view",
     "embed_url": "https://drive.google.com/file/d/1owtnrfFJ4dRGvb8YaQUdYjATHN4sMWjg/preview",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": "https://drive.google.com/thumbnail?id=1owtnrfFJ4dRGvb8YaQUdYjATHN4sMWjg&sz=w800"
   },
   {
     "title": "Museum Visit: Charlayne Hunter-Gault 1961 by Joseph Schwartz, Dec 16, 2022, Frank Yung-fong Tang",
@@ -379,7 +555,8 @@
     "date": "Dec 16, 2022",
     "url": "https://drive.google.com/file/d/15I_-2ET1SX4cuont3J_ZejCZOo1CQtfN/view",
     "embed_url": "https://drive.google.com/file/d/15I_-2ET1SX4cuont3J_ZejCZOo1CQtfN/preview",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": "https://drive.google.com/thumbnail?id=15I_-2ET1SX4cuont3J_ZejCZOo1CQtfN&sz=w800"
   },
   {
     "title": "ARTS 1B Final Paper",
@@ -388,7 +565,8 @@
     "date": "Winter 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Final Paper.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Final Paper.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS 1B Final cite",
@@ -397,7 +575,8 @@
     "date": "Winter 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Final-cite.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Final-cite.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS 1B Midterm",
@@ -406,7 +585,8 @@
     "date": "Winter 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Midterm.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Midterm.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS 2A Extra Credit",
@@ -415,7 +595,8 @@
     "date": "Winter 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2A/ARTS 2A Extra Credit.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2A/ARTS 2A Extra Credit.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS 2A Paper",
@@ -424,7 +605,8 @@
     "date": "Winter 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2A/ARTS 2A Paper.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2A/ARTS 2A Paper.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS 2D Final",
@@ -433,7 +615,8 @@
     "date": "Winter 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS 2D Final.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS 2D Final.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS 2D Midterm",
@@ -442,7 +625,8 @@
     "date": "Winter 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS 2D Midterm.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS 2D Midterm.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS2DFinalPaper",
@@ -451,7 +635,8 @@
     "date": "Winter 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS2DFinalPaper.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS2DFinalPaper.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS2CPaper",
@@ -460,7 +645,8 @@
     "date": "Spring 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/ARTS2CPaper.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/ARTS2CPaper.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS2CWeek2Writing",
@@ -469,7 +655,8 @@
     "date": "Spring 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/ARTS2CWeek2Writing.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/ARTS2CWeek2Writing.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Arts 2C Midterm",
@@ -478,7 +665,8 @@
     "date": "Spring 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/Arts 2C Midterm.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/Arts 2C Midterm.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS 2J EC1AKMasks",
@@ -487,7 +675,8 @@
     "date": "Fall 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/ARTS 2J EC1AKMasks.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/ARTS 2J EC1AKMasks.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ARTS 2J EC2AnimalMasks",
@@ -496,7 +685,8 @@
     "date": "Fall 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/ARTS 2J EC2AnimalMasks.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/ARTS 2J EC2AnimalMasks.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Project1Proposal",
@@ -505,7 +695,8 @@
     "date": "Fall 2023",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/Project1Proposal.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/Project1Proposal.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ExtraCreditLocalGallery rev2 Part1",
@@ -514,7 +705,8 @@
     "date": "Winter 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/ExtraCreditLocalGallery-rev2-Part1.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/ExtraCreditLocalGallery-rev2-Part1.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "ExtraCreditLocalGallery rev2 Part2",
@@ -523,7 +715,8 @@
     "date": "Winter 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/ExtraCreditLocalGallery-rev2-Part2.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/ExtraCreditLocalGallery-rev2-Part2.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Week 11 Navigating Art & Visual Culture",
@@ -532,7 +725,8 @@
     "date": "Winter 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week 11 Navigating Art & Visual Culture.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week 11 Navigating Art & Visual Culture.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Week10 Explore Public Art",
@@ -541,7 +735,8 @@
     "date": "Winter 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week10 Explore Public Art.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week10 Explore Public Art.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Week10Spotlight on Humanities",
@@ -550,7 +745,8 @@
     "date": "Winter 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week10Spotlight on Humanities.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week10Spotlight on Humanities.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Week7 Explore Architecture and Film",
@@ -559,7 +755,8 @@
     "date": "Winter 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week7 Explore Architecture and Film.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week7 Explore Architecture and Film.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Week8 Explore Art and Inequality",
@@ -568,7 +765,8 @@
     "date": "Winter 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week8 Explore Art and Inequality.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week8 Explore Art and Inequality.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Week8 Thematic Collage",
@@ -577,7 +775,8 @@
     "date": "Winter 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week8 Thematic Collage.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week8 Thematic Collage.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Week9 Explore Art of the 20th Century",
@@ -586,7 +785,8 @@
     "date": "Winter 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week9 Explore Art of the 20th Century.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week9 Explore Art of the 20th Century.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Beyond Aesthetics: Magnifying the Circumscription of Art",
@@ -595,7 +795,8 @@
     "date": "October 18, 2024",
     "url": "https://docs.google.com/document/d/1QDWFXtfFiMcn2JmLlkGSEFyRO1xEFafNWZdxIBr8Nu4",
     "embed_url": "https://docs.google.com/document/d/1QDWFXtfFiMcn2JmLlkGSEFyRO1xEFafNWZdxIBr8Nu4/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1QDWFXtfFiMcn2JmLlkGSEFyRO1xEFafNWZdxIBr8Nu4&sz=w800"
   },
   {
     "title": "Hung Liu: Reclaiming Faces, Reframing History",
@@ -604,7 +805,8 @@
     "date": "October 18, 2024",
     "url": "https://docs.google.com/document/d/1miG9OiZPchUrqu9cYUwKL965OZokPYonzAs6BMgiYqE/edit?usp=sharing",
     "embed_url": "https://docs.google.com/document/d/1miG9OiZPchUrqu9cYUwKL965OZokPYonzAs6BMgiYqE/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1miG9OiZPchUrqu9cYUwKL965OZokPYonzAs6BMgiYqE&sz=w800"
   },
   {
     "title": "Nature, God\u2019s Artistic Masterpiece, Outshine Artworks Made by Any Artists",
@@ -613,7 +815,8 @@
     "date": "October 18, 2024",
     "url": "https://docs.google.com/document/d/1DmCTxJavnqs5tSeuhmmm3gwdJrIcAVAbwK8190Cxa2U",
     "embed_url": "https://docs.google.com/document/d/1DmCTxJavnqs5tSeuhmmm3gwdJrIcAVAbwK8190Cxa2U/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1DmCTxJavnqs5tSeuhmmm3gwdJrIcAVAbwK8190Cxa2U&sz=w800"
   },
   {
     "title": "Extra Credit Option: Explore What Matters",
@@ -622,7 +825,8 @@
     "date": "Fall 2024",
     "url": "https://docs.google.com/document/d/1wAYz2ZS9sNYW9s0CgCgpYzVVSwwzRlDfc1pEPnGFFHA",
     "embed_url": "https://docs.google.com/document/d/1wAYz2ZS9sNYW9s0CgCgpYzVVSwwzRlDfc1pEPnGFFHA/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1wAYz2ZS9sNYW9s0CgCgpYzVVSwwzRlDfc1pEPnGFFHA&sz=w800"
   },
   {
     "title": "Extra Credit Option: Explore an Event- Beyonc\u00e9 Cowboy Carter Tour, Mercedes-Benz Stadium, Atlanta, Georgia",
@@ -631,7 +835,8 @@
     "date": "Fall 2024",
     "url": "https://docs.google.com/document/d/1QV3MMCUCTuUI3QAq_8ra26OX8hG_gsIlwfBtfQiZ6go",
     "embed_url": "https://docs.google.com/document/d/1QV3MMCUCTuUI3QAq_8ra26OX8hG_gsIlwfBtfQiZ6go/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1QV3MMCUCTuUI3QAq_8ra26OX8hG_gsIlwfBtfQiZ6go&sz=w800"
   },
   {
     "title": "Frank Judging Record",
@@ -640,7 +845,8 @@
     "date": "Fall 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI1/Frank Judging Record.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI1/Frank Judging Record.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Moon Observation",
@@ -649,7 +855,8 @@
     "date": "Fall 2024",
     "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI1/Moon Observation.pdf",
     "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI1/Moon Observation.pdf&embedded=true",
-    "type": "pdf"
+    "type": "pdf",
+    "cover_image": null
   },
   {
     "title": "Femme au chapeau (Woman with a Hat) 1905, Oil on Canvas",
@@ -658,7 +865,8 @@
     "date": "Fall 2025",
     "url": "https://docs.google.com/document/d/1noNZXXORIcCYECbP3YdVKEa15z_LjqCiEAIO_SUYCuU",
     "embed_url": "https://docs.google.com/document/d/1noNZXXORIcCYECbP3YdVKEa15z_LjqCiEAIO_SUYCuU/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1noNZXXORIcCYECbP3YdVKEa15z_LjqCiEAIO_SUYCuU&sz=w800"
   },
   {
     "title": "Longevity Turtle, Elwood Martin Reynolds",
@@ -667,7 +875,8 @@
     "date": "Fall 2025",
     "url": "https://docs.google.com/document/d/1DXkm-bOPSpobaYk06pdcW_dLP6x7TI-_evf9qFJDKRw",
     "embed_url": "https://docs.google.com/document/d/1DXkm-bOPSpobaYk06pdcW_dLP6x7TI-_evf9qFJDKRw/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1DXkm-bOPSpobaYk06pdcW_dLP6x7TI-_evf9qFJDKRw&sz=w800"
   },
   {
     "title": "Royal Courts of Justice, Banksy, 2025",
@@ -676,7 +885,8 @@
     "date": "Fall 2025",
     "url": "https://docs.google.com/document/d/1U3FwPeCaI6dmJG-4DUS-gRZtiunR8xxIMVfTv_GEDpk",
     "embed_url": "https://docs.google.com/document/d/1U3FwPeCaI6dmJG-4DUS-gRZtiunR8xxIMVfTv_GEDpk/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1U3FwPeCaI6dmJG-4DUS-gRZtiunR8xxIMVfTv_GEDpk&sz=w800"
   },
   {
     "title": "The Marble Court, Sardis, Turkey (211 AD)",
@@ -685,7 +895,8 @@
     "date": "Fall 2025",
     "url": "https://docs.google.com/document/d/1cr_ZrUPSHpa7Mq0mNV0yiMREqEiub1fTVCAiDccuKfU",
     "embed_url": "https://docs.google.com/document/d/1cr_ZrUPSHpa7Mq0mNV0yiMREqEiub1fTVCAiDccuKfU/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1cr_ZrUPSHpa7Mq0mNV0yiMREqEiub1fTVCAiDccuKfU&sz=w800"
   },
   {
     "title": "Three Fujins, 1995, Hung Liu",
@@ -694,7 +905,8 @@
     "date": "Fall 2025",
     "url": "https://docs.google.com/document/d/1mY1xdf6nV8ok_ncpAjvllo6OfDOUafCLQTaZLEfP44c",
     "embed_url": "https://docs.google.com/document/d/1mY1xdf6nV8ok_ncpAjvllo6OfDOUafCLQTaZLEfP44c/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1mY1xdf6nV8ok_ncpAjvllo6OfDOUafCLQTaZLEfP44c&sz=w800"
   },
   {
     "title": "\u201cArtifact Piece\u201d, 1985-7, James Luna",
@@ -703,7 +915,8 @@
     "date": "Fall 2025",
     "url": "https://docs.google.com/document/d/11sW2vCNW5UgzF1aq7C9pTfc5YIWloxSGcQPcI8OUXto",
     "embed_url": "https://docs.google.com/document/d/11sW2vCNW5UgzF1aq7C9pTfc5YIWloxSGcQPcI8OUXto/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=11sW2vCNW5UgzF1aq7C9pTfc5YIWloxSGcQPcI8OUXto&sz=w800"
   },
   {
     "title": "Polka Dots in Yayoi Kusama\u2019s Works: Pumpkins and Infinite Mirrored Rooms",
@@ -712,7 +925,8 @@
     "date": "September 12, 2025",
     "url": "https://docs.google.com/document/d/1FOUe27nFWO2LHzs5EIPFlPMniPaqtXt6WZrQfvngSLc",
     "embed_url": "https://docs.google.com/document/d/1FOUe27nFWO2LHzs5EIPFlPMniPaqtXt6WZrQfvngSLc/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1FOUe27nFWO2LHzs5EIPFlPMniPaqtXt6WZrQfvngSLc&sz=w800"
   },
   {
     "title": "Ara Pacis Augustae (Altar of Augustan Peace), Rome, Italy, 13-9 BCE",
@@ -721,7 +935,8 @@
     "date": "2026-05-01",
     "url": "https://docs.google.com/document/d/1S0htQAfPOAaxY-TUHQtjH27c2bbaVTqInQavefSZxQc/edit?usp=sharing",
     "embed_url": "https://docs.google.com/document/d/1S0htQAfPOAaxY-TUHQtjH27c2bbaVTqInQavefSZxQc/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1S0htQAfPOAaxY-TUHQtjH27c2bbaVTqInQavefSZxQc&sz=w800"
   },
   {
     "title": "Library of Celsus in Ephesus, Turkey",
@@ -730,7 +945,8 @@
     "date": "2026-05-01",
     "url": "https://docs.google.com/document/d/1LBrTBwEXI_sKFlMrIm5iEkX9lbylVw7hj0F3wHikIgo/edit?usp=sharing",
     "embed_url": "https://docs.google.com/document/d/1LBrTBwEXI_sKFlMrIm5iEkX9lbylVw7hj0F3wHikIgo/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1LBrTBwEXI_sKFlMrIm5iEkX9lbylVw7hj0F3wHikIgo&sz=w800"
   },
   {
     "title": "Queen Nefertari Making an Offering to Isis (c.1290-1224 BCE)",
@@ -739,7 +955,8 @@
     "date": "2026-05-01",
     "url": "https://docs.google.com/document/d/1aFfJixdn8-O34yanVE0iKZRYGdWrZX9XG4GVWTs0Cl0/edit?usp=sharing",
     "embed_url": "https://docs.google.com/document/d/1aFfJixdn8-O34yanVE0iKZRYGdWrZX9XG4GVWTs0Cl0/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1aFfJixdn8-O34yanVE0iKZRYGdWrZX9XG4GVWTs0Cl0&sz=w800"
   },
   {
     "title": "Research Activity 2",
@@ -748,7 +965,8 @@
     "date": "2026-05-01",
     "url": "https://docs.google.com/document/d/1RLXRI5KMUD1vSWKetDiaPi7cdYevMyL6dzN9rdlSNVc/edit?usp=sharing",
     "embed_url": "https://docs.google.com/document/d/1RLXRI5KMUD1vSWKetDiaPi7cdYevMyL6dzN9rdlSNVc/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1RLXRI5KMUD1vSWKetDiaPi7cdYevMyL6dzN9rdlSNVc&sz=w800"
   },
   {
     "title": "The Forming of the Theotokos Icon: The Shifted Image of Mary from a Nursing Mother to a Sitting Queen",
@@ -757,7 +975,8 @@
     "date": "2026-05-01",
     "url": "https://docs.google.com/document/d/1A6VuP_bzx7cDCYwGyq7vALVzkXNkRZmI_yL8Ol7gU4g/edit?usp=sharing",
     "embed_url": "https://docs.google.com/document/d/1A6VuP_bzx7cDCYwGyq7vALVzkXNkRZmI_yL8Ol7gU4g/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1A6VuP_bzx7cDCYwGyq7vALVzkXNkRZmI_yL8Ol7gU4g&sz=w800"
   },
   {
     "title": "How Painters Motivate their Viewers toward God in Direct, Indirect and Subtle Manners",
@@ -766,7 +985,8 @@
     "date": "June 26, 2026",
     "url": "https://docs.google.com/document/d/1MH0c7li0E_l5FCRjjraKzHiGdBneQKvr3brycpcwztA/edit?usp=sharing",
     "embed_url": "https://docs.google.com/document/d/1MH0c7li0E_l5FCRjjraKzHiGdBneQKvr3brycpcwztA/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1MH0c7li0E_l5FCRjjraKzHiGdBneQKvr3brycpcwztA&sz=w800"
   },
   {
     "title": "Omuaka Ambassador (1999), Rose Kirumira, Concrete",
@@ -775,7 +995,8 @@
     "date": "June 26, 2026",
     "url": "https://docs.google.com/document/d/1oi60Qx_DDKnqmaJA_87dJgsx-haxr3540S9Z0QCjD8o/edit?usp=sharing",
     "embed_url": "https://docs.google.com/document/d/1oi60Qx_DDKnqmaJA_87dJgsx-haxr3540S9Z0QCjD8o/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1oi60Qx_DDKnqmaJA_87dJgsx-haxr3540S9Z0QCjD8o&sz=w800"
   },
   {
     "title": "Omubaka Ambassador (1999), Cement, Rose Kirumira",
@@ -784,7 +1005,8 @@
     "date": "June 26, 2026",
     "url": "https://docs.google.com/document/d/16gdTVtzEzEWt1oq97Kw6_EPsJyz1HHFgo5O78WZaG2A/edit?usp=sharing",
     "embed_url": "https://docs.google.com/document/d/16gdTVtzEzEWt1oq97Kw6_EPsJyz1HHFgo5O78WZaG2A/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=16gdTVtzEzEWt1oq97Kw6_EPsJyz1HHFgo5O78WZaG2A&sz=w800"
   },
   {
     "title": "Unidentified Aegean artist, Male Harp Player, Marble, c. 2700 - 2300 BCE",
@@ -793,7 +1015,8 @@
     "date": "June 26, 2026",
     "url": "https://docs.google.com/document/d/1CGfFgeb0Rj4-BYBjfaitzIyrn_qE9oVEVcZggyNXL2U/edit?usp=sharing",
     "embed_url": "https://docs.google.com/document/d/1CGfFgeb0Rj4-BYBjfaitzIyrn_qE9oVEVcZggyNXL2U/preview",
-    "type": "doc"
+    "type": "doc",
+    "cover_image": "https://drive.google.com/thumbnail?id=1CGfFgeb0Rj4-BYBjfaitzIyrn_qE9oVEVcZggyNXL2U&sz=w800"
   }
 ];
 
@@ -802,35 +1025,77 @@
       grid.innerHTML = '';
 
       const filtered = essaysData.filter(item => filter === 'all' || item.type === filter);
+      document.getElementById('countTag').textContent = `${filtered.length} Essays`;
 
-      filtered.forEach(item => {
+      filtered.forEach((item, index) => {
         const card = document.createElement('div');
         card.className = 'essay-card';
+        card.onclick = () => openModal(item);
 
         const badgeClass = item.type;
+        
+        let coverHtml = '';
+        if (item.cover_image) {
+          coverHtml = `
+            <div class="cover-container">
+              <span class="type-badge ${badgeClass}">${item.type}</span>
+              <img src="${item.cover_image}" alt="${escapeHtml(item.title)}" class="cover-img" onerror="this.parentElement.innerHTML='${escapeHtml(getFallbackCover(item))}'">
+            </div>`;
+        } else {
+          coverHtml = `
+            <div class="cover-container">
+              <span class="type-badge ${badgeClass}">${item.type}</span>
+              ${getFallbackCover(item)}
+            </div>`;
+        }
 
         card.innerHTML = `
-          <div class="card-header">
-            <div class="card-top-row">
-              <h3 class="essay-title">${escapeHtml(item.title)}</h3>
-              <span class="type-badge ${badgeClass}">${item.type}</span>
-            </div>
-            <div class="meta-line">
-              <span class="course-tag">${escapeHtml(item.course)}</span>
-              <span class="date-tag">• ${escapeHtml(item.date)}</span>
-            </div>
-          </div>
+          ${coverHtml}
           <div class="card-body">
-            <iframe src="${item.embed_url}" loading="lazy" allowfullscreen></iframe>
-          </div>
-          <div class="card-footer">
-            <span style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(item.quarter)}</span>
-            <a href="${item.url}" target="_blank" rel="noopener" class="ext-link">Open Full Document ↗</a>
+            <div class="course-meta">${escapeHtml(item.course)}</div>
+            <h3 class="essay-title">${escapeHtml(item.title)}</h3>
+            <div class="date-meta">
+              <span>📅 ${escapeHtml(item.date)}</span>
+              <span class="view-prompt">Click to Read ↗</span>
+            </div>
           </div>
         `;
 
         grid.appendChild(card);
       });
+    }
+
+    function getFallbackCover(item) {
+      let icon = '📄';
+      if (item.type === 'pdf') icon = '📑';
+      if (item.type === 'slide') icon = '📊';
+
+      return `<div class="fallback-cover">
+        <div class="fallback-icon">${icon}</div>
+        <div class="fallback-title">${escapeHtml(item.title)}</div>
+      </div>`;
+    }
+
+    function openModal(item) {
+      document.getElementById('modalTitle').textContent = item.title;
+      document.getElementById('modalSubtitle').textContent = `${item.course} • ${item.date}`;
+      document.getElementById('modalQuarter').textContent = item.quarter;
+      document.getElementById('modalExtLink').href = item.url;
+
+      const container = document.getElementById('modalIframeContainer');
+      container.innerHTML = `<iframe src="${item.embed_url}" allowfullscreen></iframe>`;
+
+      const modal = document.getElementById('essayModal');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(event) {
+      if (event && event.target !== event.currentTarget && !event.target.classList.contains('modal-close')) return;
+      const modal = document.getElementById('essayModal');
+      modal.classList.remove('open');
+      document.getElementById('modalIframeContainer').innerHTML = '';
+      document.body.style.overflow = 'auto';
     }
 
     function escapeHtml(str) {
@@ -851,6 +1116,11 @@
       });
       renderCards(type);
     }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
 
     // Initial render
     renderCards();
