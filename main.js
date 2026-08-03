@@ -146,7 +146,7 @@ function initTouchControls() {
     let touchLookId = null;
     let lastTouchX = 0;
     let lastTouchY = 0;
-    let lastPinchDist = null;
+    let initialPinchDist = null;
 
     let lastTapTime = 0;
     let lastTapX = 0;
@@ -155,15 +155,15 @@ function initTouchControls() {
     camera.rotation.order = 'YXZ';
 
     window.addEventListener('touchstart', (e) => {
-        // Multi-Touch (2 fingers) -> Pinch (Backward) / Spread (Forward) initial distance
+        // Multi-Touch (2 fingers) -> Save initial distance for Spread (Forward) / Pinch (Backward)
         if (e.touches.length === 2) {
             const t1 = e.touches[0];
             const t2 = e.touches[1];
-            lastPinchDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+            initialPinchDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
             isFocusingArtwork = false;
             isViewingArtwork = false;
         } else {
-            lastPinchDist = null;
+            initialPinchDist = null;
         }
 
         for (let i = 0; i < e.changedTouches.length; i++) {
@@ -185,24 +185,35 @@ function initTouchControls() {
             const t2 = e.touches[1];
             const currentDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
 
-            if (lastPinchDist !== null) {
-                const deltaDist = currentDist - lastPinchDist;
+            if (initialPinchDist !== null) {
+                const totalDelta = currentDist - initialPinchDist;
 
-                if (deltaDist > 2.0) {
-                    // Moving APART (spreading) -> Move Forward
+                if (totalDelta > 15) {
+                    // Spread outward (>15px) -> Move Forward
                     moveForward = true;
-                    moveBackward = false;
+                    if (!document.getElementById('btnDown')?.classList.contains('active')) {
+                        moveBackward = false;
+                    }
                     isFocusingArtwork = false;
                     isViewingArtwork = false;
-                } else if (deltaDist < -2.0) {
-                    // Moving CLOSER (pinching) -> Move Backward
+                } else if (totalDelta < -15) {
+                    // Pinch inward (<-15px) -> Move Backward
                     moveBackward = true;
-                    moveForward = false;
+                    if (!document.getElementById('btnUp')?.classList.contains('active')) {
+                        moveForward = false;
+                    }
                     isFocusingArtwork = false;
                     isViewingArtwork = false;
+                } else {
+                    // Neutral deadzone -> Stop gesture movement
+                    if (!document.getElementById('btnUp')?.classList.contains('active')) {
+                        moveForward = false;
+                    }
+                    if (!document.getElementById('btnDown')?.classList.contains('active')) {
+                        moveBackward = false;
+                    }
                 }
             }
-            lastPinchDist = currentDist;
         }
 
         // 1-Finger Drag to Look Around
@@ -231,7 +242,7 @@ function initTouchControls() {
 
     const endTouchLook = (e) => {
         if (e.touches.length < 2) {
-            lastPinchDist = null;
+            initialPinchDist = null;
             if (!document.getElementById('btnUp')?.classList.contains('active')) {
                 moveForward = false;
             }
