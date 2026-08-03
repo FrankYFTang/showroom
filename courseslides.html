@@ -379,6 +379,7 @@
         title: "Graphic Design Drawing Portfolio",
         slideId: "1SRhy3gFKXhhKyx8Sp76jx6Do7kuagMQMD_M8etNb8kE",
         term: "Summer 2026",
+        school: "Foothill College Studio Art",
         cover: "images/slides/gid31_cover.jpg",
         desc: "Surrealist self-portraiture, micron pen drafting, vector illustration, and typography integration."
       },
@@ -388,6 +389,7 @@
         title: "Outdoor Landscape Painting Portfolio",
         slideId: "1PK92nFcnF0mp-Osh0Nx_9nLXqLolZHIXXwNVrDfvl_Q",
         term: "Spring 2026",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art19g_cover.jpg",
         desc: "Plein air landscape painting in Northern California, light studies, and atmospheric color."
       },
@@ -397,6 +399,7 @@
         title: "3-D Foundations Final Portfolio",
         slideId: "189yPzX6l5ADpDrrQq2rbmEUicMB9moNvfZOiIaWbTms",
         term: "Spring 2026",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art5b_cover.jpg",
         desc: "Spatial form, volumetric sculpture, relief carving, and 3-dimensional material construction."
       },
@@ -406,6 +409,7 @@
         title: "Acrylic Painting I Final Portfolio",
         slideId: "1c2q206SQ0QK8YDp2_pw95s9kEGID19DU1KDQ5LInMUc",
         term: "Winter 2026",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art19b_cover.jpg",
         desc: "Acrylic layering, quick-drying color dynamics, and multi-media canvas foundations."
       },
@@ -415,6 +419,7 @@
         title: "Oil Painting II Final Portfolio",
         slideId: "15ySyIM3QIpoTx598OCNpPNQiw9jl8DPzWTCyDSx_r7Q",
         term: "Fall 2025",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art19c_cover.jpg",
         desc: "Advanced oil portraiture exploration, large-scale glazing, and conceptual series development."
       },
@@ -424,6 +429,7 @@
         title: "Independent Study Final Portfolio (71R)",
         slideId: "1KwgZtadxBlPD5g2J_Bb65RVndOU_oEwW-F_xkWcQq9o",
         term: "Fall 2025",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art71r_cover.jpg",
         desc: "Advanced independent studio project focusing on texture, found materials, and portraiture."
       },
@@ -433,6 +439,7 @@
         title: "Independent Study Final Portfolio (70R)",
         slideId: "1iVplw_sx6JCV7fEHqyX9QYuY8KL62LdR5CwQnZfsvsA",
         term: "Summer 2025",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art70r_cover.jpg",
         desc: "Self-directed studio research exploring Asian representation and large-scale canvas work."
       },
@@ -442,6 +449,7 @@
         title: "Watercolor II Final Portfolio",
         slideId: "1URitnjb3vZy4i36Cd868cX_mQcsDYy4UFXqMTVBdnG8",
         term: "Spring 2025",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art47b_cover.jpg",
         desc: "Advanced watercolor portraiture, gouache highlights, and complex wet-media compositions."
       },
@@ -451,6 +459,7 @@
         title: "Representational Drawing Final Portfolio",
         slideId: "1-ePzw2FMjtuH8Yz3_OmlCAzGRcdoZTrVhYgjrghya_U",
         term: "Winter 2025",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art4c_cover.jpg",
         desc: "Proportion grids, contour studies, charcoal value modeling, and anatomical figure drawing."
       },
@@ -460,6 +469,7 @@
         title: "Color Theory Final Portfolio",
         slideId: "1CpInb_zReISycFL6uzxHDiZ7PLJ-q9VMyf4OeLbN0fY",
         term: "Winter 2025",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art20_cover.jpg",
         desc: "Color relativity, chromatic harmony, Munsell value charts, and psychological color application."
       },
@@ -469,6 +479,7 @@
         title: "Oil Painting I Final Portfolio",
         slideId: "1afPyfkVC7B_yR-CTn_WTRYkH1JCzbouOZ-1jhyhZrgY",
         term: "Fall 2024",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art19a_cover.jpg",
         desc: "Complete studio progression of oil painting studies, value block-ins, and portrait compositions."
       },
@@ -478,8 +489,19 @@
         title: "Watercolor I Final Portfolio",
         slideId: "1yDzeKBdMLKW72tQFilXZxXcyW9TijE9I_hrt_qTYmAA",
         term: "Summer 2024",
+        school: "Foothill College Studio Art",
         cover: "images/slides/art47a_cover.jpg",
         desc: "Transparent washes, wet-on-wet technique, negative space control, and ink accents."
+      },
+      {
+        id: "arts8",
+        code: "ARTS 8",
+        title: "Two-Dimensional Design Final Portfolio",
+        slideId: "1Jb7Yzt4Q2M45c_kVPx0-EGCKT29pU9Pc1tqX-WXuIr8",
+        term: "Winter 2023",
+        school: "De Anza College Studio Art",
+        cover: "images/slides/arts8_cover.jpg",
+        desc: "Fundamental principles of 2D visual design, black & white composition, line weight, balance, and spatial organization."
       }
     ];
 
@@ -493,6 +515,8 @@
         card.style.cursor = "pointer";
         card.onclick = () => openSlidesModal(deck.slideId, `${deck.code}: ${deck.title}`);
 
+        const schoolName = deck.school || "Foothill College Studio Art";
+
         card.innerHTML = `
           <div class="img-container">
             <div class="badge-group">
@@ -503,7 +527,7 @@
           </div>
           <div class="card-body">
             <h3 class="art-title">${deck.code}: ${deck.title}</h3>
-            <div class="art-meta">🗓️ ${deck.term} • Foothill College Studio Art</div>
+            <div class="art-meta">🗓️ ${deck.term} • ${schoolName}</div>
             <p class="art-desc" style="margin-bottom:0;">${deck.desc}</p>
           </div>
         `;
