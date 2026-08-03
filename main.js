@@ -33,6 +33,7 @@ const audioDevices = [];
 const objects = [];
 
 let raycaster;
+let isMobileActive = false;
 
 let moveForward = false;
 let moveBackward = false;
@@ -92,21 +93,142 @@ function initControls() {
 
     const blocker = document.getElementById( 'blocker' );
     const instructions = document.getElementById( 'instructions' );
+    const mobileUI = document.getElementById( 'mobileControls' );
+
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.innerWidth <= 1024);
 
     instructions.addEventListener( 'click', function () {
-	controls.lock();
+        if (isTouchDevice) {
+            isMobileActive = true;
+            instructions.style.display = 'none';
+            blocker.style.display = 'none';
+            if (mobileUI) mobileUI.style.display = 'block';
+        } else {
+            controls.lock();
+        }
     } );
 
     controls.addEventListener( 'lock', function () {
         instructions.style.display = 'none';
         blocker.style.display = 'none';
+        if (mobileUI && isTouchDevice) mobileUI.style.display = 'block';
     } );
+
     controls.addEventListener( 'unlock', function () {
-        blocker.style.display = 'block';
-	instructions.style.display = '';
+        if (!isTouchDevice) {
+            blocker.style.display = 'block';
+            instructions.style.display = '';
+            if (mobileUI) mobileUI.style.display = 'none';
+        }
     } );
+
+    const pauseBtn = document.getElementById( 'mobilePauseBtn' );
+    if (pauseBtn) {
+        pauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isMobileActive = false;
+            if (controls.isLocked) controls.unlock();
+            blocker.style.display = 'block';
+            instructions.style.display = '';
+            if (mobileUI) mobileUI.style.display = 'none';
+        });
+    }
+
     scene.add( controls.object );
+    initTouchControls();
 }
+
+function initTouchControls() {
+    let touchLookId = null;
+    let lastTouchX = 0;
+    let lastTouchY = 0;
+
+    camera.rotation.order = 'YXZ';
+
+    window.addEventListener('touchstart', (e) => {
+        for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            if (!touch.target.closest('.touch-control-ui') && !touch.target.closest('#instructions')) {
+                if (touchLookId === null) {
+                    touchLookId = touch.identifier;
+                    lastTouchX = touch.clientX;
+                    lastTouchY = touch.clientY;
+                }
+            }
+        }
+    }, { passive: false });
+
+    window.addEventListener('touchmove', (e) => {
+        for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            if (touch.identifier === touchLookId) {
+                const dx = touch.clientX - lastTouchX;
+                const dy = touch.clientY - lastTouchY;
+
+                camera.rotation.y -= dx * 0.0035;
+                camera.rotation.x -= dy * 0.0035;
+
+                const maxPitch = Math.PI / 2 - 0.05;
+                camera.rotation.x = Math.max(-maxPitch, Math.min(maxPitch, camera.rotation.x));
+
+                lastTouchX = touch.clientX;
+                lastTouchY = touch.clientY;
+            }
+        }
+    }, { passive: false });
+
+    const endTouchLook = (e) => {
+        for (let i = 0; i < e.changedTouches.length; i++) {
+            if (e.changedTouches[i].identifier === touchLookId) {
+                touchLookId = null;
+            }
+        }
+    };
+
+    window.addEventListener('touchend', endTouchLook, { passive: true });
+    window.addEventListener('touchcancel', endTouchLook, { passive: true });
+
+    const bindBtn = (id, startCb, endCb) => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+
+        const start = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            btn.classList.add('active');
+            startCb();
+        };
+
+        const end = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            btn.classList.remove('active');
+            endCb();
+        };
+
+        btn.addEventListener('touchstart', start, { passive: false });
+        btn.addEventListener('touchend', end, { passive: false });
+        btn.addEventListener('touchcancel', end, { passive: false });
+
+        btn.addEventListener('mousedown', start);
+        btn.addEventListener('mouseup', end);
+        btn.addEventListener('mouseleave', end);
+    };
+
+    bindBtn('btnUp', () => { moveForward = true; }, () => { moveForward = false; });
+    bindBtn('btnDown', () => { moveBackward = true; }, () => { moveBackward = false; });
+    bindBtn('btnLeft', () => { moveLeft = true; }, () => { moveLeft = false; });
+    bindBtn('btnRight', () => { moveRight = true; }, () => { moveRight = false; });
+
+    bindBtn('btnShiftUp', () => { moveUp = true; velocity.y = verticalShift * scale; }, () => { moveUp = false; });
+    bindBtn('btnShiftDown', () => { moveDown = true; velocity.y = verticalShift * scale; }, () => { moveDown = false; });
+
+    bindBtn('btnJump', () => {
+        if (canJump === true) velocity.y = wallHeight * jumpNumOfWall * scale;
+        canJump = false;
+    }, () => {});
+}
+
 function initKeyEvents() {
     const onKeyDown = function ( event ) {
 	switch ( event.code ) {
@@ -730,7 +852,7 @@ function onWindowResize() {
 function animate() {
 	const time = performance.now();
 
-	if ( controls.isLocked === true ) {
+	if ( controls.isLocked === true || isMobileActive === true ) {
 		raycaster.ray.origin.copy( controls.object.position );
 		raycaster.ray.origin.y -= cameraY*scale;
 
