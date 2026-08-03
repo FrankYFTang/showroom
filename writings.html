@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art Analysis Essays & Research Papers — Frank Yung-Fong Tang (譚永鋒)</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #120b0a;
+      --card-bg: #1a1211;
+      --card-border: #2a1f1d;
+      --accent-gold: #d4af37;
+      --accent-copper: #c87533;
+      --text-main: #e6dfdd;
+      --text-muted: #a39592;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 30px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .artist-tagline {
+      font-size: 0.95rem;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 30px 0 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      color: #ffffff;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-btn {
+      background: var(--card-bg);
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      color: var(--accent-gold);
+      border-color: var(--accent-gold);
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .type-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: lowercase;
+      letter-spacing: 0.5px;
+    }
+
+    .type-badge.doc {
+      background: rgba(66, 133, 244, 0.15);
+      color: #609af8;
+      border: 1px solid rgba(66, 133, 244, 0.3);
+    }
+
+    .type-badge.pdf {
+      background: rgba(234, 67, 53, 0.15);
+      color: #f27267;
+      border: 1px solid rgba(234, 67, 53, 0.3);
+    }
+
+    .type-badge.slide {
+      background: rgba(251, 188, 4, 0.15);
+      color: #fccf4d;
+      border: 1px solid rgba(251, 188, 4, 0.3);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+      gap: 25px;
+      margin-bottom: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .essay-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s ease;
+    }
+
+    .essay-card:hover {
+      border-color: var(--accent-gold);
+    }
+
+    .card-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .card-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      gap: 10px;
+    }
+
+    .essay-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      color: #ffffff;
+      line-height: 1.35;
+    }
+
+    .meta-line {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .course-tag {
+      color: var(--accent-copper);
+      font-weight: 500;
+    }
+
+    .date-tag {
+      opacity: 0.8;
+      margin-left: 8px;
+    }
+
+    .card-body {
+      position: relative;
+      width: 100%;
+      height: 480px;
+      background: #0d0807;
+    }
+
+    .card-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .card-footer {
+      padding: 12px 20px;
+      background: rgba(0,0,0,0.2);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ext-link {
+      color: var(--accent-gold);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .ext-link:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <h1>Frank Yung-Fong Tang / 譚永鋒</h1>
+    <p class="artist-tagline">Art Analysis Essays & Research Papers • De Anza & Foothill Colleges</p>
+  </header>
+
+  <!-- Main Section -->
+  <main>
+    <div class="section-header">
+      <h2 class="section-title">Art History & Humanities Papers</h2>
+      
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterType('all')">All</button>
+        <button class="filter-btn" onclick="filterType('doc')">📄 doc</button>
+        <button class="filter-btn" onclick="filterType('pdf')">📑 pdf</button>
+        <button class="filter-btn" onclick="filterType('slide')">📊 slide</button>
+      </div>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid">
+      <!-- Cards will be populated dynamically -->
+    </div>
+  </main>
+
+  <script>
+    const essaysData = [
+  {
+    "title": "ART2F Extra Credit 2   Artistic Style of Salman Toor update (2)",
+    "course": "ARTS 2F: History of Art (Multicultural Arts in the U.S.)",
+    "quarter": "Summer 2022",
+    "date": "Summer 2022",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ART2F Extra Credit 2 - Artistic Style of Salman Toor update (2).pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ART2F Extra Credit 2 - Artistic Style of Salman Toor update (2).pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS2F Final papers Salman Toor",
+    "course": "ARTS 2F: History of Art (Multicultural Arts in the U.S.)",
+    "quarter": "Summer 2022",
+    "date": "Summer 2022",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS2F Final papers Salman Toor.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS2F Final papers Salman Toor.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS3F Extra Credit 1 Assignment Group Exhibit",
+    "course": "ARTS 2F: History of Art (Multicultural Arts in the U.S.)",
+    "quarter": "Summer 2022",
+    "date": "Summer 2022",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS3F Extra Credit 1 Assignment Group Exhibit.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS3F Extra Credit 1 Assignment Group Exhibit.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Artistic Style of Salman Toor",
+    "course": "ARTS 2F: History of Art (Multicultural Arts in the U.S.)",
+    "quarter": "Summer 2022",
+    "date": "Aug 5, 2022",
+    "url": "https://github.com/FrankYFTang/FrankYungFongTangArt/blob/main/ARTS2F/ART2F%20Extra%20Credit%202%20-%20Artistic%20Style%20of%20Salman%20Toor%20update%20(2",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ART2F%20Extra%20Credit%202%20-%20Artistic%20Style%20of%20Salman%20Toor%20update%20(2&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Comparison of Shape Usages in the \u201cCollective Resilience: Asian American Artists Honoring Our Community\u2019s Strength and Unity\u201d Exhibition",
+    "course": "ARTS 2F: History of Art (Multicultural Arts in the U.S.)",
+    "quarter": "Summer 2022",
+    "date": "Aug 5, 2022",
+    "url": "https://github.com/FrankYFTang/FrankYungFongTangArt/blob/main/ARTS2F/Extra%20Credit%203%20Assignment-%20Analysis%20of%20Formal%20Element%20in%20Three%20Arts%20(3",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/Extra%20Credit%203%20Assignment-%20Analysis%20of%20Formal%20Element%20in%20Three%20Arts%20(3&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Extra Credit 3 Assignment  Analysis of Formal Element in Three Arts (3)",
+    "course": "ARTS 2F: History of Art (Multicultural Arts in the U.S.)",
+    "quarter": "Summer 2022",
+    "date": "Summer 2022",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/Extra Credit 3 Assignment- Analysis of Formal Element in Three Arts (3).pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/Extra Credit 3 Assignment- Analysis of Formal Element in Three Arts (3).pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Review of Paintings in \u201cSalman Toor: How Will I Know\u201d Exhibit",
+    "course": "ARTS 2F: History of Art (Multicultural Arts in the U.S.)",
+    "quarter": "Summer 2022",
+    "date": "Aug 5, 2022",
+    "url": "https://github.com/FrankYFTang/FrankYungFongTangArt/blob/main/ARTS2F/ARTS2F%20Final%20papers%20Salman%20Toor.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS2F%20Final%20papers%20Salman%20Toor.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "The \u201cBay Area Walls\u201d Group Exhibition at SFMOMA",
+    "course": "ARTS 2F: History of Art (Multicultural Arts in the U.S.)",
+    "quarter": "Summer 2022",
+    "date": "Aug 5, 2022",
+    "url": "https://github.com/FrankYFTang/FrankYungFongTangArt/blob/main/ARTS2F/ARTS3F%20Extra%20Credit%201%20Assignment%20Group%20Exhibit.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2F/ARTS3F%20Extra%20Credit%201%20Assignment%20Group%20Exhibit.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Slides",
+    "course": "ARTS 2G: History of Art: Arts of Asia",
+    "quarter": "Summer 2022",
+    "date": "Aug 5, 2022",
+    "url": "https://docs.google.com/presentation/d/1J7Qdm6dm2smtzydl7BSw6KTXRY7At5IDe9-tdqQlD38",
+    "embed_url": "https://docs.google.com/presentation/d/1J7Qdm6dm2smtzydl7BSw6KTXRY7At5IDe9-tdqQlD38/embed?start=false&loop=false&delayms=3000",
+    "type": "slide"
+  },
+  {
+    "title": "The Composition and Usage of Irworobongdo, Five Peaks Screen",
+    "course": "ARTS 2G: History of Art: Arts of Asia",
+    "quarter": "Summer 2022",
+    "date": "Aug 5, 2022",
+    "url": "https://github.com/FrankYFTang/FrankYungFongTangArt/blob/main/ARTS2G/The_Composition_and_Usage_of_Irworobongdo_Five_Peaks_Screen_in_Korean_Culture.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2G/The_Composition_and_Usage_of_Irworobongdo_Five_Peaks_Screen_in_Korean_Culture.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "*Ginevra de\u2019 Benci* (c.1474/1478) by LEONARDO DA VINCI, November 23, 2022, Frank Yung-fong Tang",
+    "course": "ARTS 2B: History of Art: Europe During the Middle Ages and the Renaissance",
+    "quarter": "Fall 2022",
+    "date": "Dec 16, 2022",
+    "url": "https://drive.google.com/file/d/1xtDMSKU9OOAw8v4i56w2LlgTHXClmB5L/view",
+    "embed_url": "https://drive.google.com/file/d/1xtDMSKU9OOAw8v4i56w2LlgTHXClmB5L/preview",
+    "type": "pdf"
+  },
+  {
+    "title": "A Letter To Anita Lily Pollitzer From Georgia O\u2019Keeffe, October 25, 2022, Frank Yung-fong Tang",
+    "course": "ARTS 3TC: Women and Art",
+    "quarter": "Fall 2022",
+    "date": "Dec 16, 2022",
+    "url": "https://drive.google.com/file/d/1XeZqhUDDUSgmiJOg_4FftAJ3f8XL0IBv/view?usp=sharing",
+    "embed_url": "https://drive.google.com/file/d/1XeZqhUDDUSgmiJOg_4FftAJ3f8XL0IBv/preview",
+    "type": "pdf"
+  },
+  {
+    "title": "Journal 2- Lee Krasner, The Seasons, oil and house paint on canvas, 1957",
+    "course": "ARTS 3TC: Women and Art",
+    "quarter": "Fall 2022",
+    "date": "Dec 16, 2022",
+    "url": "https://drive.google.com/file/d/1owtnrfFJ4dRGvb8YaQUdYjATHN4sMWjg/view",
+    "embed_url": "https://drive.google.com/file/d/1owtnrfFJ4dRGvb8YaQUdYjATHN4sMWjg/preview",
+    "type": "pdf"
+  },
+  {
+    "title": "Museum Visit: Charlayne Hunter-Gault 1961 by Joseph Schwartz, Dec 16, 2022, Frank Yung-fong Tang",
+    "course": "ARTS 3TC: Women and Art",
+    "quarter": "Fall 2022",
+    "date": "Dec 16, 2022",
+    "url": "https://drive.google.com/file/d/15I_-2ET1SX4cuont3J_ZejCZOo1CQtfN/view",
+    "embed_url": "https://drive.google.com/file/d/15I_-2ET1SX4cuont3J_ZejCZOo1CQtfN/preview",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS 1B Final Paper",
+    "course": "ARTS 1B: Architecture Past and Present",
+    "quarter": "Winter 2023",
+    "date": "Winter 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Final Paper.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Final Paper.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS 1B Final cite",
+    "course": "ARTS 1B: Architecture Past and Present",
+    "quarter": "Winter 2023",
+    "date": "Winter 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Final-cite.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Final-cite.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS 1B Midterm",
+    "course": "ARTS 1B: Architecture Past and Present",
+    "quarter": "Winter 2023",
+    "date": "Winter 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Midterm.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS1B/ARTS 1B Midterm.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS 2A Extra Credit",
+    "course": "ARTS 2A: History of Art: Europe from Prehistory through Early Christianity",
+    "quarter": "Winter 2023",
+    "date": "Winter 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2A/ARTS 2A Extra Credit.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2A/ARTS 2A Extra Credit.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS 2A Paper",
+    "course": "ARTS 2A: History of Art: Europe from Prehistory through Early Christianity",
+    "quarter": "Winter 2023",
+    "date": "Winter 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2A/ARTS 2A Paper.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2A/ARTS 2A Paper.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS 2D Final",
+    "course": "ARTS 2D: History of Art: Europe and the United States from Post-Impressionism to the Present",
+    "quarter": "Winter 2023",
+    "date": "Winter 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS 2D Final.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS 2D Final.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS 2D Midterm",
+    "course": "ARTS 2D: History of Art: Europe and the United States from Post-Impressionism to the Present",
+    "quarter": "Winter 2023",
+    "date": "Winter 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS 2D Midterm.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS 2D Midterm.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS2DFinalPaper",
+    "course": "ARTS 2D: History of Art: Europe and the United States from Post-Impressionism to the Present",
+    "quarter": "Winter 2023",
+    "date": "Winter 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS2DFinalPaper.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2D/ARTS2DFinalPaper.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS2CPaper",
+    "course": "ARTS 2C: History of Art: Europe from the Baroque Period Through Impressionism",
+    "quarter": "Spring 2023",
+    "date": "Spring 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/ARTS2CPaper.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/ARTS2CPaper.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS2CWeek2Writing",
+    "course": "ARTS 2C: History of Art: Europe from the Baroque Period Through Impressionism",
+    "quarter": "Spring 2023",
+    "date": "Spring 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/ARTS2CWeek2Writing.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/ARTS2CWeek2Writing.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Arts 2C Midterm",
+    "course": "ARTS 2C: History of Art: Europe from the Baroque Period Through Impressionism",
+    "quarter": "Spring 2023",
+    "date": "Spring 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/Arts 2C Midterm.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2C/Arts 2C Midterm.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS 2J EC1AKMasks",
+    "course": "ARTS 2J: History of Art: Arts of Africa, Oceania and Native North America",
+    "quarter": "Fall 2023",
+    "date": "Fall 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/ARTS 2J EC1AKMasks.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/ARTS 2J EC1AKMasks.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ARTS 2J EC2AnimalMasks",
+    "course": "ARTS 2J: History of Art: Arts of Africa, Oceania and Native North America",
+    "quarter": "Fall 2023",
+    "date": "Fall 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/ARTS 2J EC2AnimalMasks.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/ARTS 2J EC2AnimalMasks.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Project1Proposal",
+    "course": "ARTS 2J: History of Art: Arts of Africa, Oceania and Native North America",
+    "quarter": "Fall 2023",
+    "date": "Fall 2023",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/Project1Proposal.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/ARTS2J/Project1Proposal.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ExtraCreditLocalGallery rev2 Part1",
+    "course": "HUMI 16: Arts, Ideas & Values",
+    "quarter": "Winter 2024",
+    "date": "Winter 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/ExtraCreditLocalGallery-rev2-Part1.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/ExtraCreditLocalGallery-rev2-Part1.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "ExtraCreditLocalGallery rev2 Part2",
+    "course": "HUMI 16: Arts, Ideas & Values",
+    "quarter": "Winter 2024",
+    "date": "Winter 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/ExtraCreditLocalGallery-rev2-Part2.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/ExtraCreditLocalGallery-rev2-Part2.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Week 11 Navigating Art & Visual Culture",
+    "course": "HUMI 16: Arts, Ideas & Values",
+    "quarter": "Winter 2024",
+    "date": "Winter 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week 11 Navigating Art & Visual Culture.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week 11 Navigating Art & Visual Culture.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Week10 Explore Public Art",
+    "course": "HUMI 16: Arts, Ideas & Values",
+    "quarter": "Winter 2024",
+    "date": "Winter 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week10 Explore Public Art.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week10 Explore Public Art.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Week10Spotlight on Humanities",
+    "course": "HUMI 16: Arts, Ideas & Values",
+    "quarter": "Winter 2024",
+    "date": "Winter 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week10Spotlight on Humanities.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week10Spotlight on Humanities.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Week7 Explore Architecture and Film",
+    "course": "HUMI 16: Arts, Ideas & Values",
+    "quarter": "Winter 2024",
+    "date": "Winter 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week7 Explore Architecture and Film.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week7 Explore Architecture and Film.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Week8 Explore Art and Inequality",
+    "course": "HUMI 16: Arts, Ideas & Values",
+    "quarter": "Winter 2024",
+    "date": "Winter 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week8 Explore Art and Inequality.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week8 Explore Art and Inequality.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Week8 Thematic Collage",
+    "course": "HUMI 16: Arts, Ideas & Values",
+    "quarter": "Winter 2024",
+    "date": "Winter 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week8 Thematic Collage.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week8 Thematic Collage.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Week9 Explore Art of the 20th Century",
+    "course": "HUMI 16: Arts, Ideas & Values",
+    "quarter": "Winter 2024",
+    "date": "Winter 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week9 Explore Art of the 20th Century.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI16/Week9 Explore Art of the 20th Century.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Beyond Aesthetics: Magnifying the Circumscription of Art",
+    "course": "HUMI 15: Discussion on the Arts",
+    "quarter": "Fall 2024",
+    "date": "October 18, 2024",
+    "url": "https://docs.google.com/document/d/1QDWFXtfFiMcn2JmLlkGSEFyRO1xEFafNWZdxIBr8Nu4",
+    "embed_url": "https://docs.google.com/document/d/1QDWFXtfFiMcn2JmLlkGSEFyRO1xEFafNWZdxIBr8Nu4/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Hung Liu: Reclaiming Faces, Reframing History",
+    "course": "HUMI 15: Discussion on the Arts",
+    "quarter": "Fall 2024",
+    "date": "October 18, 2024",
+    "url": "https://docs.google.com/document/d/1miG9OiZPchUrqu9cYUwKL965OZokPYonzAs6BMgiYqE/edit?usp=sharing",
+    "embed_url": "https://docs.google.com/document/d/1miG9OiZPchUrqu9cYUwKL965OZokPYonzAs6BMgiYqE/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Nature, God\u2019s Artistic Masterpiece, Outshine Artworks Made by Any Artists",
+    "course": "HUMI 15: Discussion on the Arts",
+    "quarter": "Fall 2024",
+    "date": "October 18, 2024",
+    "url": "https://docs.google.com/document/d/1DmCTxJavnqs5tSeuhmmm3gwdJrIcAVAbwK8190Cxa2U",
+    "embed_url": "https://docs.google.com/document/d/1DmCTxJavnqs5tSeuhmmm3gwdJrIcAVAbwK8190Cxa2U/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Extra Credit Option: Explore What Matters",
+    "course": "HUMI 1: Creative Minds",
+    "quarter": "Fall 2024",
+    "date": "Fall 2024",
+    "url": "https://docs.google.com/document/d/1wAYz2ZS9sNYW9s0CgCgpYzVVSwwzRlDfc1pEPnGFFHA",
+    "embed_url": "https://docs.google.com/document/d/1wAYz2ZS9sNYW9s0CgCgpYzVVSwwzRlDfc1pEPnGFFHA/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Extra Credit Option: Explore an Event- Beyonc\u00e9 Cowboy Carter Tour, Mercedes-Benz Stadium, Atlanta, Georgia",
+    "course": "HUMI 1: Creative Minds",
+    "quarter": "Fall 2024",
+    "date": "Fall 2024",
+    "url": "https://docs.google.com/document/d/1QV3MMCUCTuUI3QAq_8ra26OX8hG_gsIlwfBtfQiZ6go",
+    "embed_url": "https://docs.google.com/document/d/1QV3MMCUCTuUI3QAq_8ra26OX8hG_gsIlwfBtfQiZ6go/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Frank Judging Record",
+    "course": "HUMI 1: Creative Minds",
+    "quarter": "Fall 2024",
+    "date": "Fall 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI1/Frank Judging Record.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI1/Frank Judging Record.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Moon Observation",
+    "course": "HUMI 1: Creative Minds",
+    "quarter": "Fall 2024",
+    "date": "Fall 2024",
+    "url": "https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI1/Moon Observation.pdf",
+    "embed_url": "https://docs.google.com/gview?url=https://raw.githubusercontent.com/FrankYFTang/FrankYungFongTangArt/main/HUMI1/Moon Observation.pdf&embedded=true",
+    "type": "pdf"
+  },
+  {
+    "title": "Femme au chapeau (Woman with a Hat) 1905, Oil on Canvas",
+    "course": "ART 1: Introduction to Art",
+    "quarter": "Fall 2025",
+    "date": "Fall 2025",
+    "url": "https://docs.google.com/document/d/1noNZXXORIcCYECbP3YdVKEa15z_LjqCiEAIO_SUYCuU",
+    "embed_url": "https://docs.google.com/document/d/1noNZXXORIcCYECbP3YdVKEa15z_LjqCiEAIO_SUYCuU/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Longevity Turtle, Elwood Martin Reynolds",
+    "course": "ART 1: Introduction to Art",
+    "quarter": "Fall 2025",
+    "date": "Fall 2025",
+    "url": "https://docs.google.com/document/d/1DXkm-bOPSpobaYk06pdcW_dLP6x7TI-_evf9qFJDKRw",
+    "embed_url": "https://docs.google.com/document/d/1DXkm-bOPSpobaYk06pdcW_dLP6x7TI-_evf9qFJDKRw/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Royal Courts of Justice, Banksy, 2025",
+    "course": "ART 1: Introduction to Art",
+    "quarter": "Fall 2025",
+    "date": "Fall 2025",
+    "url": "https://docs.google.com/document/d/1U3FwPeCaI6dmJG-4DUS-gRZtiunR8xxIMVfTv_GEDpk",
+    "embed_url": "https://docs.google.com/document/d/1U3FwPeCaI6dmJG-4DUS-gRZtiunR8xxIMVfTv_GEDpk/preview",
+    "type": "doc"
+  },
+  {
+    "title": "The Marble Court, Sardis, Turkey (211 AD)",
+    "course": "ART 1: Introduction to Art",
+    "quarter": "Fall 2025",
+    "date": "Fall 2025",
+    "url": "https://docs.google.com/document/d/1cr_ZrUPSHpa7Mq0mNV0yiMREqEiub1fTVCAiDccuKfU",
+    "embed_url": "https://docs.google.com/document/d/1cr_ZrUPSHpa7Mq0mNV0yiMREqEiub1fTVCAiDccuKfU/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Three Fujins, 1995, Hung Liu",
+    "course": "ART 1: Introduction to Art",
+    "quarter": "Fall 2025",
+    "date": "Fall 2025",
+    "url": "https://docs.google.com/document/d/1mY1xdf6nV8ok_ncpAjvllo6OfDOUafCLQTaZLEfP44c",
+    "embed_url": "https://docs.google.com/document/d/1mY1xdf6nV8ok_ncpAjvllo6OfDOUafCLQTaZLEfP44c/preview",
+    "type": "doc"
+  },
+  {
+    "title": "\u201cArtifact Piece\u201d, 1985-7, James Luna",
+    "course": "ART 1: Introduction to Art",
+    "quarter": "Fall 2025",
+    "date": "Fall 2025",
+    "url": "https://docs.google.com/document/d/11sW2vCNW5UgzF1aq7C9pTfc5YIWloxSGcQPcI8OUXto",
+    "embed_url": "https://docs.google.com/document/d/11sW2vCNW5UgzF1aq7C9pTfc5YIWloxSGcQPcI8OUXto/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Polka Dots in Yayoi Kusama\u2019s Works: Pumpkins and Infinite Mirrored Rooms",
+    "course": "ART 2F: Introduction to Asian Art",
+    "quarter": "Winter 2026",
+    "date": "September 12, 2025",
+    "url": "https://docs.google.com/document/d/1FOUe27nFWO2LHzs5EIPFlPMniPaqtXt6WZrQfvngSLc",
+    "embed_url": "https://docs.google.com/document/d/1FOUe27nFWO2LHzs5EIPFlPMniPaqtXt6WZrQfvngSLc/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Ara Pacis Augustae (Altar of Augustan Peace), Rome, Italy, 13-9 BCE",
+    "course": "ART 2AH: Honors History Art:West Prehist-Early Christianity",
+    "quarter": "Spring 2026",
+    "date": "2026-05-01",
+    "url": "https://docs.google.com/document/d/1S0htQAfPOAaxY-TUHQtjH27c2bbaVTqInQavefSZxQc/edit?usp=sharing",
+    "embed_url": "https://docs.google.com/document/d/1S0htQAfPOAaxY-TUHQtjH27c2bbaVTqInQavefSZxQc/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Library of Celsus in Ephesus, Turkey",
+    "course": "ART 2AH: Honors History Art:West Prehist-Early Christianity",
+    "quarter": "Spring 2026",
+    "date": "2026-05-01",
+    "url": "https://docs.google.com/document/d/1LBrTBwEXI_sKFlMrIm5iEkX9lbylVw7hj0F3wHikIgo/edit?usp=sharing",
+    "embed_url": "https://docs.google.com/document/d/1LBrTBwEXI_sKFlMrIm5iEkX9lbylVw7hj0F3wHikIgo/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Queen Nefertari Making an Offering to Isis (c.1290-1224 BCE)",
+    "course": "ART 2AH: Honors History Art:West Prehist-Early Christianity",
+    "quarter": "Spring 2026",
+    "date": "2026-05-01",
+    "url": "https://docs.google.com/document/d/1aFfJixdn8-O34yanVE0iKZRYGdWrZX9XG4GVWTs0Cl0/edit?usp=sharing",
+    "embed_url": "https://docs.google.com/document/d/1aFfJixdn8-O34yanVE0iKZRYGdWrZX9XG4GVWTs0Cl0/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Research Activity 2",
+    "course": "ART 2AH: Honors History Art:West Prehist-Early Christianity",
+    "quarter": "Spring 2026",
+    "date": "2026-05-01",
+    "url": "https://docs.google.com/document/d/1RLXRI5KMUD1vSWKetDiaPi7cdYevMyL6dzN9rdlSNVc/edit?usp=sharing",
+    "embed_url": "https://docs.google.com/document/d/1RLXRI5KMUD1vSWKetDiaPi7cdYevMyL6dzN9rdlSNVc/preview",
+    "type": "doc"
+  },
+  {
+    "title": "The Forming of the Theotokos Icon: The Shifted Image of Mary from a Nursing Mother to a Sitting Queen",
+    "course": "ART 2AH: Honors History Art:West Prehist-Early Christianity",
+    "quarter": "Spring 2026",
+    "date": "2026-05-01",
+    "url": "https://docs.google.com/document/d/1A6VuP_bzx7cDCYwGyq7vALVzkXNkRZmI_yL8Ol7gU4g/edit?usp=sharing",
+    "embed_url": "https://docs.google.com/document/d/1A6VuP_bzx7cDCYwGyq7vALVzkXNkRZmI_yL8Ol7gU4g/preview",
+    "type": "doc"
+  },
+  {
+    "title": "How Painters Motivate their Viewers toward God in Direct, Indirect and Subtle Manners",
+    "course": "ARTS 1A: Introduction To Visual Arts",
+    "quarter": "Spring 2026",
+    "date": "June 26, 2026",
+    "url": "https://docs.google.com/document/d/1MH0c7li0E_l5FCRjjraKzHiGdBneQKvr3brycpcwztA/edit?usp=sharing",
+    "embed_url": "https://docs.google.com/document/d/1MH0c7li0E_l5FCRjjraKzHiGdBneQKvr3brycpcwztA/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Omuaka Ambassador (1999), Rose Kirumira, Concrete",
+    "course": "ARTS 1A: Introduction To Visual Arts",
+    "quarter": "Spring 2026",
+    "date": "June 26, 2026",
+    "url": "https://docs.google.com/document/d/1oi60Qx_DDKnqmaJA_87dJgsx-haxr3540S9Z0QCjD8o/edit?usp=sharing",
+    "embed_url": "https://docs.google.com/document/d/1oi60Qx_DDKnqmaJA_87dJgsx-haxr3540S9Z0QCjD8o/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Omubaka Ambassador (1999), Cement, Rose Kirumira",
+    "course": "ARTS 1A: Introduction To Visual Arts",
+    "quarter": "Spring 2026",
+    "date": "June 26, 2026",
+    "url": "https://docs.google.com/document/d/16gdTVtzEzEWt1oq97Kw6_EPsJyz1HHFgo5O78WZaG2A/edit?usp=sharing",
+    "embed_url": "https://docs.google.com/document/d/16gdTVtzEzEWt1oq97Kw6_EPsJyz1HHFgo5O78WZaG2A/preview",
+    "type": "doc"
+  },
+  {
+    "title": "Unidentified Aegean artist, Male Harp Player, Marble, c. 2700 - 2300 BCE",
+    "course": "ARTS 1A: Introduction To Visual Arts",
+    "quarter": "Spring 2026",
+    "date": "June 26, 2026",
+    "url": "https://docs.google.com/document/d/1CGfFgeb0Rj4-BYBjfaitzIyrn_qE9oVEVcZggyNXL2U/edit?usp=sharing",
+    "embed_url": "https://docs.google.com/document/d/1CGfFgeb0Rj4-BYBjfaitzIyrn_qE9oVEVcZggyNXL2U/preview",
+    "type": "doc"
+  }
+];
+
+    function renderCards(filter = 'all') {
+      const grid = document.getElementById('cardsGrid');
+      grid.innerHTML = '';
+
+      const filtered = essaysData.filter(item => filter === 'all' || item.type === filter);
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'essay-card';
+
+        const badgeClass = item.type;
+
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="card-top-row">
+              <h3 class="essay-title">${escapeHtml(item.title)}</h3>
+              <span class="type-badge ${badgeClass}">${item.type}</span>
+            </div>
+            <div class="meta-line">
+              <span class="course-tag">${escapeHtml(item.course)}</span>
+              <span class="date-tag">• ${escapeHtml(item.date)}</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <iframe src="${item.embed_url}" loading="lazy" allowfullscreen></iframe>
+          </div>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(item.quarter)}</span>
+            <a href="${item.url}" target="_blank" rel="noopener" class="ext-link">Open Full Document ↗</a>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function filterType(type) {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.toLowerCase().includes(type) || (type === 'all' && btn.textContent === 'All')) {
+          btn.classList.add('active');
+        }
+      });
+      renderCards(type);
+    }
+
+    // Initial render
+    renderCards();
+  </script>
+</body>
+</html>
