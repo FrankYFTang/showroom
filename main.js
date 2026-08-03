@@ -44,8 +44,6 @@ let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
-let moveUp = false;
-let moveDown = false;
 let canJump = false;
 
 let prevTime = performance.now();
@@ -271,8 +269,6 @@ function initTouchControls() {
     bindBtn('btnLeft', () => { moveLeft = true; }, () => { moveLeft = false; });
     bindBtn('btnRight', () => { moveRight = true; }, () => { moveRight = false; });
 
-    bindBtn('btnShiftUp', () => { moveUp = true; velocity.y = verticalShift * scale; }, () => { moveUp = false; });
-    bindBtn('btnShiftDown', () => { moveDown = true; velocity.y = verticalShift * scale; }, () => { moveDown = false; });
 
     bindBtn('btnJump', () => {
         if (canJump === true) velocity.y = wallHeight * jumpNumOfWall * scale;
@@ -453,14 +449,6 @@ function initKeyEvents() {
 		if ( canJump === true ) velocity.y = wallHeight*jumpNumOfWall*scale;
 		canJump = false;
 		break;
-	case 'KeyU':
-		moveUp = true;
-		velocity.y = verticalShift*scale;
-		break;
-	case 'KeyM':
-		moveDown = true;
-		velocity.y = verticalShift*scale;
-		break;
 	}
     };
     const onKeyUp = function ( event ) {
@@ -486,12 +474,6 @@ function initKeyEvents() {
 		moveRight = false;
 		break;
 
-	case 'KeyU':
-		moveUp = false;
-		break;
-	case 'KeyM':
-		moveDown = false;
-		break;
 	}
     };
 	
@@ -1062,11 +1044,7 @@ if ( controls.isLocked === true || isMobileActive === true ) {
 				isFocusingArtwork = false;
 			}
 		} else {
-			if (moveUp) {		
-			    velocity.y += 9.8 * 100.0 * delta; // 100.0 = mass
-			} else {	
-			    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
-			}
+			velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
 		}
 
 		raycaster.ray.origin.copy( controls.object.position );
@@ -1111,22 +1089,10 @@ if ( controls.isLocked === true || isMobileActive === true ) {
 		}
 
 		if (!isFocusingArtwork) {
-			if ( moveDown) {
-			    if (controls.object.position.y < (cameraY - verticalShift) * scale ) {
-				velocity.y = 0;
-				controls.object.position.y = (cameraY - verticalShift)*scale;
-			    }
-			} else if ( moveUp ) {
-			    if (controls.object.position.y > (cameraY + verticalShift) * scale ) {
-				velocity.y = 0;
-				controls.object.position.y = (cameraY + verticalShift)*scale;
-			    }
-			} else {
-			    if (controls.object.position.y < cameraY*scale ) {
+			if (controls.object.position.y < cameraY*scale) {
 				velocity.y = 0;
 				controls.object.position.y = cameraY*scale;
 				canJump = true;
-			    }
 			}
 		}
 	}
