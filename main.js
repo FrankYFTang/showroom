@@ -35,6 +35,7 @@ const objects = [];
 let raycaster;
 let isMobileActive = false;
 let isFocusingArtwork = false;
+let isViewingArtwork = false;
 let focusTargetPos = new THREE.Vector3();
 let focusTargetRotation = new THREE.Euler();
 let isMuted = false;
@@ -157,6 +158,7 @@ function initTouchControls() {
         if (e.touches.length >= 2) {
             moveForward = true;
             isFocusingArtwork = false;
+            isViewingArtwork = false;
         }
 
         for (let i = 0; i < e.changedTouches.length; i++) {
@@ -190,6 +192,7 @@ function initTouchControls() {
                 // Cancel artwork focus animation if user drags view
                 if (Math.hypot(dx, dy) > 3) {
                     isFocusingArtwork = false;
+            isViewingArtwork = false;
                 }
             }
         }
@@ -244,7 +247,8 @@ function initTouchControls() {
             e.preventDefault();
             e.stopPropagation();
             btn.classList.add('active');
-            isFocusingArtwork = false; // Cancel auto-focus
+            isFocusingArtwork = false;
+            isViewingArtwork = false; // Cancel auto-focus
             startCb();
         };
 
@@ -411,6 +415,7 @@ function focusOnArtwork(hitObject, hitPoint, hitFace) {
     focusTargetRotation.copy(dummyCamera.rotation);
 
     velocity.y = 0; // Reset vertical velocity so gravity doesn't pull camera down
+    isViewingArtwork = false;
     isFocusingArtwork = true;
 }
 
@@ -427,6 +432,7 @@ function initKeyEvents() {
 	case 'ArrowUp':
 	case 'KeyW':
 		isFocusingArtwork = false;
+            isViewingArtwork = false;
 		moveForward = true;
 		break;
 
@@ -456,6 +462,7 @@ function initKeyEvents() {
 	case 'ArrowUp':
 	case 'KeyW':
 		isFocusingArtwork = false;
+            isViewingArtwork = false;
 		moveForward = false;
 		break;
 
@@ -1042,7 +1049,11 @@ if ( controls.isLocked === true || isMobileActive === true ) {
 				currentPos.copy(focusTargetPos);
 				camera.rotation.copy(focusTargetRotation);
 				isFocusingArtwork = false;
+				isViewingArtwork = true; // Hold position steadily at focused artwork
 			}
+		} else if (isViewingArtwork) {
+			velocity.y = 0;
+			controls.object.position.y = focusTargetPos.y;
 		} else {
 			velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
 		}
@@ -1071,7 +1082,7 @@ if ( controls.isLocked === true || isMobileActive === true ) {
 		controls.moveRight( - velocity.x * delta );
 		controls.moveForward( - velocity.z * delta );
 
-		if (!isFocusingArtwork) {
+		if (!isFocusingArtwork && !isViewingArtwork) {
 			controls.object.position.y += ( velocity.y * delta );
 		}
 
@@ -1088,7 +1099,7 @@ if ( controls.isLocked === true || isMobileActive === true ) {
 		     controls.object.position.z = -12*scale;
 		}
 
-		if (!isFocusingArtwork) {
+		if (!isFocusingArtwork && !isViewingArtwork) {
 			if (controls.object.position.y < cameraY*scale) {
 				velocity.y = 0;
 				controls.object.position.y = cameraY*scale;
