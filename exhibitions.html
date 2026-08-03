@@ -564,7 +564,6 @@
 
       modalBody.innerHTML = `
         ${descHtml}
-        ${videoHtml}
         <div style="margin-top:15px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
             <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
@@ -588,6 +587,7 @@
             `).join('')}
           </div>
         </div>
+        ${videoHtml}
       `;
 
       document.getElementById("modalBackdrop").classList.add("open");
