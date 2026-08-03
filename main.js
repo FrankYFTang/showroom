@@ -370,7 +370,7 @@ function focusOnArtwork(hitObject, hitPoint, hitFace) {
     const artworkCenter = new THREE.Vector3();
     hitObject.getWorldPosition(artworkCenter);
 
-    // If object center is too far from hit point (e.g. wall mesh), use hitPoint
+    // If object center is far from hit point (e.g. wall mesh), use hitPoint
     if (artworkCenter.distanceTo(hitPoint) > 40) {
         artworkCenter.copy(hitPoint);
     }
@@ -401,8 +401,12 @@ function focusOnArtwork(hitObject, hitPoint, hitFace) {
     const distForWidth = (w / 2) / (0.90 * Math.tan(hFOVRad / 2));
     const dist = Math.max(distForHeight, distForWidth);
 
-    // 5. Target camera position directly in front of artwork center
-    focusTargetPos.copy(artworkCenter).add(normal.clone().multiplyScalar(dist));
+    // 5. Target camera position directly in front of artwork at the EXACT SAME vertical height (Y) as the center of the image
+    focusTargetPos.set(
+        artworkCenter.x + normal.x * dist,
+        artworkCenter.y, // Same vertical height as center point of image
+        artworkCenter.z + normal.z * dist
+    );
 
     // 6. Target camera orientation looking directly at artwork center
     const dummyCamera = camera.clone();
@@ -410,6 +414,7 @@ function focusOnArtwork(hitObject, hitPoint, hitFace) {
     dummyCamera.lookAt(artworkCenter);
     focusTargetRotation.copy(dummyCamera.rotation);
 
+    velocity.y = 0; // Reset vertical velocity so gravity doesn't pull camera down
     isFocusingArtwork = true;
 }
 
@@ -1039,10 +1044,13 @@ function animate() {
 	const time = performance.now();
 
 if ( controls.isLocked === true || isMobileActive === true ) {
-		// Smooth camera focus animation (90% viewport framing on double-click/double-tap)
+		const delta = ( time - prevTime ) / 1000;
+
+		// Smooth camera focus animation (90% viewport framing & exact Y-height matching)
 		if (isFocusingArtwork) {
 			const currentPos = controls.object.position;
 			currentPos.lerp(focusTargetPos, 0.12);
+			velocity.y = 0; // Zero vertical velocity during focus
 			
 			camera.rotation.x += (focusTargetRotation.x - camera.rotation.x) * 0.12;
 			camera.rotation.y += (focusTargetRotation.y - camera.rotation.y) * 0.12;
@@ -1053,27 +1061,26 @@ if ( controls.isLocked === true || isMobileActive === true ) {
 				camera.rotation.copy(focusTargetRotation);
 				isFocusingArtwork = false;
 			}
+		} else {
+			if (moveUp) {		
+			    velocity.y += 9.8 * 100.0 * delta; // 100.0 = mass
+			} else {	
+			    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+			}
 		}
+
 		raycaster.ray.origin.copy( controls.object.position );
 		raycaster.ray.origin.y -= cameraY*scale;
 
 		const intersections = raycaster.intersectObjects( objects, false );
-
 		const onObject = intersections.length > 0;
-
-		const delta = ( time - prevTime ) / 1000;
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
-		if (moveUp) {		
-		    velocity.y += 9.8 * 100.0 * delta; // 100.0 = mass
-		} else {	
-		    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
-		}
 
 		direction.z = Number( moveForward ) - Number( moveBackward );
 		direction.x = Number( moveRight ) - Number( moveLeft );
-		direction.normalize(); // this ensures consistent movements in all directions
+		direction.normalize();
 
 		if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
 		if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
@@ -1085,7 +1092,11 @@ if ( controls.isLocked === true || isMobileActive === true ) {
 
 		controls.moveRight( - velocity.x * delta );
 		controls.moveForward( - velocity.z * delta );
-		controls.object.position.y += ( velocity.y * delta ); // new behavior
+
+		if (!isFocusingArtwork) {
+			controls.object.position.y += ( velocity.y * delta );
+		}
+
 		if ( controls.object.position.x > (20-wallDepth)*scale ) {
 		     controls.object.position.x = (20-wallDepth)*scale;
 		}
@@ -1098,24 +1109,26 @@ if ( controls.isLocked === true || isMobileActive === true ) {
 		if ( controls.object.position.z < -12*scale ) {
 		     controls.object.position.z = -12*scale;
 		}
-		if ( moveDown) {
-		    if (controls.object.position.y < (cameraY - verticalShift) * scale ) {
-			velocity.y = 0;
-			controls.object.position.y = (cameraY - verticalShift)*scale;
-		    }
-		} else if ( moveUp ) {
-		    if (controls.object.position.y > (cameraY + verticalShift) * scale ) {
-			velocity.y = 0;
-			controls.object.position.y = (cameraY + verticalShift)*scale;
-		    }
-		} else {
-		    if (controls.object.position.y < cameraY*scale ) {
-			velocity.y = 0;
-			controls.object.position.y = cameraY*scale;
-			canJump = true;
-		    }
-		}
 
+		if (!isFocusingArtwork) {
+			if ( moveDown) {
+			    if (controls.object.position.y < (cameraY - verticalShift) * scale ) {
+				velocity.y = 0;
+				controls.object.position.y = (cameraY - verticalShift)*scale;
+			    }
+			} else if ( moveUp ) {
+			    if (controls.object.position.y > (cameraY + verticalShift) * scale ) {
+				velocity.y = 0;
+				controls.object.position.y = (cameraY + verticalShift)*scale;
+			    }
+			} else {
+			    if (controls.object.position.y < cameraY*scale ) {
+				velocity.y = 0;
+				controls.object.position.y = cameraY*scale;
+				canJump = true;
+			    }
+			}
+		}
 	}
 
 	prevTime = time;
