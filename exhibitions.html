@@ -549,6 +549,19 @@
         "https://lh3.googleusercontent.com/pw/AP1GczN6_NvUtiOwy9WRla4csReMBOXkF5ZVfqujOGs3axJdiwLv5CW2STmlJwJZTwJpGySihmj55qidUWxuARiN2s3Bgl98hn5JGa7VUUoHLXamTy8lNMs_=w1200"
 ]
     }
+,
+    {
+        "id": "exhibit_face_head_video",
+        "title": "face & HEAD video exhibition",
+        "venue": "Online Video Exhibition",
+        "dates": "on going",
+        "monthYear": "Ongoing",
+        "description": "🎬 Interactive Video Exhibition — face & HEAD\n\nExplore the dedicated exhibition page:\n👉 <a href='https://franktang.art/facehead.html' target='_blank' rel='noopener' style='color:var(--accent-gold); font-weight:600; text-decoration:underline;'>https://franktang.art/facehead.html</a>",
+        "videoId": "k5HBaLu7EIU",
+        "videoTitle": "face & HEAD video exhibition",
+        "cover": "https://img.youtube.com/vi/k5HBaLu7EIU/hqdefault.jpg",
+        "photos": []
+    }
 ];
 
     let currentAlbumPhotos = [];
@@ -571,7 +584,7 @@
           <div class="card-body">
             <h3 class="art-title">${item.title}</h3>
             <div class="art-meta">📍 ${item.venue}</div>
-            <div class="art-desc">🗓️ ${item.dates} • 📸 ${item.photos.length} Exhibition Photos</div>
+            <div class="art-desc">🗓️ ${item.dates}${item.photos && item.photos.length ? " • 📸 " + item.photos.length + " Exhibition Photos" : " • 🎬 Video Exhibition"}</div>
           </div>
         `;
         grid.appendChild(card);
@@ -585,17 +598,12 @@
       document.getElementById("modalTitle").innerText = item.title;
       document.getElementById("modalSub").innerText = `${item.venue} (${item.dates})`;
 
-      currentAlbumPhotos = item.photos;
-      currentAlbumIndex = 0;
-
-      const modalBody = document.getElementById("modalBody");
-      
       let descHtml = "";
       if (item.description) {
         descHtml = `
           <div style="margin-top:15px; background:rgba(212,175,55,0.05); border:1px solid var(--accent-gold); border-radius:12px; padding:20px; color:var(--text-main); font-size:0.92rem; line-height:1.75; white-space:pre-line;">
             <h4 style="color:var(--accent-gold); font-size:1.05rem; font-family:var(--font-heading); margin-bottom:10px;">
-              📝 Exhibition Overview & Artist Statement
+              📝 Exhibition Overview & Details
             </h4>
             ${item.description}
           </div>
@@ -616,31 +624,44 @@
         `;
       }
 
+      let photosHtml = "";
+      if (item.photos && item.photos.length > 0) {
+        currentAlbumPhotos = item.photos;
+        currentAlbumIndex = 0;
+        photosHtml = `
+          <div style="margin-top:15px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+              <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
+                📸 Google Photos Exhibition Album (${item.photos.length} Photos)
+              </h4>
+              <div style="font-size:0.85rem; color:var(--text-muted);" id="albumCounter">Photo 1 of ${item.photos.length}</div>
+            </div>
+
+            <!-- Main Viewport -->
+            <div style="position:relative; width:100%; height:520px; background:#000; border-radius:8px; overflow:hidden; display:flex; justify-content:center; align-items:center;">
+              <img id="albumMainImg" src="${item.photos[0]}" style="max-width:100%; max-height:100%; object-fit:contain; transition:opacity 0.2s ease;" />
+              
+              <button onclick="stepAlbum(-1)" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center;" title="Previous Photo">❮</button>
+              <button onclick="stepAlbum(1)" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center;" title="Next Photo">❯</button>
+            </div>
+
+            <!-- Filmstrip Reel -->
+            <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
+              ${item.photos.map((url, idx) => `
+                <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        currentAlbumPhotos = [];
+        currentAlbumIndex = 0;
+      }
+
+      const modalBody = document.getElementById("modalBody");
       modalBody.innerHTML = `
         ${descHtml}
-        <div style="margin-top:15px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
-            <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
-              📸 Google Photos Exhibition Album (${item.photos.length} Photos)
-            </h4>
-            <div style="font-size:0.85rem; color:var(--text-muted);" id="albumCounter">Photo 1 of ${item.photos.length}</div>
-          </div>
-
-          <!-- Main Viewport -->
-          <div style="position:relative; width:100%; height:520px; background:#000; border-radius:8px; overflow:hidden; display:flex; justify-content:center; align-items:center;">
-            <img id="albumMainImg" src="${item.photos[0]}" style="max-width:100%; max-height:100%; object-fit:contain; transition:opacity 0.2s ease;" />
-            
-            <button onclick="stepAlbum(-1)" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center;" title="Previous Photo">❮</button>
-            <button onclick="stepAlbum(1)" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center;" title="Next Photo">❯</button>
-          </div>
-
-          <!-- Filmstrip Reel -->
-          <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
-            ${item.photos.map((url, idx) => `
-              <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
-            `).join('')}
-          </div>
-        </div>
+        ${photosHtml}
         ${videoHtml}
       `;
 
