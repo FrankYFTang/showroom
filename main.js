@@ -34,6 +34,9 @@ const objects = [];
 
 let raycaster;
 let isMobileActive = false;
+let isFocusingArtwork = false;
+let focusTargetPos = new THREE.Vector3();
+let focusTargetRotation = new THREE.Euler();
 let isMuted = false;
 let savedVolumes = [];
 
@@ -145,12 +148,17 @@ function initTouchControls() {
     let lastTouchX = 0;
     let lastTouchY = 0;
 
+    let lastTapTime = 0;
+    let lastTapX = 0;
+    let lastTapY = 0;
+
     camera.rotation.order = 'YXZ';
 
     window.addEventListener('touchstart', (e) => {
         // Multi-Touch (2+ fingers) -> Move Forward gesture
         if (e.touches.length >= 2) {
             moveForward = true;
+            isFocusingArtwork = false;
         }
 
         for (let i = 0; i < e.changedTouches.length; i++) {
@@ -180,6 +188,11 @@ function initTouchControls() {
 
                 lastTouchX = touch.clientX;
                 lastTouchY = touch.clientY;
+                
+                // Cancel artwork focus animation if user drags view
+                if (Math.hypot(dx, dy) > 3) {
+                    isFocusingArtwork = false;
+                }
             }
         }
     }, { passive: false });
@@ -196,8 +209,33 @@ function initTouchControls() {
         }
     };
 
-    window.addEventListener('touchend', endTouchLook, { passive: true });
+    window.addEventListener('touchend', (e) => {
+        endTouchLook(e);
+
+        // Double Tap Detection to Focus Artwork (90% screen view)
+        const currentTime = performance.now();
+        const touch = e.changedTouches[0];
+        
+        if (touch && !touch.target.closest('.touch-control-ui') && !touch.target.closest('#instructions')) {
+            const tapDist = Math.hypot(touch.clientX - lastTapX, touch.clientY - lastTapY);
+            const tapInterval = currentTime - lastTapTime;
+
+            if (tapInterval < 300 && tapDist < 40) {
+                triggerArtworkFocus(touch.clientX, touch.clientY);
+            }
+
+            lastTapTime = currentTime;
+            lastTapX = touch.clientX;
+            lastTapY = touch.clientY;
+        }
+    }, { passive: true });
+
     window.addEventListener('touchcancel', endTouchLook, { passive: true });
+
+    // Desktop Double Click Event for Artwork Focus
+    window.addEventListener('dblclick', (e) => {
+        triggerArtworkFocus(e.clientX, e.clientY);
+    });
 
     // Touch D-Pad & Action Buttons Binding Helper
     const bindBtn = (id, startCb, endCb) => {
@@ -208,6 +246,7 @@ function initTouchControls() {
             e.preventDefault();
             e.stopPropagation();
             btn.classList.add('active');
+            isFocusingArtwork = false; // Cancel auto-focus
             startCb();
         };
 
@@ -267,6 +306,30 @@ function initTouchControls() {
     }
 }
 
+function triggerArtworkFocus(clientX, clientY) {
+    const mouse = new THREE.Vector2(
+        (clientX / window.innerWidth) * 2 - 1,
+        -(clientY / window.innerHeight) * 2 + 1
+    );
+
+    const tapRaycaster = new THREE.Raycaster();
+    tapRaycaster.setFromCamera(mouse, camera);
+
+    const intersects = tapRaycaster.intersectObjects(scene.children, true);
+
+    for (let i = 0; i < intersects.length; i++) {
+        const hit = intersects[i];
+        const obj = hit.object;
+
+        // Focus on valid mesh (artwork canvas, frame, label, etc.)
+        if (obj.geometry && obj !== floorMat && obj.type === 'Mesh') {
+            focusOnArtwork(obj, hit.point, hit.face);
+            break;
+        }
+    }
+}
+
+
 function toggleAudioMute() {
     isMuted = !isMuted;
     const btnMute = document.getElementById('btnMute');
@@ -294,6 +357,62 @@ function adjustAudioVolume(factor) {
     });
 }
 
+function focusOnArtwork(hitObject, hitPoint, hitFace) {
+    if (!hitFace) return;
+
+    // 1. Compute surface normal in world coordinates
+    const normal = hitFace.normal.clone().transformDirection(hitObject.matrixWorld).normalize();
+
+    // Ignore horizontal surfaces like floor or ceiling
+    if (Math.abs(normal.y) > 0.8) return;
+
+    // 2. Determine target artwork center in world coordinates
+    const artworkCenter = new THREE.Vector3();
+    hitObject.getWorldPosition(artworkCenter);
+
+    // If object center is too far from hit point (e.g. wall mesh), use hitPoint
+    if (artworkCenter.distanceTo(hitPoint) > 40) {
+        artworkCenter.copy(hitPoint);
+    }
+
+    // 3. Compute 3D bounding box size
+    if (!hitObject.geometry.boundingBox) {
+        hitObject.geometry.computeBoundingBox();
+    }
+    const bbox = hitObject.geometry.boundingBox;
+    const size = new THREE.Vector3();
+    bbox.getSize(size);
+    size.multiply(hitObject.scale);
+
+    const h = (size.y > 1) ? size.y : 22;
+    let w = size.x;
+    if (Math.abs(normal.x) > 0.5) {
+        w = size.z;
+    }
+    if (w <= 1) w = 18;
+
+    // 4. Calculate distance for 90% screen coverage
+    const vFOVRad = THREE.MathUtils.degToRad(camera.fov);
+    const aspect = window.innerWidth / window.innerHeight;
+    const hFOVRad = 2 * Math.atan(Math.tan(vFOVRad / 2) * aspect);
+
+    // Distance to cover 90% (0.90) of screen height & width
+    const distForHeight = (h / 2) / (0.90 * Math.tan(vFOVRad / 2));
+    const distForWidth = (w / 2) / (0.90 * Math.tan(hFOVRad / 2));
+    const dist = Math.max(distForHeight, distForWidth);
+
+    // 5. Target camera position directly in front of artwork center
+    focusTargetPos.copy(artworkCenter).add(normal.clone().multiplyScalar(dist));
+
+    // 6. Target camera orientation looking directly at artwork center
+    const dummyCamera = camera.clone();
+    dummyCamera.position.copy(focusTargetPos);
+    dummyCamera.lookAt(artworkCenter);
+    focusTargetRotation.copy(dummyCamera.rotation);
+
+    isFocusingArtwork = true;
+}
+
 function initKeyEvents() {
     const onKeyDown = function ( event ) {
 	switch ( event.code ) {
@@ -306,6 +425,7 @@ function initKeyEvents() {
 
 	case 'ArrowUp':
 	case 'KeyW':
+		isFocusingArtwork = false;
 		moveForward = true;
 		break;
 
@@ -342,6 +462,7 @@ function initKeyEvents() {
 	switch ( event.code ) {
 	case 'ArrowUp':
 	case 'KeyW':
+		isFocusingArtwork = false;
 		moveForward = false;
 		break;
 
@@ -918,6 +1039,21 @@ function animate() {
 	const time = performance.now();
 
 if ( controls.isLocked === true || isMobileActive === true ) {
+		// Smooth camera focus animation (90% viewport framing on double-click/double-tap)
+		if (isFocusingArtwork) {
+			const currentPos = controls.object.position;
+			currentPos.lerp(focusTargetPos, 0.12);
+			
+			camera.rotation.x += (focusTargetRotation.x - camera.rotation.x) * 0.12;
+			camera.rotation.y += (focusTargetRotation.y - camera.rotation.y) * 0.12;
+			camera.rotation.z += (focusTargetRotation.z - camera.rotation.z) * 0.12;
+
+			if (currentPos.distanceTo(focusTargetPos) < 0.2) {
+				currentPos.copy(focusTargetPos);
+				camera.rotation.copy(focusTargetRotation);
+				isFocusingArtwork = false;
+			}
+		}
 		raycaster.ray.origin.copy( controls.object.position );
 		raycaster.ray.origin.y -= cameraY*scale;
 
