@@ -364,6 +364,51 @@
       opacity: 0.8;
       text-decoration: underline;
     }
+  
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      display: inline-block;
+      padding: 10px 22px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-btn:hover {
+      background-color: #2a1b19;
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.15);
+      text-decoration: none;
+    }
+
+    .nav-btn.primary {
+      background-color: rgba(212, 175, 55, 0.12);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .nav-btn.active {
+      background-color: var(--accent-gold);
+      border-color: var(--accent-gold);
+      color: #000000;
+      font-weight: 600;
+    }
+
   </style>
 </head>
 <body>
@@ -372,6 +417,16 @@
   <header>
     <h1>Frank Yung-Fong Tang / 譚永鋒</h1>
     <p class="artist-tagline">Art Analysis Essays & Research Papers • De Anza & Foothill Colleges</p>
+
+    <nav class="nav-links">
+      <a href="index.html" class="nav-btn primary">← Back to Gallery & Masterpieces</a>
+      <a href="about.html" class="nav-btn">About the Artist & Bio</a>
+      <a href="exhibitions.html" class="nav-btn">Exhibitions</a>
+      <a href="courseslides.html" class="nav-btn">Course Portfolios</a>
+      <a href="writings.html" class="nav-btn active">Art Analysis Essays</a>
+      <a href="https://www.instagram.com/FrankTang.Art" target="_blank" rel="noopener" class="nav-btn">Instagram @FrankTang.Art</a>
+      <a href="https://youtube.com/@franktangart" target="_blank" rel="noopener" class="nav-btn">YouTube @FrankTangArt</a>
+    </nav>
   </header>
 
   <!-- Main Section -->
