@@ -623,6 +623,8 @@
 
       exhibitionsData.forEach(item => {
         const card = document.createElement("article");
+        const cardId = item.id || slugify(item.title);
+        card.id = cardId;
         card.className = "art-card";
         card.onclick = () => openExhibitionModal(item.id);
 
@@ -716,6 +718,7 @@
       `;
 
       document.getElementById("modalBackdrop").classList.add("open");
+      if (exhibitId) window.history.replaceState(null, null, "#" + exhibitId);
     }
 
     function selectAlbumPhoto(idx) {
@@ -756,6 +759,7 @@
 
     function closeModal() {
       document.getElementById("modalBackdrop").classList.remove("open");
+      if (window.location.hash) window.history.replaceState(null, null, window.location.pathname + window.location.search);
       document.getElementById("modalBody").innerHTML = "";
     }
 
@@ -767,7 +771,32 @@
       }
     });
 
+    function slugify(text) {
+      if (!text) return '';
+      return text.toString().toLowerCase().trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[\s_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    function checkHashAndOpen() {
+      const hash = decodeURIComponent(window.location.hash.replace('#', '')).trim();
+      if (!hash) return;
+
+      const targetSlug = slugify(hash);
+      const item = exhibitionsData.find(ex => ex.id === hash || slugify(ex.id || ex.title) === targetSlug);
+
+      if (item) {
+        openExhibitionModal(item.id);
+        const cardId = item.id || slugify(item.title);
+        const el = document.getElementById(cardId);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
     renderExhibitions();
+    setTimeout(checkHashAndOpen, 100);
+    window.addEventListener("hashchange", checkHashAndOpen);
   </script>
 </body>
 </html>
