@@ -172,6 +172,11 @@
       color: #fbcfe8;
     }
 
+    .badge.collage {
+      border-color: #fbbf24;
+      color: #fef3c7;
+    }
+
     .badge.slides {
       border-color: #60a5fa;
       color: #93c5fd;
@@ -548,6 +553,7 @@
       <button class="tab-btn" onclick="filterGallery('cat_drawings')">🐱 Cat Drawings</button>
       <button class="tab-btn" onclick="filterGallery('paper_sculptures')">Paper Sculptures</button>
       <button class="tab-btn" onclick="filterGallery('photography')">Photography</button>
+      <button class="tab-btn" onclick="filterGallery('collages')">✂️ Collages</button>
       <button class="tab-btn" onclick="filterGallery('studies')">Studies & Experiments</button>
       <button class="tab-btn" onclick="filterGallery('all')">All Works</button>
     </div>
@@ -2050,8 +2056,53 @@ title: "Redemption",
         return;
       }
 
+            if (currentFilter === "collages") {
+        document.getElementById("itemCountDisplay").innerText = `Showing ${collagesData.length} Collage Artworks`;
+
+        collagesData.forEach(col => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+          card.id = col.id || slugify(col.title);
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openProcessModal('${col.id}')">
+              <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
+              <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${col.title}</h3>
+              <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
+              ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
+              ${col.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${col.description}</p>` : ''}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        return;
+      }
+
       if (currentFilter === "photography") {
         document.getElementById("itemCountDisplay").innerText = `Showing ${photographyData.length} Photography Collections`;
+
+                collagesData.forEach(col => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+          card.id = col.id || slugify(col.title);
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openProcessModal('${col.id}')">
+              <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
+              <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${col.title}</h3>
+              <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
+              ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
 
         photographyData.forEach(ph => {
           const card = document.createElement("article");
@@ -2101,8 +2152,8 @@ title: "Redemption",
       }
 
       if (currentFilter === "all") {
-        const totalCount = artworksData.length + catDrawingsData.length + paperSculpturesData.length + photographyData.length + studiesData.length;
-        document.getElementById("itemCountDisplay").innerText = `Showing ${totalCount} Total Artworks (${artworksData.length} Selected Works + ${catDrawingsData.length} Cat Drawings + ${paperSculpturesData.length} Paper Sculptures + ${photographyData.length} Photography + ${studiesData.length} Studies)`;
+        const totalCount = artworksData.length + catDrawingsData.length + paperSculpturesData.length + photographyData.length + collagesData.length + studiesData.length;
+        document.getElementById("itemCountDisplay").innerText = `Showing ${totalCount} Total Artworks (${artworksData.length} Selected Works + ${catDrawingsData.length} Cat Drawings + ${paperSculpturesData.length} Paper Sculptures + ${photographyData.length} Photography + ${collagesData.length} Collages + ${studiesData.length} Studies)`;
 
         artworksData.forEach(art => {
           const card = document.createElement("article");
@@ -2162,6 +2213,25 @@ title: "Redemption",
           grid.appendChild(card);
         });
 
+                collagesData.forEach(col => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+          card.id = col.id || slugify(col.title);
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openProcessModal('${col.id}')">
+              <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
+              <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${col.title}</h3>
+              <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
+              ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
         photographyData.forEach(ph => {
           const card = document.createElement("article");
           card.className = "art-card";
@@ -2203,8 +2273,53 @@ title: "Redemption",
         return;
       }
 
+            if (currentFilter === "collages") {
+        document.getElementById("itemCountDisplay").innerText = `Showing ${collagesData.length} Collage Artworks`;
+
+        collagesData.forEach(col => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+          card.id = col.id || slugify(col.title);
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openProcessModal('${col.id}')">
+              <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
+              <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${col.title}</h3>
+              <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
+              ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
+              ${col.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${col.description}</p>` : ''}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        return;
+      }
+
       if (currentFilter === "photography") {
         document.getElementById("itemCountDisplay").innerText = `Showing ${photographyData.length} Photography Collections`;
+
+                collagesData.forEach(col => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+          card.id = col.id || slugify(col.title);
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openProcessModal('${col.id}')">
+              <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
+              <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${col.title}</h3>
+              <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
+              ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
 
         photographyData.forEach(ph => {
           const card = document.createElement("article");
@@ -2294,7 +2409,8 @@ title: "Redemption",
 
     // Modal Handlers
     function openProcessModal(artId) {
-      const art = artworksData.find(item => item.id === artId);
+      let art = artworksData.find(item => item.id === artId);
+      if (!art && typeof collagesData !== "undefined") art = collagesData.find(item => item.id === artId);
       if (!art) return;
 
       document.getElementById("modalTitle").innerText = art.title;
@@ -2325,36 +2441,60 @@ title: "Redemption",
       }
 
       let albumSection = "";
-      if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
-        currentAlbumPhotos = art.processAlbumPhotos;
-        currentAlbumIndex = 0;
-
-        albumSection = `
-          <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
-              <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
-                📸 Interactive Google Photos Process Album (${art.processAlbumPhotos.length} Photos)
-              </h4>
-              <div style="font-size:0.85rem; color:var(--text-muted);" id="albumCounter">Photo 1 of ${art.processAlbumPhotos.length}</div>
-            </div>
-
-            <!-- In-Place Album Main Slide Viewport -->
-            <div style="position:relative; width:100%; height:480px; background:#000; border-radius:8px; overflow:hidden; display:flex; justify-content:center; align-items:center;">
-              <img id="albumMainImg" src="${art.processAlbumPhotos[0]}" style="max-width:100%; max-height:100%; object-fit:contain; transition:opacity 0.2s ease;" />
-              
-              <!-- Prev / Next Navigation Arrows -->
-              <button onclick="stepAlbum(-1)" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center; transition:all 0.2s ease;" title="Previous Photo">❮</button>
-              <button onclick="stepAlbum(1)" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center; transition:all 0.2s ease;" title="Next Photo">❯</button>
-            </div>
-
-            <!-- Filmstrip Thumbnail Reel -->
-            <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
-              ${art.processAlbumPhotos.map((url, idx) => `
-                <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
-              `).join('')}
-            </div>
+      if (art.albumUrl || (art.processAlbumPhotos && art.processAlbumPhotos.length > 0)) {
+        const albumLinkHtml = art.albumUrl ? `
+          <div style="margin-top:14px; text-align:center;">
+            <a href="${art.albumUrl}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; background:rgba(212,175,55,0.12); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:20px; padding:8px 20px; text-decoration:none; font-size:0.9rem; font-weight:500; transition:all 0.2s ease;">
+              📸 View Full Google Photos Album ↗
+            </a>
           </div>
-        `;
+        ` : '';
+
+        if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
+          currentAlbumPhotos = art.processAlbumPhotos;
+          currentAlbumIndex = 0;
+
+          albumSection = `
+            <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+                <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading);">
+                  📸 Interactive Google Photos Process Album (${art.processAlbumPhotos.length} Photos)
+                </h4>
+                <div style="font-size:0.85rem; color:var(--text-muted);" id="albumCounter">Photo 1 of ${art.processAlbumPhotos.length}</div>
+              </div>
+
+              <!-- In-Place Album Main Slide Viewport -->
+              <div style="position:relative; width:100%; height:480px; background:#000; border-radius:8px; overflow:hidden; display:flex; justify-content:center; align-items:center;">
+                <img id="albumMainImg" src="${art.processAlbumPhotos[0]}" style="max-width:100%; max-height:100%; object-fit:contain; transition:opacity 0.2s ease;" />
+                
+                ${art.processAlbumPhotos.length > 1 ? `
+                <button onclick="stepAlbum(-1)" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center; transition:all 0.2s ease;" title="Previous Photo">❮</button>
+                <button onclick="stepAlbum(1)" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(20,13,12,0.85); color:var(--accent-gold); border:1px solid var(--accent-gold); border-radius:50%; width:44px; height:44px; cursor:pointer; font-size:1.2rem; backdrop-filter:blur(4px); display:flex; justify-content:center; align-items:center; transition:all 0.2s ease;" title="Next Photo">❯</button>
+                ` : ''}
+              </div>
+
+              ${art.processAlbumPhotos.length > 1 ? `
+              <!-- Filmstrip Thumbnail Reel -->
+              <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
+                ${art.processAlbumPhotos.map((url, idx) => `
+                  <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
+                `).join('')}
+              </div>
+              ` : ''}
+
+              ${albumLinkHtml}
+            </div>
+          `;
+        } else {
+          albumSection = `
+            <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px; text-align:center;">
+              <h4 style="color:var(--accent-gold); font-size:1rem; font-family:var(--font-heading); margin-bottom:10px;">
+                📸 Google Photos Album
+              </h4>
+              ${albumLinkHtml}
+            </div>
+          `;
+        }
       }
 
       let slidesSection = "";
@@ -2945,7 +3085,8 @@ title: "Redemption",
     }
 
     function selectStage(artId, stageIdx, el) {
-      const art = artworksData.find(item => item.id === artId);
+      let art = artworksData.find(item => item.id === artId);
+      if (!art && typeof collagesData !== "undefined") art = collagesData.find(item => item.id === artId);
       if (!art || !art.processStages[stageIdx]) return;
 
       document.querySelectorAll(".stage-thumb-item").forEach(item => item.classList.remove("active"));
@@ -3016,6 +3157,17 @@ title: "Redemption",
         if (sc) {
           openSculptureModal(sc.id);
           const el = document.getElementById(sc.id || slugify(sc.title));
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+      }
+
+            // Check collagesData
+      if (typeof collagesData !== 'undefined') {
+        const col = collagesData.find(c => c.id === hash || slugify(c.id || c.title) === targetSlug);
+        if (col) {
+          openProcessModal(col.id);
+          const el = document.getElementById(col.id || slugify(col.title));
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
         }
