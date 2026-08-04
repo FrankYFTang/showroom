@@ -942,6 +942,35 @@
   }
 ];
 
+    
+    function slugify(text) {
+      if (!text) return '';
+      return text.toString().toLowerCase().trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[\s_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    function checkHashAndOpen() {
+      const hash = decodeURIComponent(window.location.hash.replace('#', '')).trim();
+      if (!hash) return;
+
+      const targetSlug = slugify(hash);
+      const matchingItem = essaysData.find(item => {
+        const itemSlug = item.id ? slugify(item.id) : slugify(item.title);
+        return item.id === hash || itemSlug === targetSlug || slugify(item.title) === targetSlug;
+      });
+
+      if (matchingItem) {
+        openModal(matchingItem);
+        const cardId = matchingItem.id || slugify(matchingItem.title);
+        const el = document.getElementById(cardId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+
     function renderCards(filter = 'all') {
       const grid = document.getElementById('cardsGrid');
       grid.innerHTML = '';
@@ -951,6 +980,8 @@
 
       filtered.forEach((item, index) => {
         const card = document.createElement('div');
+        const cardSlug = item.id || slugify(item.title);
+        card.id = cardSlug;
         card.className = 'essay-card';
         card.onclick = () => openModal(item);
 
@@ -1009,6 +1040,8 @@
 
       const modal = document.getElementById('essayModal');
       modal.classList.add('open');
+      const cardSlug = item.id || slugify(item.title);
+      window.history.replaceState(null, null, '#' + cardSlug);
       document.body.style.overflow = 'hidden';
     }
 
@@ -1018,6 +1051,9 @@
       modal.classList.remove('open');
       document.getElementById('modalIframeContainer').innerHTML = '';
       document.body.style.overflow = 'auto';
+      if (window.location.hash) {
+        window.history.replaceState(null, null, window.location.pathname + window.location.search);
+      }
     }
 
     function escapeHtml(str) {

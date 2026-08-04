@@ -1994,6 +1994,7 @@ title: "Redemption",
         catDrawingsData.forEach(cat => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = cat.id || slugify(cat.title);
           const isLandscape = cat.orientation === "landscape";
 
           card.innerHTML = `
@@ -2018,6 +2019,7 @@ title: "Redemption",
         paperSculpturesData.forEach(sc => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = sc.id || slugify(sc.title);
 
           card.innerHTML = `
             <div class="img-container" onclick="openSculptureModal('${sc.id}')">
@@ -2041,6 +2043,7 @@ title: "Redemption",
         photographyData.forEach(ph => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = ph.id || slugify(ph.title);
 
           card.innerHTML = `
             <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
@@ -2065,6 +2068,7 @@ title: "Redemption",
         studiesData.forEach(st => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = st.id || slugify(st.title);
 
           card.innerHTML = `
             <div class="img-container" onclick="openStudiesModal('${st.id}')">
@@ -2090,6 +2094,7 @@ title: "Redemption",
         artworksData.forEach(art => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = art.id || slugify(art.title);
 
           const badgeHtml = `<span class="badge">Masterpiece / Selected</span>`;
 
@@ -2110,6 +2115,7 @@ title: "Redemption",
         catDrawingsData.forEach(cat => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = cat.id || slugify(cat.title);
           const isLandscape = cat.orientation === "landscape";
 
           card.innerHTML = `
@@ -2128,6 +2134,7 @@ title: "Redemption",
         paperSculpturesData.forEach(sc => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = sc.id || slugify(sc.title);
 
           card.innerHTML = `
             <div class="img-container" onclick="openSculptureModal('${sc.id}')">
@@ -2145,6 +2152,7 @@ title: "Redemption",
         photographyData.forEach(ph => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = ph.id || slugify(ph.title);
 
           card.innerHTML = `
             <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
@@ -2163,6 +2171,7 @@ title: "Redemption",
         studiesData.forEach(st => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = st.id || slugify(st.title);
 
           card.innerHTML = `
             <div class="img-container" onclick="openStudiesModal('${st.id}')">
@@ -2187,6 +2196,7 @@ title: "Redemption",
         photographyData.forEach(ph => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = ph.id || slugify(ph.title);
 
           card.innerHTML = `
             <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
@@ -2211,6 +2221,7 @@ title: "Redemption",
         studiesData.forEach(st => {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = st.id || slugify(st.title);
 
           card.innerHTML = `
             <div class="img-container" onclick="openStudiesModal('${st.id}')">
@@ -2937,6 +2948,43 @@ title: "Redemption",
 
     // Initial render
     renderGallery();
+  
+    function slugify(text) {
+      if (!text) return '';
+      return text.toString().toLowerCase().trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[\s_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    function checkHashAndOpen() {
+      const hash = decodeURIComponent(window.location.hash.replace('#', '')).trim();
+      if (!hash) return;
+
+      const targetSlug = slugify(hash);
+      
+      // Look for matching art item in gallery
+      let foundArt = null;
+      if (typeof selectedWorks !== 'undefined') {
+        foundArt = selectedWorks.find(art => art.id === hash || slugify(art.id || art.title) === targetSlug);
+      }
+      if (!foundArt && typeof allArtworks !== 'undefined') {
+        foundArt = allArtworks.find(art => art.id === hash || slugify(art.id || art.title) === targetSlug);
+      }
+      if (!foundArt && typeof catArtworks !== 'undefined') {
+        foundArt = catArtworks.find(art => art.id === hash || slugify(art.id || art.title) === targetSlug);
+      }
+
+      if (foundArt && typeof openArtworkModal === 'function') {
+        openArtworkModal(foundArt);
+        const cardId = foundArt.id || slugify(foundArt.title);
+        const el = document.getElementById(cardId) || document.querySelector(`[data-id="${cardId}"]`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+
   </script>
 </body>
 </html>
