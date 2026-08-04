@@ -2056,7 +2056,32 @@ title: "Redemption",
         return;
       }
 
-            if (currentFilter === "collages") {
+      if (currentFilter === "photography") {
+        document.getElementById("itemCountDisplay").innerText = `Showing ${photographyData.length} Photography Collections`;
+
+        photographyData.forEach(ph => {
+          const card = document.createElement("article");
+          card.className = "art-card";
+          card.id = ph.id || slugify(ph.title);
+
+          card.innerHTML = `
+            <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
+              <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
+              <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="card-body">
+              <h3 class="art-title">${ph.title}</h3>
+              <div class="art-meta">${ph.year} • ${ph.medium} • 📸 ${ph.photos.length} Photos</div>
+              ${ph.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${ph.description}</p>` : ''}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        return;
+      }
+
+      if (currentFilter === "collages") {
         document.getElementById("itemCountDisplay").innerText = `Showing ${collagesData.length} Collage Artworks`;
 
         collagesData.forEach(col => {
@@ -2074,50 +2099,6 @@ title: "Redemption",
               <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
               ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
               ${col.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${col.description}</p>` : ''}
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-
-        return;
-      }
-
-      if (currentFilter === "photography") {
-        document.getElementById("itemCountDisplay").innerText = `Showing ${photographyData.length} Photography Collections`;
-
-                collagesData.forEach(col => {
-          const card = document.createElement("article");
-          card.className = "art-card";
-          card.id = col.id || slugify(col.title);
-
-          card.innerHTML = `
-            <div class="img-container" onclick="openProcessModal('${col.id}')">
-              <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
-              <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${col.title}</h3>
-              <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
-              ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-
-        photographyData.forEach(ph => {
-          const card = document.createElement("article");
-          card.className = "art-card";
-          card.id = ph.id || slugify(ph.title);
-
-          card.innerHTML = `
-            <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
-              <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
-              <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${ph.title}</h3>
-              <div class="art-meta">${ph.year} • ${ph.medium} • 📸 ${ph.photos.length} Photos</div>
-              ${ph.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${ph.description}</p>` : ''}
             </div>
           `;
           grid.appendChild(card);
@@ -2213,25 +2194,6 @@ title: "Redemption",
           grid.appendChild(card);
         });
 
-                collagesData.forEach(col => {
-          const card = document.createElement("article");
-          card.className = "art-card";
-          card.id = col.id || slugify(col.title);
-
-          card.innerHTML = `
-            <div class="img-container" onclick="openProcessModal('${col.id}')">
-              <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
-              <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${col.title}</h3>
-              <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
-              ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-
         photographyData.forEach(ph => {
           const card = document.createElement("article");
           card.className = "art-card";
@@ -2250,31 +2212,6 @@ title: "Redemption",
           `;
           grid.appendChild(card);
         });
-
-        studiesData.forEach(st => {
-          const card = document.createElement("article");
-          card.className = "art-card";
-          card.id = st.id || slugify(st.title);
-
-          card.innerHTML = `
-            <div class="img-container" onclick="openStudiesModal('${st.id}')">
-              <div class="badge-group"><span class="badge study">Study / Academic</span></div>
-              <img src="${st.img}" alt="${st.title}" loading="lazy" decoding="async" />
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${st.title}</h3>
-              <div class="art-meta">${st.year} • ${st.medium} • 📸 ${st.photos.length} Photos</div>
-              ${st.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${st.description}</p>` : ''}
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-
-        return;
-      }
-
-            if (currentFilter === "collages") {
-        document.getElementById("itemCountDisplay").innerText = `Showing ${collagesData.length} Collage Artworks`;
 
         collagesData.forEach(col => {
           const card = document.createElement("article");
@@ -2290,61 +2227,10 @@ title: "Redemption",
               <h3 class="art-title">${col.title}</h3>
               <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
               ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
-              ${col.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${col.description}</p>` : ''}
             </div>
           `;
           grid.appendChild(card);
         });
-
-        return;
-      }
-
-      if (currentFilter === "photography") {
-        document.getElementById("itemCountDisplay").innerText = `Showing ${photographyData.length} Photography Collections`;
-
-                collagesData.forEach(col => {
-          const card = document.createElement("article");
-          card.className = "art-card";
-          card.id = col.id || slugify(col.title);
-
-          card.innerHTML = `
-            <div class="img-container" onclick="openProcessModal('${col.id}')">
-              <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
-              <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${col.title}</h3>
-              <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
-              ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-
-        photographyData.forEach(ph => {
-          const card = document.createElement("article");
-          card.className = "art-card";
-          card.id = ph.id || slugify(ph.title);
-
-          card.innerHTML = `
-            <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
-              <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
-              <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
-            </div>
-            <div class="card-body">
-              <h3 class="art-title">${ph.title}</h3>
-              <div class="art-meta">${ph.year} • ${ph.medium} • 📸 ${ph.photos.length} Photos</div>
-              ${ph.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${ph.description}</p>` : ''}
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-
-        return;
-      }
-
-      if (currentFilter === "studies") {
-        document.getElementById("itemCountDisplay").innerText = `Showing ${studiesData.length} Studies & Experiments Collection`;
 
         studiesData.forEach(st => {
           const card = document.createElement("article");
@@ -2376,6 +2262,7 @@ title: "Redemption",
       filtered.forEach(art => {
         const card = document.createElement("article");
         card.className = "art-card";
+        card.id = art.id || slugify(art.title);
 
         const badgeHtml = art.category === "selected" 
           ? `<span class="badge">Masterpiece / Selected</span>`
@@ -2400,11 +2287,15 @@ title: "Redemption",
     // Filter Gallery Tabs
     function filterGallery(category) {
       currentFilter = category;
-      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-      event.target.classList.add("active");
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        const onclickAttr = btn.getAttribute("onclick");
+        if (onclickAttr && onclickAttr.includes(`'${category}'`)) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
       renderGallery();
-    setTimeout(checkHashAndOpen, 100);
-    window.addEventListener("hashchange", checkHashAndOpen);
     }
 
     // Modal Handlers
