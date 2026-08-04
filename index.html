@@ -481,16 +481,87 @@
       color: var(--text-muted);
       border-top: 1px solid var(--card-border);
     }
+  
+    /* Unified Header & Navigation Styles */
+    header {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 40px 20px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .artist-tagline {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-family: var(--font-body);
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .nav-btn {
+      display: inline-block;
+      padding: 9px 20px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-btn:hover {
+      background-color: #2a1b19;
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.15);
+      text-decoration: none;
+    }
+
+    .nav-btn.primary {
+      background-color: rgba(212, 175, 55, 0.12);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .nav-btn.active {
+      background-color: var(--accent-gold);
+      border-color: var(--accent-gold);
+      color: #000000;
+      font-weight: 600;
+    }
+
   </style>
 </head>
 <body>
 
-  <!-- Header Section -->
+    <!-- Header Section -->
   <header>
     <h1>Frank Yung-Fong Tang / 譚永鋒</h1>
     <p class="artist-tagline">Contemporary Representational Painting • Human & Feline Portraiture • Asian Representation in Museums</p>
     
-        <nav class="nav-links">
+    <nav class="nav-links">
+      <a href="index.html" class="nav-btn primary active">Gallery & Masterpieces</a>
       <a href="about.html" class="nav-btn">About the Artist & Bio</a>
       <a href="exhibitions.html" class="nav-btn">Exhibitions</a>
       <a href="courseslides.html" class="nav-btn">Course Portfolios</a>
