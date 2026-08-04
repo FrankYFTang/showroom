@@ -814,6 +814,7 @@
           "https://lh3.googleusercontent.com/pw/AP1GczNIAZm-NpSzLYvzPFQuEqZuTi6C3Ro70awyeGS5hFnKApjZxMKRhBvtvGHyeXcQdXXCZmdNKw_4q4Y_7C1ShVXFb_1JcQZK2JvURnIrimRnPPcTjS26=w1200",
           "https://lh3.googleusercontent.com/pw/AP1GczNoGsl6J2xWQc8m4_NkmFXFwfs7ETHXAXC8ZXjO7R1PhhFfVTXjPeem2ydFqUm_57Ax_eBdCUDcMVPtyEChFHy_sy3Xw9e4HFZNkbm4_I-LmfAgit8i=w1200"
 ],
+        description: "Jack Yuan passed away early this year. He is a beloved friend and elder of the Home of Christ in Cupertino Church for more than thirty years. I took his photo while he preached and start to sketch his portrait in pencil more than a year ago and attempted to render his portrait in watercolor before his sudden passing. I decided to render a big one for him in Acrylic this year to show my affection to him. In this work, I use the arrangement of rice, stones, threads, and coffee stirs, stabilized by gel and other mediums to create the background texture. I also wrote a poem to go with this painting, which is published in Red Wheelbarrow Student Edition 2026:\n\nJack is Gone! No! He is not!\nApril 15, 2026\n\nJack is gone!\nAll of sudden\nMonday morning\nI got the message\n\nJack is gone!\nBut is he?\nHis presence is present\nHis grace last\n\nSaw him that Sunday\nAfter the service\nHe recovered from the surgery\nTalking as usual\n\nI think he knew that already\nHis day will soon come\nNo sorrow on his face\nJust talks as usual\n\nLate December\nJust before the New Year\nSo fast\n\nI thought I knew him\nBut, No! I don\u2019t!\nIn his memorial service\nI learned so much more\n\nElder himself\nPastor, his son\nNot just what he did\nBut his sincere heart\n\nA thousand come\nAnd one hundred more\nDriving from Los Angles\nSeattle those flew \n\nEveryone gathered\nTo celebrate his love and life\n\nSong was written\nWords were shared\nStories of many\nA true friend was gone\n\nNo! He isn\u2019t\nHe just slept\nIn the arm of his Father\nLaying in Heaven still\n\nJesus is his Savor\nHis Master and Lord\nChrist, who he followed\nGod\u2019s servant, he worked\n\nTeaching and preaching\nAccompanying his friends\nCaring the weak quietly\nAs how his Lord shown\n\nIs Jack gone?\nNo! He is not!\nHe is sleeping\nIn his Father\u2019s arm\n\nWe remember him\nNot just because of what he has done\nBut because of who he was\nMy dear friend Jack\nI know you are now alive in Heaven\nAnd will resurrect with me and Our Lord one day together\n\nMy dear friend Jack\nThere are so many I can learn from you\n\nSee  you in heaven",
         title: "Jack Yuan, my dear friend in heaven",
         year: "2026",
         medium: "Acrylic, rice, rocks, sticks, thread, etc. on canvas",
@@ -2357,7 +2358,7 @@ title: "Redemption",
             let descSection = "";
       if (art.description && art.description !== `${art.title} (${art.year}), ${art.dimensions}, ${art.medium}`) {
         descSection = `
-          <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6;">
+          <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6; white-space:pre-wrap;">
             <strong style="color:var(--accent-gold);">Artwork Description:</strong><br>
             ${art.description}
           </div>
@@ -2699,7 +2700,7 @@ title: "Redemption",
 
           <!-- Description Box -->
           ${cat.description && cat.description !== `${cat.title} (${cat.year}), ${cat.size}, ${cat.medium}` ? `
-            <div style="width:100%; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6;">
+            <div style="width:100%; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6; white-space:pre-wrap;">
               <strong style="color:var(--accent-gold);">Artwork Description:</strong><br>
               ${cat.description}
             </div>
@@ -2754,7 +2755,7 @@ title: "Redemption",
       modalBody.innerHTML = `
         <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
           ${item.description ? `
-            <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6;">
+            <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6; white-space:pre-wrap;">
               <strong style="color:var(--accent-gold);">Collection Description:</strong><br>
               ${item.description}
             </div>
@@ -2802,7 +2803,7 @@ title: "Redemption",
       modalBody.innerHTML = `
         <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
           ${item.description ? `
-            <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6;">
+            <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6; white-space:pre-wrap;">
               <strong style="color:var(--accent-gold);">Collection Description:</strong><br>
               ${item.description}
             </div>
@@ -2850,7 +2851,7 @@ title: "Redemption",
       modalBody.innerHTML = `
         <div style="margin-top:10px; background:#0d0807; border:1px solid var(--card-border); border-radius:12px; padding:20px;">
           ${item.description ? `
-            <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6;">
+            <div style="width:100%; margin-bottom:18px; text-align:left; background:rgba(255,255,255,0.03); padding:16px 20px; border-radius:10px; border:1px solid var(--card-border); color:var(--text-main); font-size:0.92rem; line-height:1.6; white-space:pre-wrap;">
               <strong style="color:var(--accent-gold);">Collection Description:</strong><br>
               ${item.description}
             </div>
