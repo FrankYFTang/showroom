@@ -1523,6 +1523,7 @@ title: "Redemption",
       {
         id: "hi_frank",
         title: "Hi Frank!",
+        category: "selected",
         year: "2024",
         medium: "Photography",
         honors: "Exhibited at 2025 De Anza Student Art Show",
@@ -1873,6 +1874,27 @@ title: "Redemption",
 }
     ];
 
+
+    // Data Model: Collages Series
+    const collagesData = [
+      {
+        id: "annunciation",
+        title: "Annunciation",
+        category: "selected",
+        year: "2023",
+        medium: "Mixed Media (Micron Pen, Color Ink Pen, Pencil, Brusho, Acrylic paint, and collage on paper)",
+        dimensions: "15x12 / Frame 22x18",
+        honors: "Exhibited at 2024 De Anza Student Art Show",
+        description: "The angel Gabriel in this work is depicted as a figure with a claw hammer as body, lobster claws and legs, and bird wings. Gabriel is a given name derived from the Hebrew name Gaḇrīʾēl (גַבְרִיאֵל) meaning “God is my strength”, or “God is a strong man” (“Liturgy Alive”). Therefore, a claw hammer as a body fit the name very well since the hammer is strong and has strength. The figure has eight lobster legs and two lobster claws, representing their multitasking ability and strength. Their wings symbolize they are above human society. Gabriel holds an orange handbag and a scepter on the right claw. The handbag “represents creativity, adventurousness, and optimism. In color psychology, orange is often associated with energy, balance, and warmth. It can evoke feelings of joy, sunshine, and tropical sunsets, making it the perfect summer color” (Ticuleanu). Sceptre is an “ornamented rod or staff borne by rulers on ceremonial occasions as an emblem of authority and sovereignty” therefore it represents that Gabriel is speaking while representing the sovereignty of God (“Sceptre”). Gabriel is hovering above the world, which is rendered with earthly treasure on top of grids of colorful cells drawn in one point linear perspective. This represents Gabriel on top of the earthly world. The background is black to contrast the gold/silver halo that beams out lights. Name of Gabriel, written in red uppercase Greek letters, could be seen on the top of the inner ring of their halo. The words “Greetings” “favored one” and “The Lord is with you” are in the background showing what Gabriel said to Mary at that moment, according to Luke 1:28 NASB. It was exhibited in the <a href='exhibitions.html#exhibit_2024_de_anza' target='_blank' style='color:var(--accent-gold); text-decoration:underline;'>2024 De Anza Student Art Show</a>.",
+        img: "https://lh3.googleusercontent.com/pw/AP1GczNeM3bkFwF2B5nAV0LtQk_-R0oqN7bHIkpxUvEbKG6IPygs1J71AK0cbONxLeaYtNSp0EiuRlezdO8ODCePgMpp7-H5TvTzp9Kaq1dCAC9R-KzNQH1ZX2cePtxCduZMBMPbPh1RwKlKTZffA1qcCp4-BQ=w1430-h1756-s-no-gm",
+        processAlbumPhotos: [
+          "https://lh3.googleusercontent.com/pw/AP1GczNeM3bkFwF2B5nAV0LtQk_-R0oqN7bHIkpxUvEbKG6IPygs1J71AK0cbONxLeaYtNSp0EiuRlezdO8ODCePgMpp7-H5TvTzp9Kaq1dCAC9R-KzNQH1ZX2cePtxCduZMBMPbPh1RwKlKTZffA1qcCp4-BQ=w1430-h1756-s-no-gm"
+        ],
+        albumUrl: "https://photos.app.goo.gl/spgBCa9FWof7LQm4A"
+      }
+    ];
+
+
     // Data Model: Studies & Experiments
     const studiesData = [
       {
@@ -1994,6 +2016,7 @@ title: "Redemption",
         if (izmirArt) {
           const card = document.createElement("article");
           card.className = "art-card";
+          card.id = izmirArt.id;
           const badgeHtml = `<span class="badge">Masterpiece / Selected</span><span class="badge cat">🐱 Feline Masterpiece</span>`;
 
           card.innerHTML = `
@@ -2071,7 +2094,7 @@ title: "Redemption",
             </div>
             <div class="card-body">
               <h3 class="art-title">${ph.title}</h3>
-              <div class="art-meta">${ph.year} • ${ph.medium} • 📸 ${ph.photos.length} Photos</div>
+              <div class="art-meta">${ph.year} • ${ph.medium} • 📸 ${ph.photos ? ph.photos.length : 1} Photos</div>
               ${ph.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${ph.description}</p>` : ''}
             </div>
           `;
@@ -2206,7 +2229,7 @@ title: "Redemption",
             </div>
             <div class="card-body">
               <h3 class="art-title">${ph.title}</h3>
-              <div class="art-meta">${ph.year} • ${ph.medium} • 📸 ${ph.photos.length} Photos</div>
+              <div class="art-meta">${ph.year} • ${ph.medium} • 📸 ${ph.photos ? ph.photos.length : 1} Photos</div>
               ${ph.description ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${ph.description}</p>` : ''}
             </div>
           `;
@@ -2254,19 +2277,20 @@ title: "Redemption",
         return;
       }
 
-      const filtered = artworksData.filter(item => {
-        if (currentFilter === "selected") return item.category === "selected";
-        return true;
-      });
+      // Default: currentFilter === "selected" (Selected Works)
+      const selectedArtworks = artworksData.filter(item => item.category === "selected");
+      const selectedCollages = collagesData.filter(col => col.category === "selected");
+      const selectedPhotos = photographyData.filter(ph => ph.category === "selected");
 
-      filtered.forEach(art => {
+      const totalSelected = selectedArtworks.length + selectedCollages.length + selectedPhotos.length;
+      document.getElementById("itemCountDisplay").innerText = `Showing ${totalSelected} Selected Masterpieces`;
+
+      selectedArtworks.forEach(art => {
         const card = document.createElement("article");
         card.className = "art-card";
         card.id = art.id || slugify(art.title);
 
-        const badgeHtml = art.category === "selected" 
-          ? `<span class="badge">Masterpiece / Selected</span>`
-          : `<span class="badge study">Study / Academic</span>`;
+        const badgeHtml = `<span class="badge">Masterpiece / Selected</span>`;
 
         card.innerHTML = `
           <div class="img-container" onclick="openProcessModal('${art.id}')">
@@ -2277,6 +2301,46 @@ title: "Redemption",
             <h3 class="art-title">${art.title}</h3>
             <div class="art-meta">${art.year} • ${art.medium} • ${art.dimensions}</div>
             ${art.honors ? `<div class="art-honors">${art.honors}</div>` : ''}
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      selectedCollages.forEach(col => {
+        const card = document.createElement("article");
+        card.className = "art-card";
+        card.id = col.id || slugify(col.title);
+
+        card.innerHTML = `
+          <div class="img-container" onclick="openProcessModal('${col.id}')">
+            <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
+            <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
+          </div>
+          <div class="card-body">
+            <h3 class="art-title">${col.title}</h3>
+            <div class="art-meta">${col.year} • ${col.medium} • ${col.dimensions}</div>
+            ${col.honors ? `<div class="art-honors">${col.honors}</div>` : ''}
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      selectedPhotos.forEach(ph => {
+        const card = document.createElement("article");
+        card.className = "art-card";
+        card.id = ph.id || slugify(ph.title);
+
+        card.innerHTML = `
+          <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
+            <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
+            <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
+          </div>
+          <div class="card-body">
+            <h3 class="art-title">${ph.title}</h3>
+            <div class="art-meta">${ph.year} • ${ph.medium}</div>
+            ${ph.honors ? `<div class="art-honors">${ph.honors}</div>` : ''}
           </div>
         `;
 
