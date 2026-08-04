@@ -2974,25 +2974,59 @@ title: "Redemption",
       if (!hash) return;
 
       const targetSlug = slugify(hash);
-      
-      // Look for matching art item in gallery
-      let foundArt = null;
-      if (typeof selectedWorks !== 'undefined') {
-        foundArt = selectedWorks.find(art => art.id === hash || slugify(art.id || art.title) === targetSlug);
-      }
-      if (!foundArt && typeof allArtworks !== 'undefined') {
-        foundArt = allArtworks.find(art => art.id === hash || slugify(art.id || art.title) === targetSlug);
-      }
-      if (!foundArt && typeof catArtworks !== 'undefined') {
-        foundArt = catArtworks.find(art => art.id === hash || slugify(art.id || art.title) === targetSlug);
+
+      // Check artworksData (Masterpieces & Selected Works)
+      if (typeof artworksData !== 'undefined') {
+        const art = artworksData.find(a => a.id === hash || slugify(a.id || a.title) === targetSlug);
+        if (art) {
+          openProcessModal(art.id);
+          const el = document.getElementById(art.id || slugify(art.title));
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
       }
 
-      if (foundArt && typeof openArtworkModal === 'function') {
-        openArtworkModal(foundArt);
-        const cardId = foundArt.id || slugify(foundArt.title);
-        const el = document.getElementById(cardId) || document.querySelector(`[data-id="${cardId}"]`);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Check catDrawingsData
+      if (typeof catDrawingsData !== 'undefined') {
+        const cat = catDrawingsData.find(c => c.id === hash || slugify(c.id || c.title) === targetSlug);
+        if (cat) {
+          openCatModal(cat.id);
+          const el = document.getElementById(cat.id || slugify(cat.title));
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+      }
+
+      // Check paperSculpturesData
+      if (typeof paperSculpturesData !== 'undefined') {
+        const sc = paperSculpturesData.find(s => s.id === hash || slugify(s.id || s.title) === targetSlug);
+        if (sc) {
+          openSculptureModal(sc.id);
+          const el = document.getElementById(sc.id || slugify(sc.title));
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+      }
+
+      // Check photographyData
+      if (typeof photographyData !== 'undefined') {
+        const ph = photographyData.find(p => p.id === hash || slugify(p.id || p.title) === targetSlug);
+        if (ph) {
+          openPhotographyModal(ph.id);
+          const el = document.getElementById(ph.id || slugify(ph.title));
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+      }
+
+      // Check studiesData
+      if (typeof studiesData !== 'undefined') {
+        const st = studiesData.find(s => s.id === hash || slugify(s.id || s.title) === targetSlug);
+        if (st) {
+          openStudiesModal(st.id);
+          const el = document.getElementById(st.id || slugify(st.title));
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
         }
       }
     }
