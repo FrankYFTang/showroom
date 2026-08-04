@@ -2275,6 +2275,8 @@ title: "Redemption",
       document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
       event.target.classList.add("active");
       renderGallery();
+    setTimeout(checkHashAndOpen, 100);
+    window.addEventListener("hashchange", checkHashAndOpen);
     }
 
     // Modal Handlers
@@ -2380,6 +2382,7 @@ title: "Redemption",
 
       modalBody.innerHTML = heroSection + descSection + albumSection + slidesSection + videoSection;
       document.getElementById("modalBackdrop").classList.add("open");
+      if (artId) window.history.replaceState(null, null, "#" + artId);
 
       if (art.processAlbumPhotos && art.processAlbumPhotos.length > 0) {
         startAlbumAutoPlay();
@@ -2676,6 +2679,7 @@ title: "Redemption",
     }
 
     function openCatModal(catId) {
+      if (catId) window.history.replaceState(null, null, "#" + catId);
       stopAlbumAutoPlay();
       const cat = catDrawingsData.find(c => c.id === catId || c.img === catId);
       if (!cat) return;
@@ -2749,6 +2753,7 @@ title: "Redemption",
       `;
 
       document.getElementById("modalBackdrop").classList.add("open");
+      if (artId) window.history.replaceState(null, null, "#" + artId);
       resetHeroZoom();
     }
 
@@ -2799,6 +2804,7 @@ title: "Redemption",
       `;
 
       document.getElementById("modalBackdrop").classList.add("open");
+      if (artId) window.history.replaceState(null, null, "#" + artId);
     }
 
     function openStudiesModal(studyId) {
@@ -2847,6 +2853,7 @@ title: "Redemption",
       `;
 
       document.getElementById("modalBackdrop").classList.add("open");
+      if (artId) window.history.replaceState(null, null, "#" + artId);
     }
 
     function openSculptureModal(sculptureId) {
@@ -2895,6 +2902,7 @@ title: "Redemption",
       `;
 
       document.getElementById("modalBackdrop").classList.add("open");
+      if (artId) window.history.replaceState(null, null, "#" + artId);
     }
 
 
@@ -2920,6 +2928,7 @@ title: "Redemption",
       `;
 
       document.getElementById("modalBackdrop").classList.add("open");
+      if (artId) window.history.replaceState(null, null, "#" + artId);
     }
 
     function selectStage(artId, stageIdx, el) {
@@ -2935,6 +2944,7 @@ title: "Redemption",
     function closeModal() {
       stopAlbumAutoPlay();
       document.getElementById("modalBackdrop").classList.remove("open");
+      if (window.location.hash) window.history.replaceState(null, null, window.location.pathname + window.location.search);
       document.getElementById("modalBody").innerHTML = ""; // Stop video/iframe playback
     }
 
@@ -2948,6 +2958,8 @@ title: "Redemption",
 
     // Initial render
     renderGallery();
+    setTimeout(checkHashAndOpen, 100);
+    window.addEventListener("hashchange", checkHashAndOpen);
   
     function slugify(text) {
       if (!text) return '';
