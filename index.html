@@ -1900,6 +1900,60 @@ title: "Redemption",
                 "https://lh3.googleusercontent.com/pw/AP1GczOKvWiP6DwYSXAIVXwMWuKHTdmBxk5APiKiMRedpZrvLHM9UriUgbLqOAvwzznABuyGkS1UW2y9lesj1EfwmcZaal4ncRyl_KnDlH57NopDhFmamkM3=w1200"
         ]
 }
+    ,
+      {
+        id: "the_killing_of_flint_center",
+        title: "The Killing of Flint Center",
+        year: "2025",
+        medium: "Documentary Film & Photography",
+        hideHeroZoom: true,
+        img: "https://img.youtube.com/vi/-XMj1wQ_g_k/hqdefault.jpg",
+        videoId: "-XMj1wQ_g_k",
+        videoTitle: "The Killing of Flint Center",
+        description: `This is a docmentrary film of the Demolition of Flint Center at De Anza College, Cupertino, California, USA. The photographs and video clicks were filmed by Frank Yung-Fong Tang between September 2024 and March 2025 except the first and last photo which was taken in October 10, 2013. The poem "A Time of Destruction" was written by Frank YungFong Tang 
+May 7, 2025 and narrate by the author.
+
+Noise raised up
+In the cold winter morning
+7:30AM
+I heard that in the Main Quad
+
+The demolition
+The killing of Flint
+Started on time
+Every morning
+
+You had your glory
+Across from the Sinking Garden Water Fountain
+Musician played their Piano, Cello and Violent
+Dancer leaped
+Apple hosted their announcement here- 
+Macintosh Classic, iMac, iPod, iPhone, Apple Watch, etc
+
+Now you are dead!
+
+They open you up
+From the top
+Carving out your skin
+Chopping you in half
+Slashing your flesh
+
+Demolishing
+Destruction
+Dissection
+
+I saw your haslet
+Your sickening inside 
+Pale, no blood
+Your gut, cut into pieces, laying on the ground
+Waiting to be clean up
+
+The glory of Flint is over
+You serve your time
+They are killing you
+But I will remember you
+Forever`
+      }
     ];
 
 
@@ -2687,10 +2741,10 @@ title: "Redemption",
       let videoSection = "";
       if (art.videoId) {
         videoSection = `
-          <div style="margin-top: 25px;">
-            <h4 style="color:#fff; font-size:1rem; margin-bottom:10px;">Process Video (${art.videoTitle})</h4>
+          <div style="${art.hideHeroZoom ? 'margin-bottom:20px;' : 'margin-top:25px;'} background:#080504; border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+            ${!art.hideHeroZoom ? `<h4 style="color:#fff; font-size:1rem; margin:14px 14px 10px 14px;">Process Video (${art.videoTitle})</h4>` : ''}
             <div class="video-container">
-              <iframe src="https://www.youtube.com/embed/${art.videoId}?autoplay=1" title="${art.videoTitle}" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/${art.videoId}?autoplay=1" title="${art.videoTitle || art.title}" allowfullscreen style="width:100%; aspect-ratio:16/9; border:none; display:block;"></iframe>
             </div>
           </div>
         `;
@@ -2706,7 +2760,7 @@ title: "Redemption",
         `;
       }
 
-      modalBody.innerHTML = heroSection + descSection + albumSection + slidesSection + videoSection;
+      modalBody.innerHTML = (art.hideHeroZoom && art.videoId ? videoSection : heroSection) + descSection + albumSection + slidesSection + (!art.hideHeroZoom ? videoSection : '');
       document.getElementById("modalBackdrop").classList.add("open");
       if (artId) window.history.replaceState(null, null, "#" + artId);
 
