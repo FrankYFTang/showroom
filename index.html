@@ -1526,12 +1526,10 @@ title: "Redemption",
         category: "selected",
         year: "2024",
         medium: "Photography",
+        dimensions: "Cell Phone Photography",
         honors: "Exhibited at 2025 De Anza Student Art Show",
         description: "I took this photo one morning after I got my coffee from Philz Coffee. My dog Buddy is waiting for me inside my car. I took this photo, showing myself, and a tree reflecting from the window of my car, creating an illustration of multiple exposure. But this is only done in a single shot from my cell phone. The sunlight beams down from my coffee, forming a pyramid to frame our companionship together. It was exhibited in the <a href='exhibitions.html#exhibit_2025_de_anza' target='_blank' style='color:var(--accent-gold); text-decoration:underline;'>2025 De Anza Student Art Show</a>.",
-        img: "https://lh3.googleusercontent.com/pw/AP1GczMmQ5A7uU_2oJ-9Q9QqP0g5U45H1ayKDWIBFJic0Mbjt8VBzGwgk9kpdosqbxQNSnUEBsDeLM3VBALmg2Ko_w2iyrShtCVvz8iApl7h4njKqKFGdtJelotG3QtV38VmiAwGjxPUy4zLuTBfhthLSObL1w=w1322-h1756-s-no-gm",
-        photos: [
-          "https://lh3.googleusercontent.com/pw/AP1GczMmQ5A7uU_2oJ-9Q9QqP0g5U45H1ayKDWIBFJic0Mbjt8VBzGwgk9kpdosqbxQNSnUEBsDeLM3VBALmg2Ko_w2iyrShtCVvz8iApl7h4njKqKFGdtJelotG3QtV38VmiAwGjxPUy4zLuTBfhthLSObL1w=w1322-h1756-s-no-gm"
-        ]
+        img: "https://photos.fife.usercontent.com/pw/AP1GczNpiqICC7ZFC-Xl7E1mbuVqTe7OW9ht7E9rbAGwCgcoGRgSptqWfvba5g=w1322-h1756-s-no-gm"
       },
       {
         id: "photo_goblin_portraits",
@@ -2108,8 +2106,9 @@ title: "Redemption",
           card.className = "art-card";
           card.id = ph.id || slugify(ph.title);
 
+          const onclickFunc = (ph.photos && ph.photos.length > 0) ? `openPhotographyModal('${ph.id}')` : `openProcessModal('${ph.id}')`;
           card.innerHTML = `
-            <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
+            <div class="img-container" onclick="${onclickFunc}">
               <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
               <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
             </div>
@@ -2243,8 +2242,9 @@ title: "Redemption",
           card.className = "art-card";
           card.id = ph.id || slugify(ph.title);
 
+          const onclickFunc = (ph.photos && ph.photos.length > 0) ? `openPhotographyModal('${ph.id}')` : `openProcessModal('${ph.id}')`;
           card.innerHTML = `
-            <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
+            <div class="img-container" onclick="${onclickFunc}">
               <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
               <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
             </div>
@@ -2353,8 +2353,9 @@ title: "Redemption",
         card.className = "art-card";
         card.id = ph.id || slugify(ph.title);
 
+        const onclickFunc = (ph.photos && ph.photos.length > 0) ? `openPhotographyModal('${ph.id}')` : `openProcessModal('${ph.id}')`;
         card.innerHTML = `
-          <div class="img-container" onclick="openPhotographyModal('${ph.id}')">
+          <div class="img-container" onclick="${onclickFunc}">
             <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
             <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
           </div>
@@ -2387,6 +2388,7 @@ title: "Redemption",
     function openProcessModal(artId) {
       let art = artworksData.find(item => item.id === artId);
       if (!art && typeof collagesData !== "undefined") art = collagesData.find(item => item.id === artId);
+      if (!art && typeof photographyData !== "undefined") art = photographyData.find(item => item.id === artId);
       if (!art) return;
 
       document.getElementById("modalTitle").innerText = art.title;
@@ -3063,6 +3065,7 @@ title: "Redemption",
     function selectStage(artId, stageIdx, el) {
       let art = artworksData.find(item => item.id === artId);
       if (!art && typeof collagesData !== "undefined") art = collagesData.find(item => item.id === artId);
+      if (!art && typeof photographyData !== "undefined") art = photographyData.find(item => item.id === artId);
       if (!art || !art.processStages[stageIdx]) return;
 
       document.querySelectorAll(".stage-thumb-item").forEach(item => item.classList.remove("active"));
