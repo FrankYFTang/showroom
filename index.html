@@ -1878,6 +1878,7 @@ title: "Redemption",
       {
         id: "abstraction",
         title: "Abstraction",
+        hideHeroZoom: true,
         year: "2025",
         medium: "Collage on Paper",
         description: "An abstract collage study exploring composition, texture, form, and color harmony.",
@@ -2440,7 +2441,7 @@ title: "Redemption",
       const modalBody = document.getElementById("modalBody");
 
       let heroSection = "";
-      if (art.img) {
+      if (art.img && !art.hideHeroZoom) {
         heroSection = `
           <div style="margin-bottom:20px; background:#080504; border-radius:12px; overflow:hidden; border:1px solid var(--card-border); position:relative; text-align:center;">
             <div id="heroZoomContainer" style="position:relative; cursor:zoom-in; overflow:hidden; display:flex; justify-content:center; align-items:center; min-height:350px; max-height:550px;" onclick="toggleHeroZoom(event, this)">
