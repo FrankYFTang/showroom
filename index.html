@@ -3142,6 +3142,10 @@ Forever`
       stopAlbumAutoPlay();
       const item = photographyData.find(ph => ph.id === photoId);
       if (!item) return;
+      if (!item.photos || item.photos.length === 0) {
+        openProcessModal(photoId);
+        return;
+      }
 
       document.getElementById("modalTitle").innerText = item.title;
       document.getElementById("modalSub").innerText = `${item.year} • ${item.medium} • ${item.photos.length} Album Photos`;
@@ -3376,17 +3380,26 @@ Forever`
     }
 
     function checkHashAndOpen() {
-      const hash = decodeURIComponent(window.location.hash.replace('#', '')).trim();
-      if (!hash) return;
-
+      const rawHash = window.location.hash.replace('#', '').trim();
+      if (!rawHash) return;
+      const hash = decodeURIComponent(rawHash).trim();
       const targetSlug = slugify(hash);
+
+      const matchItem = (item) => {
+        if (!item) return false;
+        return item.id === hash || item.id === rawHash || slugify(item.id) === targetSlug || slugify(item.title) === targetSlug;
+      };
 
       // Check artworksData (Masterpieces & Selected Works)
       if (typeof artworksData !== 'undefined') {
-        const art = artworksData.find(a => a.id === hash || slugify(a.id || a.title) === targetSlug);
+        const art = artworksData.find(matchItem);
         if (art) {
           openProcessModal(art.id);
-          const el = document.getElementById(art.id || slugify(art.title));
+          let el = document.getElementById(art.id || slugify(art.title));
+          if (!el) {
+            filterGallery('selected');
+            el = document.getElementById(art.id || slugify(art.title));
+          }
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
         }
@@ -3394,10 +3407,14 @@ Forever`
 
       // Check catDrawingsData
       if (typeof catDrawingsData !== 'undefined') {
-        const cat = catDrawingsData.find(c => c.id === hash || slugify(c.id || c.title) === targetSlug);
+        const cat = catDrawingsData.find(matchItem);
         if (cat) {
           openCatModal(cat.id);
-          const el = document.getElementById(cat.id || slugify(cat.title));
+          let el = document.getElementById(cat.id || slugify(cat.title));
+          if (!el) {
+            filterGallery('cat_drawings');
+            el = document.getElementById(cat.id || slugify(cat.title));
+          }
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
         }
@@ -3405,21 +3422,29 @@ Forever`
 
       // Check paperSculpturesData
       if (typeof paperSculpturesData !== 'undefined') {
-        const sc = paperSculpturesData.find(s => s.id === hash || slugify(s.id || s.title) === targetSlug);
+        const sc = paperSculpturesData.find(matchItem);
         if (sc) {
           openSculptureModal(sc.id);
-          const el = document.getElementById(sc.id || slugify(sc.title));
+          let el = document.getElementById(sc.id || slugify(sc.title));
+          if (!el) {
+            filterGallery('paper_sculptures');
+            el = document.getElementById(sc.id || slugify(sc.title));
+          }
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
         }
       }
 
-            // Check collagesData
+      // Check collagesData
       if (typeof collagesData !== 'undefined') {
-        const col = collagesData.find(c => c.id === hash || slugify(c.id || c.title) === targetSlug);
+        const col = collagesData.find(matchItem);
         if (col) {
           openProcessModal(col.id);
-          const el = document.getElementById(col.id || slugify(col.title));
+          let el = document.getElementById(col.id || slugify(col.title));
+          if (!el) {
+            filterGallery('collages');
+            el = document.getElementById(col.id || slugify(col.title));
+          }
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
         }
@@ -3427,10 +3452,18 @@ Forever`
 
       // Check photographyData
       if (typeof photographyData !== 'undefined') {
-        const ph = photographyData.find(p => p.id === hash || slugify(p.id || p.title) === targetSlug);
+        const ph = photographyData.find(matchItem);
         if (ph) {
-          openPhotographyModal(ph.id);
-          const el = document.getElementById(ph.id || slugify(ph.title));
+          if (!ph.photos || ph.photos.length === 0) {
+            openProcessModal(ph.id);
+          } else {
+            openPhotographyModal(ph.id);
+          }
+          let el = document.getElementById(ph.id || slugify(ph.title));
+          if (!el) {
+            filterGallery('photography');
+            el = document.getElementById(ph.id || slugify(ph.title));
+          }
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
         }
@@ -3438,10 +3471,14 @@ Forever`
 
       // Check studiesData
       if (typeof studiesData !== 'undefined') {
-        const st = studiesData.find(s => s.id === hash || slugify(s.id || s.title) === targetSlug);
+        const st = studiesData.find(matchItem);
         if (st) {
           openStudiesModal(st.id);
-          const el = document.getElementById(st.id || slugify(st.title));
+          let el = document.getElementById(st.id || slugify(st.title));
+          if (!el) {
+            filterGallery('studies');
+            el = document.getElementById(st.id || slugify(st.title));
+          }
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
         }
