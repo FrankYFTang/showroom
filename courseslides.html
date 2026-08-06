@@ -627,6 +627,7 @@
       courseSlideDecks.forEach(deck => {
         const card = document.createElement("article");
         card.className = "art-card";
+        card.id = deck.id;
         card.style.cursor = "pointer";
         card.onclick = () => openSlidesModal(deck.slideId, `${deck.code}: ${deck.title}`);
 
@@ -677,7 +678,27 @@
       if (e.key === "Escape") closeModal();
     });
 
+        function checkHashAndOpen() {
+      const hash = decodeURIComponent(window.location.hash.replace('#', '')).trim().toLowerCase();
+      if (!hash) return;
+
+      const matchingDeck = courseSlideDecks.find(deck => 
+        deck.id.toLowerCase() === hash || 
+        deck.code.toLowerCase().replace(/\s+/g, '') === hash.replace(/\s+/g, '')
+      );
+
+      if (matchingDeck) {
+        openSlidesModal(matchingDeck.slideId, `${matchingDeck.code}: ${matchingDeck.title}`);
+        const el = document.getElementById(matchingDeck.id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+
     renderCoursePortfolios();
+    setTimeout(checkHashAndOpen, 100);
+    window.addEventListener("hashchange", checkHashAndOpen);
   </script>
 </body>
 </html>
