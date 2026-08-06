@@ -629,7 +629,7 @@
         card.className = "art-card";
         card.id = deck.id;
         card.style.cursor = "pointer";
-        card.onclick = () => openSlidesModal(deck.slideId, `${deck.code}: ${deck.title}`);
+        card.onclick = () => openSlidesModal(deck);
 
         const schoolName = deck.school || "Foothill College Studio Art";
 
@@ -651,27 +651,35 @@
       });
     }
 
-    function openSlidesModal(slideId, title) {
-      document.getElementById("modalTitle").innerText = title;
-      document.getElementById("modalSub").innerText = "Interactive Course Portfolio Presentation";
+    function openSlidesModal(deck) {
+      document.getElementById("modalTitle").innerText = `${deck.code}: ${deck.title}`;
+      document.getElementById("modalSub").innerText = `${deck.term} • ${deck.school || 'Studio Art'}`;
 
       const modalBody = document.getElementById("modalBody");
       modalBody.innerHTML = `
         <div class="slides-container">
-          <iframe src="https://docs.google.com/presentation/d/${slideId}/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+          <iframe src="https://docs.google.com/presentation/d/${deck.slideId}/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; flex-wrap:wrap; gap:10px;">
           <span style="font-size:0.85rem; color:var(--text-muted);">Tip: Click inside the slide viewer or use arrow keys to flip through slides.</span>
-          <a href="https://docs.google.com/presentation/d/${slideId}/edit" target="_blank" rel="noopener" class="action-btn" style="max-width:200px;">Open in Google Drive ↗</a>
+          <a href="https://docs.google.com/presentation/d/${deck.slideId}/edit" target="_blank" rel="noopener" class="action-btn" style="max-width:200px;">Open in Google Drive ↗</a>
         </div>
       `;
 
       document.getElementById("modalBackdrop").classList.add("open");
+      document.body.style.overflow = "hidden";
+      if (deck.id) {
+        window.history.replaceState(null, null, "#" + deck.id);
+      }
     }
 
     function closeModal() {
       document.getElementById("modalBackdrop").classList.remove("open");
       document.getElementById("modalBody").innerHTML = "";
+      document.body.style.overflow = "auto";
+      if (window.location.hash) {
+        window.history.replaceState(null, null, window.location.pathname + window.location.search);
+      }
     }
 
     document.addEventListener("keydown", (e) => {
@@ -688,7 +696,7 @@
       );
 
       if (matchingDeck) {
-        openSlidesModal(matchingDeck.slideId, `${matchingDeck.code}: ${matchingDeck.title}`);
+        openSlidesModal(matchingDeck);
         const el = document.getElementById(matchingDeck.id);
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'center' });
