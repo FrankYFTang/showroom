@@ -1038,7 +1038,7 @@
       const filtered = essaysData.filter(item => filter === 'all' || item.type === filter);
       document.getElementById('countTag').textContent = `${filtered.length} Essays`;
 
-      filtered.forEach((item, index) => {
+      filtered.forEach((item, idx) => {
         const card = document.createElement('div');
         const cardSlug = item.id || slugify(item.title);
         card.id = cardSlug;

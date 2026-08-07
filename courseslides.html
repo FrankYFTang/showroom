@@ -627,7 +627,7 @@
       const grid = document.getElementById("courseGrid");
       grid.innerHTML = "";
 
-      courseSlideDecks.forEach(deck => {
+      courseSlideDecks.forEach((deck, idx) => {
         const card = document.createElement("article");
         card.className = "art-card";
         card.id = deck.id;

@@ -654,7 +654,7 @@
       const grid = document.getElementById("exhibitionGrid");
       grid.innerHTML = "";
 
-      exhibitionsData.forEach(item => {
+      exhibitionsData.forEach((item, idx) => {
         const card = document.createElement("article");
         const cardId = item.id || slugify(item.title);
         card.id = cardId;
