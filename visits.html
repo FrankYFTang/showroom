@@ -14946,7 +14946,7 @@
       // Populate Filmstrip
       const filmstrip = document.getElementById("albumFilmstrip");
       filmstrip.innerHTML = item.photos.map((url, idx) => `
-        <img src="${getOptimizedImgUrl(url, 150, true)}" id="visitThumb_${idx}" class="filmstrip-thumb ${idx === 0 ? 'active' : ''}" onclick="selectPhoto(${idx})" alt="Thumb ${idx + 1}" />
+        <img src="${getOptimizedImgUrl(url, 150)}" id="visitThumb_${idx}" class="filmstrip-thumb ${idx === 0 ? 'active' : ''}" onclick="selectPhoto(${idx})" alt="Thumb ${idx + 1}" />
       `).join('');
 
       document.getElementById("visitModal").classList.add("open");

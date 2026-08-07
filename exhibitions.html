@@ -626,28 +626,20 @@
     let currentAlbumIndex = 0;
 
     
-    // Performance Helper: Responsive WebP Image URL Generator for Google CDN
-    function getOptimizedImgUrl(url, width = 600, webp = true) {
-      if (!url) return '';
-      if (typeof url === 'string' && url.includes('lh3.googleusercontent.com')) {
+        // Performance Helper: Resized Image URL Generator for Google CDN (Universal High-Speed JPEG)
+    function getOptimizedImgUrl(url, width = 600) {
+      if (!url || typeof url !== 'string') return '';
+      if (url.includes('lh3.googleusercontent.com')) {
         const clean = url.replace(/=[swh]\d+.*$/, '');
-        return webp ? `${clean}=w${width}-rw` : `${clean}=w${width}`;
+        return `${clean}=w${width}`;
       }
       return url;
     }
 
-    function getResponsiveSrcset(url) {
-      if (!url || typeof url !== 'string' || !url.includes('lh3.googleusercontent.com')) return '';
-      const clean = url.replace(/=[swh]\d+.*$/, '');
-      return `${clean}=w360-rw 360w, ${clean}=w600-rw 600w, ${clean}=w800-rw 800w`;
-    }
-
     function buildCardImgHtml(url, alt, isAboveTheFold = false) {
-      const optimizedSrc = getOptimizedImgUrl(url, 600, true);
-      const srcset = getResponsiveSrcset(url);
-      const srcsetAttribute = srcset ? `srcset="${srcset}" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px"` : '';
+      const optimizedSrc = getOptimizedImgUrl(url, 600);
       const loadingAttr = isAboveTheFold ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"';
-      return `<img src="${optimizedSrc}" ${srcsetAttribute} alt="${alt}" ${loadingAttr} />`;
+      return `<img src="${optimizedSrc}" alt="${alt}" ${loadingAttr} />`;
     }
 
     function renderExhibitions() {
@@ -733,7 +725,7 @@
             <!-- Filmstrip Reel -->
             <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
               ${item.photos.map((url, idx) => `
-                <img src="${getOptimizedImgUrl(url, 150, true)}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
+                <img src="${getOptimizedImgUrl(url, 150)}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
               `).join('')}
             </div>
           </div>

@@ -1032,28 +1032,20 @@
     }
 
     
-    // Performance Helper: Responsive WebP Image URL Generator for Google CDN
-    function getOptimizedImgUrl(url, width = 600, webp = true) {
-      if (!url) return '';
-      if (typeof url === 'string' && url.includes('lh3.googleusercontent.com')) {
+        // Performance Helper: Resized Image URL Generator for Google CDN (Universal High-Speed JPEG)
+    function getOptimizedImgUrl(url, width = 600) {
+      if (!url || typeof url !== 'string') return '';
+      if (url.includes('lh3.googleusercontent.com')) {
         const clean = url.replace(/=[swh]\d+.*$/, '');
-        return webp ? `${clean}=w${width}-rw` : `${clean}=w${width}`;
+        return `${clean}=w${width}`;
       }
       return url;
     }
 
-    function getResponsiveSrcset(url) {
-      if (!url || typeof url !== 'string' || !url.includes('lh3.googleusercontent.com')) return '';
-      const clean = url.replace(/=[swh]\d+.*$/, '');
-      return `${clean}=w360-rw 360w, ${clean}=w600-rw 600w, ${clean}=w800-rw 800w`;
-    }
-
     function buildCardImgHtml(url, alt, isAboveTheFold = false) {
-      const optimizedSrc = getOptimizedImgUrl(url, 600, true);
-      const srcset = getResponsiveSrcset(url);
-      const srcsetAttribute = srcset ? `srcset="${srcset}" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px"` : '';
+      const optimizedSrc = getOptimizedImgUrl(url, 600);
       const loadingAttr = isAboveTheFold ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"';
-      return `<img src="${optimizedSrc}" ${srcsetAttribute} alt="${alt}" ${loadingAttr} />`;
+      return `<img src="${optimizedSrc}" alt="${alt}" ${loadingAttr} />`;
     }
 
     function renderCards(filter = 'all') {
@@ -1072,12 +1064,15 @@
 
         const badgeClass = item.type;
         
-        let coverHtml = '';
+                let coverHtml = '';
         if (item.cover_image) {
           coverHtml = `
             <div class="cover-container">
               <span class="type-badge ${badgeClass}">${item.type}</span>
-              <img src="${getOptimizedImgUrl(item.cover_image, 600, true)}" srcset="${getResponsiveSrcset(item.cover_image)}" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px" alt="${escapeHtml(item.title)}" class="cover-img" style="${item.object_position ? 'object-position:' + item.object_position + ';' : ''}" ${idx < 6 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"'} onerror="this.parentElement.innerHTML='${escapeHtml(getFallbackCover(item))}'">
+              <img src="${getOptimizedImgUrl(item.cover_image, 600)}" alt="${escapeHtml(item.title)}" class="cover-img" style="${item.object_position ? 'object-position:' + item.object_position + ';' : ''}" ${idx < 6 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"'} onerror="this.style.display='none'; if (this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+              <div class="fallback-cover" style="display:none; width:100%; height:100%;">
+                ${getFallbackCover(item)}
+              </div>
             </div>`;
         } else {
           coverHtml = `
