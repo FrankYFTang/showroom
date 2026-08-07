@@ -1031,6 +1031,31 @@
       }
     }
 
+    
+    // Performance Helper: Responsive WebP Image URL Generator for Google CDN
+    function getOptimizedImgUrl(url, width = 600, webp = true) {
+      if (!url) return '';
+      if (typeof url === 'string' && url.includes('lh3.googleusercontent.com')) {
+        const clean = url.replace(/=[swh]\d+.*$/, '');
+        return webp ? `${clean}=w${width}-rw` : `${clean}=w${width}`;
+      }
+      return url;
+    }
+
+    function getResponsiveSrcset(url) {
+      if (!url || typeof url !== 'string' || !url.includes('lh3.googleusercontent.com')) return '';
+      const clean = url.replace(/=[swh]\d+.*$/, '');
+      return `${clean}=w360-rw 360w, ${clean}=w600-rw 600w, ${clean}=w800-rw 800w`;
+    }
+
+    function buildCardImgHtml(url, alt, isAboveTheFold = false) {
+      const optimizedSrc = getOptimizedImgUrl(url, 600, true);
+      const srcset = getResponsiveSrcset(url);
+      const srcsetAttribute = srcset ? `srcset="${srcset}" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px"` : '';
+      const loadingAttr = isAboveTheFold ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"';
+      return `<img src="${optimizedSrc}" ${srcsetAttribute} alt="${alt}" ${loadingAttr} />`;
+    }
+
     function renderCards(filter = 'all') {
       const grid = document.getElementById('cardsGrid');
       grid.innerHTML = '';
