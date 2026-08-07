@@ -6,6 +6,9 @@
   <title>Frank Yung-Fong Tang / 譚永鋒 — Fine Art Portfolio (Beta)</title>
   
   <!-- Google Fonts for Typography -->
+    <!-- Google CDN Preconnect & DNS-Prefetch for Fast Image Loading -->
+  <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
+  <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -115,6 +118,7 @@
       overflow: hidden;
       cursor: pointer;
       aspect-ratio: 4/5;
+      contain: paint layout;
     }
 
     .img-container.landscape {
@@ -127,7 +131,8 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.4s ease;
+      transition: transform 0.4s ease, opacity 0.2s ease;
+      content-visibility: auto;
     }
 
     .img-container.landscape img {
@@ -2278,6 +2283,31 @@ Forever`
     let currentFilter = "selected";
 
     // Render Gallery Cards
+    
+    // Performance Helper: Responsive WebP Image URL Generator for Google CDN
+    function getOptimizedImgUrl(url, width = 600, webp = true) {
+      if (!url) return '';
+      if (typeof url === 'string' && url.includes('lh3.googleusercontent.com')) {
+        const clean = url.replace(/=[swh]\d+.*$/, '');
+        return webp ? `${clean}=w${width}-rw` : `${clean}=w${width}`;
+      }
+      return url;
+    }
+
+    function getResponsiveSrcset(url) {
+      if (!url || typeof url !== 'string' || !url.includes('lh3.googleusercontent.com')) return '';
+      const clean = url.replace(/=[swh]\d+.*$/, '');
+      return `${clean}=w360-rw 360w, ${clean}=w600-rw 600w, ${clean}=w800-rw 800w`;
+    }
+
+    function buildCardImgHtml(url, alt, isAboveTheFold = false) {
+      const optimizedSrc = getOptimizedImgUrl(url, 600, true);
+      const srcset = getResponsiveSrcset(url);
+      const srcsetAttribute = srcset ? `srcset="${srcset}" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px"` : '';
+      const loadingAttr = isAboveTheFold ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"';
+      return `<img src="${optimizedSrc}" ${srcsetAttribute} alt="${alt}" ${loadingAttr} />`;
+    }
+
     function renderGallery() {
       const grid = document.getElementById("galleryGrid");
       grid.innerHTML = "";
@@ -2296,7 +2326,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container" onclick="openProcessModal('${izmirArt.id}')">
               <div class="badge-group">${badgeHtml}</div>
-              <img src="${izmirArt.img}" alt="${izmirArt.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(izmirArt.img, izmirArt.title, true)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${izmirArt.title}</h3>
@@ -2307,7 +2337,7 @@ Forever`
           grid.appendChild(card);
         }
 
-        catDrawingsData.forEach(cat => {
+        catDrawingsData.forEach((cat, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = cat.id || slugify(cat.title);
@@ -2316,7 +2346,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container ${isLandscape ? 'landscape' : ''}" onclick="openCatModal('${cat.id}')">
               <div class="badge-group"><span class="badge cat">🐱 Cat Drawing</span></div>
-              <img src="${cat.img}" alt="${cat.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(cat.img, cat.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${cat.title}</h3>
@@ -2332,7 +2362,7 @@ Forever`
       if (currentFilter === "paper_sculptures") {
         document.getElementById("itemCountDisplay").innerText = `Showing ${paperSculpturesData.length} Paper Sculptures`;
 
-        paperSculpturesData.forEach(sc => {
+        paperSculpturesData.forEach((sc, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = sc.id || slugify(sc.title);
@@ -2340,7 +2370,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container" onclick="openSculptureModal('${sc.id}')">
               <div class="badge-group"><span class="badge paper">Paper Sculpture</span></div>
-              <img src="${sc.img}" alt="${sc.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(sc.img, sc.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${sc.title}</h3>
@@ -2356,7 +2386,7 @@ Forever`
       if (currentFilter === "photography") {
         document.getElementById("itemCountDisplay").innerText = `Showing ${photographyData.length} Photography Collections`;
 
-        photographyData.forEach(ph => {
+        photographyData.forEach((ph, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = ph.id || slugify(ph.title);
@@ -2365,7 +2395,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container" onclick="${onclickFunc}">
               <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
-              <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(ph.img, ph.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${ph.title}</h3>
@@ -2382,7 +2412,7 @@ Forever`
       if (currentFilter === "collages") {
         document.getElementById("itemCountDisplay").innerText = `Showing ${collagesData.length} Collage Artworks`;
 
-        collagesData.forEach(col => {
+        collagesData.forEach((col, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = col.id || slugify(col.title);
@@ -2390,7 +2420,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container" onclick="openProcessModal('${col.id}')">
               <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
-              <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(col.img, col.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${col.title}</h3>
@@ -2408,7 +2438,7 @@ Forever`
       if (currentFilter === "studies") {
         document.getElementById("itemCountDisplay").innerText = `Showing ${studiesData.length} Studies & Experiments Collection`;
 
-        studiesData.forEach(st => {
+        studiesData.forEach((st, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = st.id || slugify(st.title);
@@ -2416,7 +2446,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container" onclick="openStudiesModal('${st.id}')">
               <div class="badge-group"><span class="badge study">Study / Academic</span></div>
-              <img src="${st.img}" alt="${st.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(st.img, st.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${st.title}</h3>
@@ -2434,7 +2464,7 @@ Forever`
         const totalCount = artworksData.length + catDrawingsData.length + paperSculpturesData.length + photographyData.length + collagesData.length + studiesData.length;
         document.getElementById("itemCountDisplay").innerText = `Showing ${totalCount} Total Artworks (${artworksData.length} Selected Works + ${catDrawingsData.length} Cat Drawings + ${paperSculpturesData.length} Paper Sculptures + ${photographyData.length} Photography + ${collagesData.length} Collages + ${studiesData.length} Studies)`;
 
-        artworksData.forEach(art => {
+        artworksData.forEach((art, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = art.id || slugify(art.title);
@@ -2444,7 +2474,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container" onclick="openProcessModal('${art.id}')">
               <div class="badge-group">${badgeHtml}</div>
-              <img src="${art.img}" alt="${art.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(art.img, art.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${art.title}</h3>
@@ -2455,7 +2485,7 @@ Forever`
           grid.appendChild(card);
         });
 
-        catDrawingsData.forEach(cat => {
+        catDrawingsData.forEach((cat, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = cat.id || slugify(cat.title);
@@ -2464,7 +2494,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container ${isLandscape ? 'landscape' : ''}" onclick="openCatModal('${cat.id}')">
               <div class="badge-group"><span class="badge cat">🐱 Cat Drawing</span></div>
-              <img src="${cat.img}" alt="${cat.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(cat.img, cat.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${cat.title}</h3>
@@ -2474,7 +2504,7 @@ Forever`
           grid.appendChild(card);
         });
 
-        paperSculpturesData.forEach(sc => {
+        paperSculpturesData.forEach((sc, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = sc.id || slugify(sc.title);
@@ -2482,7 +2512,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container" onclick="openSculptureModal('${sc.id}')">
               <div class="badge-group"><span class="badge paper">Paper Sculpture</span></div>
-              <img src="${sc.img}" alt="${sc.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(sc.img, sc.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${sc.title}</h3>
@@ -2492,7 +2522,7 @@ Forever`
           grid.appendChild(card);
         });
 
-        photographyData.forEach(ph => {
+        photographyData.forEach((ph, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = ph.id || slugify(ph.title);
@@ -2501,7 +2531,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container" onclick="${onclickFunc}">
               <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
-              <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(ph.img, ph.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${ph.title}</h3>
@@ -2512,7 +2542,7 @@ Forever`
           grid.appendChild(card);
         });
 
-        collagesData.forEach(col => {
+        collagesData.forEach((col, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = col.id || slugify(col.title);
@@ -2520,7 +2550,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container" onclick="openProcessModal('${col.id}')">
               <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
-              <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(col.img, col.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${col.title}</h3>
@@ -2531,7 +2561,7 @@ Forever`
           grid.appendChild(card);
         });
 
-        studiesData.forEach(st => {
+        studiesData.forEach((st, idx) => {
           const card = document.createElement("article");
           card.className = "art-card";
           card.id = st.id || slugify(st.title);
@@ -2539,7 +2569,7 @@ Forever`
           card.innerHTML = `
             <div class="img-container" onclick="openStudiesModal('${st.id}')">
               <div class="badge-group"><span class="badge study">Study / Academic</span></div>
-              <img src="${st.img}" alt="${st.title}" loading="lazy" decoding="async" />
+              ${buildCardImgHtml(st.img, st.title, idx < 6)}
             </div>
             <div class="card-body">
               <h3 class="art-title">${st.title}</h3>
@@ -2561,7 +2591,7 @@ Forever`
       const totalSelected = selectedArtworks.length + selectedCollages.length + selectedPhotos.length;
       document.getElementById("itemCountDisplay").innerText = `Showing ${totalSelected} Selected Masterpieces`;
 
-      selectedArtworks.forEach(art => {
+      selectedArtworks.forEach((art, idx) => {
         const card = document.createElement("article");
         card.className = "art-card";
         card.id = art.id || slugify(art.title);
@@ -2571,7 +2601,7 @@ Forever`
         card.innerHTML = `
           <div class="img-container" onclick="openProcessModal('${art.id}')">
             <div class="badge-group">${badgeHtml}</div>
-            <img src="${art.img}" alt="${art.title}" loading="lazy" decoding="async" />
+            ${buildCardImgHtml(art.img, art.title, idx < 6)}
           </div>
           <div class="card-body">
             <h3 class="art-title">${art.title}</h3>
@@ -2583,7 +2613,7 @@ Forever`
         grid.appendChild(card);
       });
 
-      selectedCollages.forEach(col => {
+      selectedCollages.forEach((col, idx) => {
         const card = document.createElement("article");
         card.className = "art-card";
         card.id = col.id || slugify(col.title);
@@ -2591,7 +2621,7 @@ Forever`
         card.innerHTML = `
           <div class="img-container" onclick="openProcessModal('${col.id}')">
             <div class="badge-group"><span class="badge collage">✂️ Collage</span></div>
-            <img src="${col.img}" alt="${col.title}" loading="lazy" decoding="async" />
+            ${buildCardImgHtml(col.img, col.title, idx < 6)}
           </div>
           <div class="card-body">
             <h3 class="art-title">${col.title}</h3>
@@ -2603,7 +2633,7 @@ Forever`
         grid.appendChild(card);
       });
 
-      selectedPhotos.forEach(ph => {
+      selectedPhotos.forEach((ph, idx) => {
         const card = document.createElement("article");
         card.className = "art-card";
         card.id = ph.id || slugify(ph.title);
@@ -2612,7 +2642,7 @@ Forever`
         card.innerHTML = `
           <div class="img-container" onclick="${onclickFunc}">
             <div class="badge-group"><span class="badge photo">📷 Photography</span></div>
-            <img src="${ph.img}" alt="${ph.title}" loading="lazy" decoding="async" />
+            ${buildCardImgHtml(ph.img, ph.title, idx < 6)}
           </div>
           <div class="card-body">
             <h3 class="art-title">${ph.title}</h3>
@@ -2710,7 +2740,7 @@ Forever`
               <!-- Filmstrip Thumbnail Reel -->
               <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
                 ${art.processAlbumPhotos.map((url, idx) => `
-                  <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
+                  <img src="${getOptimizedImgUrl(url, 150, true)}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
                 `).join('')}
               </div>
               ` : ''}
@@ -3130,7 +3160,7 @@ Forever`
               <!-- Filmstrip Reel -->
               <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
                 ${cat.processAlbumPhotos.map((url, idx) => `
-                  <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
+                  <img src="${getOptimizedImgUrl(url, 150, true)}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
                 `).join('')}
               </div>
             </div>
@@ -3187,7 +3217,7 @@ Forever`
           <!-- Filmstrip Reel -->
           <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
             ${item.photos.map((url, idx) => `
-              <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
+              <img src="${getOptimizedImgUrl(url, 150, true)}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
             `).join('')}
           </div>
 
@@ -3244,7 +3274,7 @@ Forever`
           <!-- Filmstrip Reel -->
           <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
             ${item.photos.map((url, idx) => `
-              <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
+              <img src="${getOptimizedImgUrl(url, 150, true)}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
             `).join('')}
           </div>
 
@@ -3301,7 +3331,7 @@ Forever`
           <!-- Filmstrip Reel -->
           <div style="display:flex; gap:10px; overflow-x:auto; margin-top:14px; padding:6px 0; scroll-behavior:smooth;" id="albumFilmstrip">
             ${item.photos.map((url, idx) => `
-              <img src="${url}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
+              <img src="${getOptimizedImgUrl(url, 150, true)}" id="albumThumb_${idx}" onclick="selectAlbumPhoto(${idx})" style="height:65px; min-width:65px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${idx===0 ? 'var(--accent-gold)' : 'var(--card-border)'}; opacity:${idx===0 ? '1' : '0.5'}; transition:all 0.2s ease;" />
             `).join('')}
           </div>
 
