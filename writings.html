@@ -6,6 +6,9 @@
   <title>Art Analysis Essays & Research Papers — Frank Yung-Fong Tang (譚永鋒)</title>
 
   <!-- Google Fonts -->
+    <!-- Google CDN Preconnect & DNS-Prefetch for Fast Image Loading -->
+  <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
+  <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -1049,7 +1052,7 @@
           coverHtml = `
             <div class="cover-container">
               <span class="type-badge ${badgeClass}">${item.type}</span>
-              <img src="${item.cover_image}" alt="${escapeHtml(item.title)}" class="cover-img" style="${item.object_position ? 'object-position:' + item.object_position + ';' : ''}" onerror="this.parentElement.innerHTML='${escapeHtml(getFallbackCover(item))}'">
+              <img src="${getOptimizedImgUrl(item.cover_image, 600, true)}" srcset="${getResponsiveSrcset(item.cover_image)}" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px" alt="${escapeHtml(item.title)}" class="cover-img" style="${item.object_position ? 'object-position:' + item.object_position + ';' : ''}" ${idx < 6 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"'} onerror="this.parentElement.innerHTML='${escapeHtml(getFallbackCover(item))}'">
             </div>`;
         } else {
           coverHtml = `

@@ -6,6 +6,9 @@
   <title>Museums, Architectural Sites & Artist Visits — Frank Yung-Fong Tang (譚永鋒)</title>
   
   <!-- Google Fonts for Typography -->
+    <!-- Google CDN Preconnect & DNS-Prefetch for Fast Image Loading -->
+  <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
+  <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -209,7 +212,8 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.4s ease;
+      transition: transform 0.4s ease, opacity 0.2s ease;
+      content-visibility: auto;
     }
 
     .art-card:hover .img-container img {
@@ -14861,6 +14865,31 @@
     let activePhotos = [];
     let activePhotoIndex = 0;
 
+    
+    // Performance Helper: Responsive WebP Image URL Generator for Google CDN
+    function getOptimizedImgUrl(url, width = 600, webp = true) {
+      if (!url) return '';
+      if (typeof url === 'string' && url.includes('lh3.googleusercontent.com')) {
+        const clean = url.replace(/=[swh]\d+.*$/, '');
+        return webp ? `${clean}=w${width}-rw` : `${clean}=w${width}`;
+      }
+      return url;
+    }
+
+    function getResponsiveSrcset(url) {
+      if (!url || typeof url !== 'string' || !url.includes('lh3.googleusercontent.com')) return '';
+      const clean = url.replace(/=[swh]\d+.*$/, '');
+      return `${clean}=w360-rw 360w, ${clean}=w600-rw 600w, ${clean}=w800-rw 800w`;
+    }
+
+    function buildCardImgHtml(url, alt, isAboveTheFold = false) {
+      const optimizedSrc = getOptimizedImgUrl(url, 600, true);
+      const srcset = getResponsiveSrcset(url);
+      const srcsetAttribute = srcset ? `srcset="${srcset}" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px"` : '';
+      const loadingAttr = isAboveTheFold ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"';
+      return `<img src="${optimizedSrc}" ${srcsetAttribute} alt="${alt}" ${loadingAttr} />`;
+    }
+
     function renderVisits() {
       const grid = document.getElementById("visitsGrid");
       grid.innerHTML = "";
@@ -14868,7 +14897,7 @@
       const filtered = visitsData.filter(item => currentFilter === 'all' || item.group === currentFilter);
       document.getElementById("itemCountDisplay").innerText = `Showing ${filtered.length} ${filtered.length === 1 ? 'Visit' : 'Visits'}`;
 
-      filtered.forEach(item => {
+      filtered.forEach((item, idx) => {
         const card = document.createElement("article");
         card.className = "art-card";
         card.id = item.id;
@@ -14883,7 +14912,7 @@
             <div class="badge-group">
               <span class="badge ${badgeClass}">${item.group}</span>
             </div>
-            <img src="${item.cover}" alt="${item.title}" loading="lazy" decoding="async" />
+            ${buildCardImgHtml(item.cover, item.title, idx < 6)}
             <div class="photo-count-pill">📸 ${item.photos.length} Photos</div>
           </div>
           <div class="card-body">
@@ -14918,7 +14947,7 @@
       // Populate Filmstrip
       const filmstrip = document.getElementById("albumFilmstrip");
       filmstrip.innerHTML = item.photos.map((url, idx) => `
-        <img src="${url}" id="visitThumb_${idx}" class="filmstrip-thumb ${idx === 0 ? 'active' : ''}" onclick="selectPhoto(${idx})" alt="Thumb ${idx + 1}" />
+        <img src="${getOptimizedImgUrl(url, 150, true)}" id="visitThumb_${idx}" class="filmstrip-thumb ${idx === 0 ? 'active' : ''}" onclick="selectPhoto(${idx})" alt="Thumb ${idx + 1}" />
       `).join('');
 
       document.getElementById("visitModal").classList.add("open");
