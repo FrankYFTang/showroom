@@ -2287,6 +2287,8 @@ Forever`
         year: "2026",
         medium: "Watercolor Pencil on paper",
         dimensions: "8.25x11.75 (16x20 framed)",
+        description: "This painting was sold in 'Art in the Park' exhibition on 2026-8-8.",
+        sold: true,
         img: "https://lh3.googleusercontent.com/pw/AP1GczPMbJNZwCed8esw2zMX00BQo9aX_aUZmy5rX16ScIOzyRqRjyAyDgYXFdC7WbkKGqQPQ_8pOMOBQPC_dvjHWh2o-pm7ZGKUhs48p_NrJ-gk1Ew8mAbkVNlDKIeP0_YxcyoZwSPjEHv_3vO4tXr0gKeS6w=w1200",
         photos: [
           "https://lh3.googleusercontent.com/pw/AP1GczPMbJNZwCed8esw2zMX00BQo9aX_aUZmy5rX16ScIOzyRqRjyAyDgYXFdC7WbkKGqQPQ_8pOMOBQPC_dvjHWh2o-pm7ZGKUhs48p_NrJ-gk1Ew8mAbkVNlDKIeP0_YxcyoZwSPjEHv_3vO4tXr0gKeS6w=w1200",
@@ -2482,7 +2484,7 @@ Forever`
 
           card.innerHTML = `
             <div class="img-container" onclick="openStudiesModal('${st.id}')">
-              <div class="badge-group"><span class="badge study">Study / Academic</span></div>
+              <div class="badge-group"><span class="badge study">Study / Academic</span>${st.sold ? ` <span class="badge sold" style="background:#d32f2f; color:#fff;">🏷️ SOLD</span>` : ""}</div>
               ${buildCardImgHtml(st.img, st.title, idx < 6)}
             </div>
             <div class="card-body">
@@ -2605,7 +2607,7 @@ Forever`
 
           card.innerHTML = `
             <div class="img-container" onclick="openStudiesModal('${st.id}')">
-              <div class="badge-group"><span class="badge study">Study / Academic</span></div>
+              <div class="badge-group"><span class="badge study">Study / Academic</span>${st.sold ? ` <span class="badge sold" style="background:#d32f2f; color:#fff;">🏷️ SOLD</span>` : ""}</div>
               ${buildCardImgHtml(st.img, st.title, idx < 6)}
             </div>
             <div class="card-body">
