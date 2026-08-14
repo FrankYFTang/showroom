@@ -1023,6 +1023,44 @@
     "id": "the-composition-and-usage-of-irworobongdo-five-peaks-screen-in-korean-culture-2"
   }
 ];
+    // ---------------------------------------------------------
+    // Robust Reverse-Chronological Date Normalization & Sorting
+    // ---------------------------------------------------------
+    function getSortableTimestamp(item) {
+      // 1. Attempt Native JS Date Parsing (catches "2026-05-01", "June 26, 2026", "January 22, 2024", "Dec 16, 2022")
+      if (item.date) {
+        const parsedEpoch = Date.parse(item.date);
+        if (!isNaN(parsedEpoch)) return parsedEpoch;
+      }
+
+      // 2. Fallback to Quarter + Year Extraction (catches "Spring 2026", "Winter 2024", "Fall 2022")
+      // We combine 'quarter' and 'date' to maximize coverage
+      const combined = `${item.quarter || ''} ${item.date || ''}`;
+      const match = combined.match(/(Winter|Spring|Summer|Fall)\s+(\d{4})/i);
+      if (match) {
+        const quarter = match[1].toLowerCase();
+        const year = match[2];
+
+        // Map academic quarter periods to chronological anchor-months
+        const quarterMonthMap = {
+          'winter': '01',
+          'spring': '04',
+          'summer': '07',
+          'fall':   '10'
+        };
+
+        // Construct standard ISO-8601 date string and parse to Epoch
+        return Date.parse(`${year}-${quarterMonthMap[quarter]}-01`);
+      }
+
+      // 3. Absolute Fallback for items with no usable date anchors (placed at bottom of list)
+      return 0;
+    }
+
+    // Apply strict reverse-chronological (newest-to-oldest) ascending-sort based on Epoch Timestamps
+    essaysData.sort((a, b) => getSortableTimestamp(b) - getSortableTimestamp(a));
+    // ---------------------------------------------------------
+
 
     
     function slugify(text) {
